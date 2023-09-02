@@ -40,7 +40,6 @@ const sendCode = asyncHander(async (req, res) => {
 const verifyCode = asyncHander((req, res) => {
 	// get the code inputed by the user from the req body
 	const { verificationCode } = req.body;
-	console.log(sentCode);
 	// check if the code was sent
 	if (!verificationCode) {
 		// if it was not then
