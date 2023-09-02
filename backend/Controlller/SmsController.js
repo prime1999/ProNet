@@ -65,9 +65,14 @@ const generateVerificationCode = (phoneNumber) => {
 	// using a for loop,
 	// get a random index from the phoneNUmber sent
 	for (let i = 0; i < phoneNumber.length; i++) {
-		const randomIndex = Math.floor(Math.random() * phoneNumber.length);
-		// then add the character of the index gotten to the code variable
-		code += phoneNumber.charAt(randomIndex);
+		const randomIndex = Math.floor(Math.random() * 6);
+		// Get the character at the random index
+		const char = phoneNumber.charAt(randomIndex);
+		// Check if the character is not '+', then add it to the code
+		if (char !== "+") {
+			// then add the character of the index gotten to the code variable
+			code += char;
+		}
 	}
 
 	return code;
