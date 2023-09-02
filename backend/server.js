@@ -5,6 +5,7 @@ const colors = require("colors");
 const connectDb = require("./config/db");
 const { errorHandler } = require("./middleware/errorMiddleware");
 const UserRoute = require("./Routes/UserRoute");
+const route = require("./Routes/SMSRoute");
 
 // create an express app
 const app = express();
@@ -18,6 +19,7 @@ app.use(cors());
 
 // routes
 app.use("/api/user", UserRoute);
+app.use("/api", route);
 
 // connect to db
 connectDb();
