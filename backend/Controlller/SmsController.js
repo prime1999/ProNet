@@ -30,7 +30,7 @@ const sendCode = asyncHander(async (req, res) => {
 			from: process.env.TWILIO_NUMBER,
 			to: phoneNumber,
 		});
-		res.json({ sucess: true });
+		res.json({ success: true });
 	} catch (error) {
 		res.status(500).json({ success: false, error: "SMS not sent" });
 	}
@@ -50,7 +50,7 @@ const verifyCode = asyncHander((req, res) => {
 	// compare the code from the req body and the actual code sent to the user
 	if (verificationCode === sentCode) {
 		// if they match then
-		res.json({ sucess: true });
+		res.json({ success: true });
 	} else {
 		// if they do not match then
 		res.status(500).json({ success: false, error: "wrong verification code" });
@@ -63,8 +63,8 @@ const generateVerificationCode = (phoneNumber) => {
 	let code = "";
 	// using a for loop,
 	// get a random index from the phoneNUmber sent
-	for (let i = 0; i < phoneNumber.length; i++) {
-		const randomIndex = Math.floor(Math.random() * 6);
+	for (let i = 0; i <= 6; i++) {
+		const randomIndex = Math.floor(Math.random() * phoneNumber.length);
 		// Get the character at the random index
 		const char = phoneNumber.charAt(randomIndex);
 		// Check if the character is not '+', then add it to the code

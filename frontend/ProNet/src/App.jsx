@@ -5,9 +5,12 @@ import {
 	RouterProvider,
 } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Explore from "./pages/LandingPage/explore";
 import RegisterUser from "./pages/Authorization/RegisterUser";
 import LogIn from "./pages/Authorization/LogIn";
+import Dashoboard from "./pages/NewFeed/Dashoboard";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -19,6 +22,8 @@ const router = createBrowserRouter(
 			<Route path="/register" element={<RegisterUser />} />
 			// route for register users page
 			<Route path="/login" element={<LogIn />} />
+			// route for register users pagedashboard
+			<Route path="/dashboard" element={<Dashoboard />} />
 		</>
 	)
 );
@@ -42,6 +47,7 @@ function App() {
 			<ThemeProvider theme={theme}>
 				<RouterProvider router={router} />
 			</ThemeProvider>
+			<ToastContainer />
 		</>
 	);
 }
