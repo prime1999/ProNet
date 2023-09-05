@@ -10,6 +10,9 @@ const postSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	media: {
+		type: String, // You can use a String to store the URL of the uploaded media
+	},
 	createdAt: {
 		type: Date,
 		default: Date.now,

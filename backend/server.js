@@ -6,6 +6,7 @@ const connectDb = require("./config/db");
 const { errorHandler } = require("./middleware/errorMiddleware");
 const UserRoute = require("./Routes/UserRoute");
 const route = require("./Routes/SMSRoute");
+const postRoute = require("./Routes/PostRoute");
 
 // create an express app
 const app = express();
@@ -18,8 +19,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 // routes
+// for the user registration and log in
 app.use("/api/user", UserRoute);
+// for the number verification
 app.use("/api", route);
+// for the post
+app.use("/api", postRoute);
 
 // connect to db
 connectDb();
