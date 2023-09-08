@@ -100,10 +100,51 @@ const logUserIn = asyncHandler(async (req, res) => {
 	}
 });
 
+// --------------------------------- function to update the user details ----------------------------- //
+const updateUser = asyncHandler(async (req, res) => {
+	// get the user from the database
+	const userExist = await User.findById(req.user._id);
+
+	try {
+		// check if the user was found in the DB
+		if (!userExist) {
+			// if the user was not found
+			throw new Error("User not Authorised");
+		}
+		// if the user was found, then proceed
+		// get the details to be updated from the database
+		const { updateUser } = req.body;
+
+		// destructure the firstname and the lastname from the updateUser
+		const { firstName, lastName, pic } = updateUser;
+		// check what is to be updated
+		if (typeof firstName === "string" && firstName.trim() !== "") {
+			// Update the user's firstName
+			userExist.firstName = firstName;
+		}
+		if (typeof lastName === "string" && lastName.trim() !== "") {
+			// Update the user's lastName
+			userExist.lastName = lastName;
+		}
+		if (typeof pic === "string" && pic.trim() !== "") {
+			// Update the user's pic
+			userExist.pic = pic;
+		}
+		// Save the updated user
+		await userExist.save();
+		// Send a the updated user to the frontend
+		return res.status(200).json({ userExist });
+	} catch (error) {
+		// if there ia an error in the try block
+		res.status(500);
+		throw new Error(error.message);
+	}
+});
+
 // generate the jwt token
 const generateToken = (_id) => {
 	// generate the token using the user's id, the jwt secret and the number of days before it expires
 	return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: "5d" });
 };
 
-module.exports = { registerUser, logUserIn };
+module.exports = { registerUser, logUserIn, updateUser };
