@@ -7,6 +7,7 @@ const { errorHandler } = require("./middleware/errorMiddleware");
 const UserRoute = require("./Routes/UserRoute");
 const route = require("./Routes/SMSRoute");
 const postRoute = require("./Routes/PostRoute");
+const ProfileRoute = require("./Routes/ProfileRoute");
 
 // create an express app
 const app = express();
@@ -25,6 +26,8 @@ app.use("/api/user", UserRoute);
 app.use("/api", route);
 // for the post
 app.use("/api", postRoute);
+// for the user's profile
+app.use("/api/profile", ProfileRoute);
 
 // connect to db
 connectDb();
