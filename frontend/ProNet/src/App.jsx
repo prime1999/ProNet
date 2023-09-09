@@ -7,16 +7,30 @@ import {
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Explore from "./pages/LandingPage/explore";
 import RegisterUser from "./pages/Authorization/RegisterUser";
 import LogIn from "./pages/Authorization/LogIn";
-import Dashoboard from "./pages/NewFeed/Dashoboard";
+import Dashoboard from "./pages/NewFeed/Dashboard";
+import Home from "./pages/LandingPage/Home";
+import RootLayout from "./Layouts/RootLayout/RootLayout";
+import Profile from "./pages/profile/Profile";
+import PrivateRoute from "./components/PrivateRoute";
+import Dashboard from "./pages/NewFeed/Dashboard";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<>
+			// ------------------------- route for the app ---------------------------
+			//
+			<Route path="/" element={<RootLayout />}>
+				<Route path="/" element={<PrivateRoute />}>
+					<Route path="index" element={<Dashboard />} />
+					<Route path="/profile" element={<PrivateRoute />}>
+						<Route path="/profile" element={<Profile />} />
+					</Route>
+				</Route>
+			</Route>
 			// route for the landing page
-			<Route path="/" element={<Explore />} />
+			<Route path="/home" element={<Home />} />
 			// -------------------------- for authrorization --------------------- //
 			// route for register users page
 			<Route path="/register" element={<RegisterUser />} />

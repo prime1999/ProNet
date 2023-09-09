@@ -8,7 +8,7 @@ import FourthSection from "../../Layouts/LandingPage/FourthSection";
 import FifthSection from "../../Layouts/LandingPage/FIfthSection";
 import Footer from "../../Layouts/Footer";
 
-const Explore = () => {
+const Home = () => {
 	return (
 		<>
 			<div>
@@ -29,4 +29,4 @@ const Explore = () => {
 	);
 };
 
-export default Explore;
+export default Home;

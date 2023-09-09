@@ -36,10 +36,9 @@ const RegisterUser = () => {
 			// if it was not then throw an error message
 			handleShowSnackbar("error", "Code not sent: Check number");
 		}
-
 		if (isSuccess) {
 			handleShowSnackbar("success", "Welcome to ProNet");
-			navigate("/dashboard");
+			navigate("/profile");
 		}
 		dispatch(reset());
 	}, [sentCode, isSuccess]);

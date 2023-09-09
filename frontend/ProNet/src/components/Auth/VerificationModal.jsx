@@ -48,13 +48,13 @@ const VerificationModal = ({ children, value, formData }) => {
 				phoneNumber: value,
 			};
 			dispatch(registerUser(data));
-			console.log(123);
 		}
 	}, [verify, dispatch]);
 
 	// function to open the modal
 	const handleVerification = (e) => {
 		e.preventDefault();
+		// check if all of  the input fields was filled
 		if (!firstName || !lastName || !email || !password || !value) {
 			// if it was not then throw an error message
 			setOpenAlert(true);
@@ -75,8 +75,6 @@ const VerificationModal = ({ children, value, formData }) => {
 		e.preventDefault();
 		if (verificationcode !== "") {
 			dispatch(verifyCode({ verificationCode: verificationcode }));
-		} else {
-			console.log(13);
 		}
 	};
 

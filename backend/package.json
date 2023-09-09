@@ -1,19 +1,17 @@
 {
-  "name": "pronet",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "social media app",
-  "main": "index.js",
+  "description": "backend for ProNet",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "client": "npm run dev --prefix frontend/proNet",
-    "server": "nodemon backend/server.js"
+    "server": "nodemon server.js"
   },
   "author": "prime",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "colors": "^1.4.0",
-    "concurrently": "^8.2.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",

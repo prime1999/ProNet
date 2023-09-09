@@ -18,10 +18,31 @@ const initialState = {
 export const registerUser = createAsyncThunk(
 	"auth/registerUser",
 	async (userData, thunkAPI) => {
-		console.log(userData);
 		try {
 			// await on the register user  function in the auth service component
 			return await authService.registerUser(userData);
+		} catch (error) {
+			// assign an error value if there is one in any of the listed error value holders below
+			const message =
+				(error.response &&
+					error.response.data &&
+					error.response.data.message) ||
+				error.message ||
+				error.toString();
+			// return the errror message using the thunkapi rejectwithvalue
+			return thunkAPI.rejectWithValue(message);
+		}
+	}
+);
+
+// ----------------------------------- function to log a user in ----------------------------- //
+export const logUserIn = createAsyncThunk(
+	"auth/logUserIn",
+	async (userData, thunkAPI) => {
+		console.log(userData);
+		try {
+			// await on the log in user  function in the auth service component
+			return await authService.logUserIn(userData);
 		} catch (error) {
 			// assign an error value if there is one in any of the listed error value holders below
 			const message =
@@ -94,9 +115,23 @@ export const AuthSlice = createSlice({
 				state.isLoading = false;
 				state.user = action.payload;
 				state.isSuccess = true;
-				console.log(action.payload);
 			})
 			.addCase(registerUser.rejected, (state, action) => {
+				state.isLoading = false;
+				state.isSuccess = false;
+				state.isError = true;
+				state.message = action.payload;
+			})
+			// for loging in users
+			.addCase(logUserIn.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(logUserIn.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.user = action.payload;
+				state.isSuccess = true;
+			})
+			.addCase(logUserIn.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = false;
 				state.isError = true;

@@ -1,10 +1,66 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import logo from "../../assets/images/png/logo.png";
+import NotificationAlert from "../../components/miscellaneous/NotificationAlert";
+import { logUserIn, reset } from "../../features/Auth/AuthSlice";
 
 const LogIn = () => {
+	// input fields state
+	const [formData, setFormData] = useState({
+		email: "",
+		password: "",
+	});
+
+	// for the snackbar alert
+	const [openAlert, setOpenAlert] = useState(false);
+	const [alertMessage, setAlertMessage] = useState("");
+	const [alertSeverity, setAlertSeverity] = useState("success");
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	// check the log in status variable in the redux store
+	const { isSuccess } = useSelector((state) => state.auth);
+
+	// destructure the formData object
+	let { email, password } = formData;
+
+	useEffect(() => {
+		if (isSuccess) {
+			navigate("/");
+		}
+		dispatch(reset());
+	}, [dispatch, isSuccess]);
+
+	// function to set the value of the formData
+	const handleChange = (e) => {
+		setFormData((prevState) => ({
+			...prevState,
+			[e.target.id]: e.target.value,
+		}));
+	};
+
+	// function to handle submittion
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		// check if all the input fields were filled
+		if (!email || !password) {
+			handleShowSnackbar("error", "Please fill in all fields");
+		}
+		const userData = {
+			email,
+			password,
+		};
+		dispatch(logUserIn(userData));
+		email = "";
+		password = "";
+	};
+
+	// function to show snack-bar alert
+	const handleShowSnackbar = (severity, message) => {
+		setOpenAlert(true);
+		setAlertSeverity(severity);
+		setAlertMessage(message);
 	};
 	return (
 		<div className="image-back">
@@ -29,12 +85,18 @@ const LogIn = () => {
 							className="w-full h-[50px] mb-4 rounded-md py-2 px-4 bg-transparent border border-gray-200 focus:outline-none"
 							type="email"
 							placeholder="Your Email"
+							value={email}
+							id="email"
+							onChange={handleChange}
 						/>
 
 						<input
 							className="w-full h-[50px] mb-2 rounded-md py-2 px-4 bg-transparent border border-gray-200 focus:outline-none"
 							type="password"
 							placeholder="Password"
+							value={password}
+							id="password"
+							onChange={handleChange}
 						/>
 						<div className="font-cour font-semibold mt-2 px-4">
 							<button className="flex justify-end duration-500 hover:text-orange">
@@ -53,6 +115,12 @@ const LogIn = () => {
 					</div>
 				</div>
 			</form>
+			<NotificationAlert
+				open={openAlert}
+				message={alertMessage}
+				severity={alertSeverity}
+				onClose={() => setOpenAlert(false)}
+			/>
 		</div>
 	);
 };

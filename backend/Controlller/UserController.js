@@ -45,6 +45,7 @@ const registerUser = asyncHandler(async (req, res) => {
 			firstName: user.firstName,
 			lastName: user.lastName,
 			email: user.email,
+			pic: user.pic,
 			token: generateToken(user._id),
 		});
 	} catch (error) {
@@ -87,6 +88,7 @@ const logUserIn = asyncHandler(async (req, res) => {
 				firstName: user.firstName,
 				lastName: user.lastName,
 				email: user.email,
+				pic: user.pic,
 				token: generateToken(user._id),
 			});
 		} else {

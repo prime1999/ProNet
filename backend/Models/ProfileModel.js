@@ -23,22 +23,6 @@ const ContactInfoSchema = new Schema(
 
 // ------------------------------------ the contact-info schema ends here ---------------------------- //
 
-// ---------------------------------------- the location schema starts here ----------------------------- //
-
-const LocationSchema = new Schema(
-	{
-		Country: {
-			type: String,
-		},
-		City: {
-			type: String,
-		},
-	},
-	{ timestamps: true }
-);
-
-// ---------------------------------------- the location schema ends here ----------------------------- //
-
 // ---------------------------------------- the profile schema starts here ----------------------------- //
 
 const ProfileSchema = new Schema({
@@ -49,7 +33,7 @@ const ProfileSchema = new Schema({
 	backgroundPhoto: {
 		type: String,
 		default:
-			"https://img.freepik.com/free-vector/digital-earth-with-particles-background_1017-31179.jpg?w=900&t=st=1693844717~exp=1693845317~hmac=943c7e0092239d7e29761512fd8502336752edecce6d9ea163ef13ff3c9f7aa9",
+			"https://img.freepik.com/free-vector/3d-earth-graphic-symbolizing-global-trade-illustration_456031-131.jpg?w=826&t=st=1694248755~exp=1694249355~hmac=4e4ff0c40603f49763f2c4dc3d5b78664aa2de39464ad31532a620cd78055a07",
 	},
 	headLine: {
 		type: String,
@@ -73,10 +57,7 @@ const ProfileSchema = new Schema({
 		type: ContactInfoSchema,
 		strict: "throw",
 	},
-	location: {
-		type: LocationSchema,
-		strict: "throw",
-	},
+
 	interest: {
 		type: Array,
 	},

@@ -10,13 +10,29 @@ const registerUser = async (userData) => {
 	// check if a data was sent back
 	if (data) {
 		// save the data gotten to local storage
-		localStorage.setItem("user", JSON.stringify("data"));
+		localStorage.setItem("user", JSON.stringify(data));
 	}
 
 	console.log(data);
 
 	return data;
 };
+
+// ----------------------------------- function to register a user ------------------------ //
+const logUserIn = async (userData) => {
+	// send the request to the backend
+	const { data } = await axios.post(`${API_URL}/user/login`, userData);
+
+	// check if a data was sent back
+	if (data) {
+		// save the data gotten to local storage
+		localStorage.setItem("user", JSON.stringify(data));
+	}
+	console.log(data);
+
+	return data;
+};
+
 // ----------------------------------- function to send verification code ------------------------ //
 const sendCode = async (phone) => {
 	// send the request to the backend
@@ -38,6 +54,7 @@ const authUser = {
 	registerUser,
 	sendCode,
 	verifyCode,
+	logUserIn,
 };
 
 export default authUser;
