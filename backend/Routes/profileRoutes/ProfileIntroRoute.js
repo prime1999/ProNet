@@ -2,6 +2,9 @@ const express = require("express");
 const { protect } = require("../../middleware/AuthMiddleware");
 const {
 	createProfileIntro,
+	getMyProfileIntro,
+	getUserProfileIntro,
+	updateUserProfileIntro,
 } = require("../../Controlller/profileController/ProfileIntroController");
 
 const ProfileIntroRoute = express.Router();
@@ -11,9 +14,13 @@ const ProfileIntroRoute = express.Router();
 // GET: to get another user's profile
 // PATCH: to update a user's profile;
 
-// ProfileRoute.get("/getProfile", protect, getMyProfile);
-// ProfileRoute.get("/getUserProfile", protect, getUserProfile);
-ProfileIntroRoute.post("/createProfileIntro", protect, createProfileIntro);
-// ProfileRoute.patch("/updateProfile", protect, updateUserProfile);
+ProfileIntroRoute.get("/getProfile/intro", protect, getMyProfileIntro);
+ProfileIntroRoute.get("/getUserProfile/intro", protect, getUserProfileIntro);
+ProfileIntroRoute.post("/createProfile/intro", protect, createProfileIntro);
+ProfileIntroRoute.patch(
+	"/updateProfile/intro",
+	protect,
+	updateUserProfileIntro
+);
 
 module.exports = ProfileIntroRoute;

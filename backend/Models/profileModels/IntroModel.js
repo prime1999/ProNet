@@ -19,6 +19,10 @@ const LocationSchema = new Schema(
 // ---------------------------------------- the location schema ends here ----------------------------- //
 
 const ProfileIntroSchema = new Schema({
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "User",
+	},
 	firstName: {
 		type: String,
 		required: true,
