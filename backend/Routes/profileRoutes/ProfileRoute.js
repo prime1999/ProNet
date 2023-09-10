@@ -12,6 +12,12 @@ const {
 	getUserContactProfile,
 	updateUserContactProfile,
 } = require("../../Controlller/profileController/COntactInfoController");
+const {
+	createJobProfile,
+	getUserJobProfile,
+	getMyJobProfile,
+	updateJobProfile,
+} = require("../../Controlller/profileController/JobProfileController");
 
 const ProfileRoute = express.Router();
 
@@ -36,5 +42,16 @@ ProfileRoute.get("/getProfile/contact", protect, getMyContactProfile);
 ProfileRoute.get("/getUserProfile/contact", protect, getUserContactProfile);
 ProfileRoute.post("/createProfile/contact", protect, createContactProfile);
 ProfileRoute.patch("/updateProfile/contact", protect, updateUserContactProfile);
+
+// routes for the user's job preference profile
+// POST: to create a user job preference profile;
+// GET: to get the curent user's job preference profile;
+// GET: to get another user's job preference profile
+// PATCH: to update a user's job preference profile;
+
+ProfileRoute.get("/getProfile/job", protect, getMyJobProfile);
+ProfileRoute.get("/getUserProfile/job", protect, getUserJobProfile);
+ProfileRoute.post("/createProfile/job", protect, createJobProfile);
+ProfileRoute.patch("/updateProfile/job", protect, updateJobProfile);
 
 module.exports = ProfileRoute;

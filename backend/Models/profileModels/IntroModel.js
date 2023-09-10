@@ -22,6 +22,7 @@ const ProfileIntroSchema = new Schema({
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "User",
+		required: true,
 	},
 	firstName: {
 		type: String,
@@ -37,9 +38,12 @@ const ProfileIntroSchema = new Schema({
 	headLine: {
 		type: String,
 	},
-	education: {
-		type: Array,
-	},
+	education: [
+		{
+			type: String,
+		},
+	],
+
 	location: {
 		type: LocationSchema,
 		strict: "throw",

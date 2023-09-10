@@ -14,7 +14,7 @@ const createProfileIntro = asyncHandler(async (req, res) => {
 	}
 
 	// if the user exist then
-	// get the details of the user's headline, education and the user's location fro the request body
+	// get the details of the user's headline, education and the user's location from the request body
 	const { headLine, education, location } = req.body;
 	// make a try-catch block
 	try {
