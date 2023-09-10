@@ -1,9 +1,9 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../../Models/UserModel");
-const IntroSchema = require("../../Models/profileModels/IntroModel");
+const ContactSchema = require("../../Models/profileModels/ContactInfo");
 
-// --------------------------------- function to create a user's intro profile ------------------------- //
-const createProfileIntro = asyncHandler(async (req, res) => {
+// --------------------------------- function to create a user's contact profile ------------------------- //
+const createContactProfile = asyncHandler(async (req, res) => {
 	// check if the user exists in the database
 	const userExist = await User.findById(req.user._id);
 
@@ -15,27 +15,27 @@ const createProfileIntro = asyncHandler(async (req, res) => {
 
 	// if the user exist then
 	// get the details of the user's headline, education and the user's location fro the request body
-	const { headLine, education, location } = req.body;
+	const { address, birthDay, website } = req.body;
 	// make a try-catch block
 	try {
 		// create the profile data
-		const profileData = {
+		const contactInfo = {
 			user: req.user._id,
-			firstName: req.user.firstName,
-			lastName: req.user.lastName,
-			headLine,
-			education,
-			location,
+			email: req.user.email,
+			phoneNumber: req.user.phoneNumber,
+			Address: address,
+			BirthDay: birthDay,
+			Website: website,
 		};
 
 		// create the profile based on te data provided
-		const createdProfile = await IntroSchema.create(profileData);
+		const createdContactProfile = await ContactSchema.create(contactInfo);
 
 		// check if the profie was created
-		if (createdProfile) {
+		if (createdContactProfile) {
 			// send it to the frontend
 			res.status(201);
-			res.json(createdProfile);
+			res.json(createdContactProfile);
 		}
 	} catch (error) {
 		// if there was an error in the try block, then
@@ -44,8 +44,8 @@ const createProfileIntro = asyncHandler(async (req, res) => {
 	}
 });
 
-// ------------------------------- function profile of the current user --------------------------- //
-const getMyProfileIntro = asyncHandler(async (req, res) => {
+// ------------------------------- function conatct profile of the current user --------------------------- //
+const getMyContactProfile = asyncHandler(async (req, res) => {
 	// check if the user exists in the database
 	const userExist = await User.findById(req.user._id);
 
@@ -59,12 +59,14 @@ const getMyProfileIntro = asyncHandler(async (req, res) => {
 	// make a try-catch block
 	try {
 		// get the profile of the current user
-		const myProfileIntro = await IntroSchema.find({ user: req.user._id });
+		const myContactProfile = await ContactSchema.find({
+			user: req.user._id,
+		});
 		// check if the user has a profile
-		if (myProfileIntro) {
+		if (myContactProfile) {
 			// if the user has a profile send it to the frontend
 			res.status(200);
-			res.json(myProfileIntro);
+			res.json(myContactProfile);
 		}
 	} catch (error) {
 		// if there is an error in the try block, then
@@ -73,8 +75,8 @@ const getMyProfileIntro = asyncHandler(async (req, res) => {
 	}
 });
 
-// ------------------------------- function profile of another user --------------------------- //
-const getUserProfileIntro = asyncHandler(async (req, res) => {
+// ------------------------------- function contact profile of another user --------------------------- //
+const getUserContactProfile = asyncHandler(async (req, res) => {
 	// check if the user exists in the database
 	const userExist = await User.findById(req.user._id);
 
@@ -88,14 +90,14 @@ const getUserProfileIntro = asyncHandler(async (req, res) => {
 	// make a try-catch block
 	try {
 		// get the profile of the current user
-		const userProfileIntro = await IntroSchema.find({
+		const userContactProfile = await ContactSchema.find({
 			_id: req.body.profileId,
 		});
 		// check if the user has a profile
-		if (userProfileIntro) {
+		if (userContactProfile) {
 			// if the user has a profile send it to the frontend
 			res.status(200);
-			res.json(userProfileIntro);
+			res.json(userContactProfile);
 		}
 	} catch (error) {
 		// if there is an error in the try block, then
@@ -104,10 +106,10 @@ const getUserProfileIntro = asyncHandler(async (req, res) => {
 	}
 });
 
-// ------------------------------------ function to update the user's profile intro ----------------------------- //
-const updateUserProfileIntro = asyncHandler(async (req, res) => {
+// ------------------------------------ function to update the user's contact profile ----------------------------- //
+const updateUserContactProfile = asyncHandler(async (req, res) => {
 	// get the updates object froom the request body
-	const { introUpdates } = req.body;
+	const { contactUpdates } = req.body;
 	// check if the user exists in the database
 	const userExist = await User.findById(req.user._id);
 
@@ -121,24 +123,26 @@ const updateUserProfileIntro = asyncHandler(async (req, res) => {
 	// make a try-catch block
 	try {
 		// find the user's profile
-		const userProfileIntro = await IntroSchema.findOne({ user: req.user._id });
+		const userContactProfile = await ContactSchema.findOne({
+			user: req.user._id,
+		});
 
 		// check if the user's profile was found
-		if (!userProfileIntro) {
+		if (!userContactProfile) {
 			// if it was not found
 			throw new Error("User profile not found");
 		}
 
 		// if it was found, then proceed
 		// update the user's profile found
-		await updateProfiileIntro(userProfileIntro, introUpdates);
+		await updateContactProfile(userContactProfile, contactUpdates);
 
 		// save the updated profile to the database
-		await saveProfileIntro(userProfileIntro);
+		await saveContactProfile(userContactProfile);
 
 		// send the updated profile to the frontend
 		res.status(201);
-		res.json(userProfileIntro);
+		res.json(userContactProfile);
 	} catch (error) {
 		console.log(error);
 		// if there was an error in the try block
@@ -146,52 +150,38 @@ const updateUserProfileIntro = asyncHandler(async (req, res) => {
 	}
 });
 
-// function to update the profile intro
-const updateProfiileIntro = async (userProfileIntro, introUpdates) => {
-	// console.log(req.user._id);
-	if (introUpdates.firstName) {
-		userProfileIntro.firstName = introUpdates.firstName;
-		// update the first name in the users collection
+// function to update the contact profile
+const updateContactProfile = async (userContactProfile, contactUpdates) => {
+	if (contactUpdates.phoneNumber) {
+		userContactProfile.phoneNumber = contactUpdates.phoneNumber;
+		// update the phone number in the users collection
 		await User.findOneAndUpdate(
-			{ _id: userProfileIntro.user },
-			{ firstName: introUpdates.firstName }
+			{ _id: userContactProfile.user },
+			{ phoneNumber: contactUpdates.phoneNumber }
 		);
 	}
 
-	if (introUpdates.lastName) {
-		userProfileIntro.lastName = introUpdates.lastName;
-		// update the last name in the users collection
-		await User.findOneAndUpdate(
-			{ _id: userProfileIntro.user },
-			{ lastName: introUpdates.lastName }
-		);
+	if (contactUpdates.Address !== undefined) {
+		userContactProfile.Address = contactUpdates.Address;
 	}
 
-	if (introUpdates.headLine) {
-		userProfileIntro.headLine = introUpdates.headLine;
+	if (contactUpdates.BirthDay !== undefined) {
+		userContactProfile.BirthDay = contactUpdates.BirthDay;
 	}
 
-	if (introUpdates.backgroundPhoto !== undefined) {
-		userProfileIntro.backgroundPhoto = introUpdates.backgroundPhoto;
-	}
-
-	if (introUpdates.education !== undefined) {
-		userProfileIntro.education = introUpdates.education;
-	}
-
-	if (introUpdates.location !== undefined) {
-		userProfileIntro.location = introUpdates.location;
+	if (contactUpdates.Website !== undefined) {
+		userContactProfile.Website = contactUpdates.Website;
 	}
 };
 
 // function to save the userProfile to the database
-const saveProfileIntro = async (userProfileIntro) => {
-	await userProfileIntro.save();
+const saveContactProfile = async (userContactProfile) => {
+	await userContactProfile.save();
 };
 
 module.exports = {
-	createProfileIntro,
-	getMyProfileIntro,
-	getUserProfileIntro,
-	updateUserProfileIntro,
+	createContactProfile,
+	getMyContactProfile,
+	getUserContactProfile,
+	updateUserContactProfile,
 };
