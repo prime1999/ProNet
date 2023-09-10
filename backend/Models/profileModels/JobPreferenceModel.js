@@ -2,18 +2,21 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const JobPrefernceSchema = new Schema({
-	user: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "User",
-		required: true,
+const JobPrefernceSchema = new Schema(
+	{
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
+			required: true,
+		},
+		jobTitles: [{ type: String }],
+		jobTypes: [{ type: String }],
+		jobLocations: [{ type: String }],
+		locationTypes: [{ type: String }],
+		employmentTypes: [{ type: String }],
 	},
-	jobTitles: [{ type: String }],
-	jobTypes: [{ type: String }],
-	jobLocations: [{ type: String }],
-	locationTypes: [{ type: String }],
-	employmentTypes: [{ type: String }],
-});
+	{ timestamps: true }
+);
 
 // Set default values for specific fields
 JobPrefernceSchema.defaults = {

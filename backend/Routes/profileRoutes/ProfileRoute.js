@@ -18,6 +18,12 @@ const {
 	getMyJobProfile,
 	updateJobProfile,
 } = require("../../Controlller/profileController/JobProfileController");
+const {
+	createSkillProfile,
+	getMySkillProfile,
+	getUserSkillProfile,
+	updateUserSKillProfile,
+} = require("../../Controlller/profileController/SkillController");
 
 const ProfileRoute = express.Router();
 
@@ -53,5 +59,16 @@ ProfileRoute.get("/getProfile/job", protect, getMyJobProfile);
 ProfileRoute.get("/getUserProfile/job", protect, getUserJobProfile);
 ProfileRoute.post("/createProfile/job", protect, createJobProfile);
 ProfileRoute.patch("/updateProfile/job", protect, updateJobProfile);
+
+// routes for the user's skill profile
+// POST: to create a user skill profile;
+// GET: to get the curent user's skill profile;
+// GET: to get another user's skill profile
+// PATCH: to update a user's skill profile;
+
+ProfileRoute.get("/getProfile/skill", protect, getMySkillProfile);
+ProfileRoute.get("/getUserProfile/skill", protect, getUserSkillProfile);
+ProfileRoute.post("/createProfile/skill", protect, createSkillProfile);
+ProfileRoute.patch("/updateProfile/skill", protect, updateUserSKillProfile);
 
 module.exports = ProfileRoute;

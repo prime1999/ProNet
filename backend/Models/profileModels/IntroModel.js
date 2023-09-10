@@ -18,36 +18,39 @@ const LocationSchema = new Schema(
 
 // ---------------------------------------- the location schema ends here ----------------------------- //
 
-const ProfileIntroSchema = new Schema({
-	user: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "User",
-		required: true,
-	},
-	firstName: {
-		type: String,
-	},
-	lastName: {
-		type: String,
-	},
-	backgroundPhoto: {
-		type: String,
-		default:
-			"https://img.freepik.com/free-vector/3d-earth-graphic-symbolizing-global-trade-illustration_456031-131.jpg?w=826&t=st=1694248755~exp=1694249355~hmac=4e4ff0c40603f49763f2c4dc3d5b78664aa2de39464ad31532a620cd78055a07",
-	},
-	headLine: {
-		type: String,
-	},
-	education: [
-		{
+const ProfileIntroSchema = new Schema(
+	{
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
+			required: true,
+		},
+		firstName: {
 			type: String,
 		},
-	],
+		lastName: {
+			type: String,
+		},
+		backgroundPhoto: {
+			type: String,
+			default:
+				"https://img.freepik.com/free-vector/3d-earth-graphic-symbolizing-global-trade-illustration_456031-131.jpg?w=826&t=st=1694248755~exp=1694249355~hmac=4e4ff0c40603f49763f2c4dc3d5b78664aa2de39464ad31532a620cd78055a07",
+		},
+		headLine: {
+			type: String,
+		},
+		education: [
+			{
+				type: String,
+			},
+		],
 
-	location: {
-		type: LocationSchema,
-		strict: "throw",
+		location: {
+			type: LocationSchema,
+			strict: "throw",
+		},
 	},
-});
+	{ timestamps: true }
+);
 
 module.exports = mongoose.model("IntroSchema", ProfileIntroSchema);
