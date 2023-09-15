@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { GrDocumentUpdate } from "react-icons/gr";
 import { MdCancel } from "react-icons/md";
 import { Chip } from "@mui/material";
 import Jobs from "../miscellaneous/Jobs";
 import CitiesAndCountries from "../miscellaneous/CitiesAndCountries";
+import { updateJobProfile } from "../../features/Profile/JobProfile/JobProfileSlice";
 
 const UpdateJobPreference = ({ jobDetails }) => {
+	// init the distatch hook
+	const dispatch = useDispatch();
+	// state for the user's job profile details
 	const [details, setDetails] = useState({
-		employmentType: jobDetails.employmentTypes,
+		employmentTypes: jobDetails.employmentTypes,
 		jobLocations: jobDetails.jobLocations,
 		jobTitles: jobDetails.jobTitles,
 		jobTypes: jobDetails.jobTypes,
@@ -105,8 +110,8 @@ const UpdateJobPreference = ({ jobDetails }) => {
 				...prevState,
 				jobLocations: [...jobLocations, locationName],
 			}));
+			setLocationName("");
 		}
-		setLocationName("");
 	};
 	// function to get the value written in the job type input
 	const handlechangeJobType = (e) => {
@@ -162,6 +167,19 @@ const UpdateJobPreference = ({ jobDetails }) => {
 		} else {
 			// show error alert
 		}
+	};
+	// function to update the user function in the database
+	const updateProfile = () => {
+		// store the stringified form of the job details in the variable jobUpdates
+		const jobUpdates = {
+			employmentTypes: JSON.stringify(details.employmentTypes),
+			jobTitles: JSON.stringify(details.jobTitles),
+			jobLocations: JSON.stringify(jobLocations),
+			jobTypes: JSON.stringify(jobTypes),
+		};
+		// dispatch the updateJobProfile function in the job profile slice passing the jobUpdates as an argument
+		dispatch(updateJobProfile({ jobUpdates }));
+		console.log(jobUpdates);
 	};
 	useEffect(() => {
 		console.log(details);
@@ -343,7 +361,10 @@ const UpdateJobPreference = ({ jobDetails }) => {
 			</div>
 			<hr className="border-gray-300" />
 			<div className="flex items-end justify-end m-4">
-				<div className="flex items-center w-24 p-2 duration-500 bg-gradient-to-r from-orange to-pink rounded-md hover:cursor-pointer hover:bg-gradient-to-r hover:from-pink hover:to-orange">
+				<div
+					onClick={updateProfile}
+					className="flex items-center w-24 p-2 duration-500 bg-gradient-to-r from-orange to-pink rounded-md hover:cursor-pointer hover:bg-gradient-to-r hover:from-pink hover:to-orange"
+				>
 					<GrDocumentUpdate />
 					<p className="ml-2 font-dosis">Update</p>
 				</div>

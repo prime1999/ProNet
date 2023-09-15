@@ -13,6 +13,22 @@ const getJobProfile = async (token) => {
 		config
 	);
 
+	return data;
+};
+
+// ----------------------------- function to update the current user's jop profile ------------------------ //
+const updateJobProfile = async (jobUpdates, token) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	};
+	const { data } = await axios.patch(
+		`${baseUrl()}profile/updateProfile/job`,
+		jobUpdates,
+		config
+	);
+
 	console.log(data);
 
 	return data;
@@ -20,6 +36,7 @@ const getJobProfile = async (token) => {
 
 const JobProfileService = {
 	getJobProfile,
+	updateJobProfile,
 };
 
 export default JobProfileService;
