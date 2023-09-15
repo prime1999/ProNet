@@ -1,42 +1,67 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ProfileBody from "../../components/profile/ProfileBody";
+import {
+	getProfileIntro,
+	reset,
+} from "../../features/Profile/ProfileIntro/ProfileIntroSlice";
+import Spinner from "../../components/Spinner/Spinner";
 
 const Profile = () => {
+	const [intro, setIntro] = useState(null);
+	// init the dispatch function
+	const dispatch = useDispatch();
+
+	// get the user's profile intro from the redux store
+	const { profileIntro, isLoading, isSuccess, isError, message } = useSelector(
+		(state) => state.profileIntro
+	);
+
+	// dispatch the getProfileIntro function
+	useEffect(() => {
+		dispatch(getProfileIntro());
+	}, [dispatch]);
+
+	// to run anytime the isSuccess variable changes
+	useEffect(() => {
+		// check if the isSuccess variable from the redux store is true (that is the getProfileIntro was fulfilled)
+		if (isSuccess) {
+			setIntro(profileIntro[0]);
+		}
+		// clear the redux store
+		dispatch(reset());
+	}, [isSuccess]);
+
+	// if the dispatched function is still pending (loading), then show a spinner
+	if (isLoading) {
+		return <Spinner />;
+	}
+
 	return (
 		<>
-			<div
-				className="relative w-full h-[400px]"
-				style={{
-					backgroundImage:
-						"URL(https://img.freepik.com/free-vector/3d-earth-graphic-symbolizing-global-trade-illustration_456031-131.jpg?w=826&t=st=1694248755~exp=1694249355~hmac=4e4ff0c40603f49763f2c4dc3d5b78664aa2de39464ad31532a620cd78055a07)",
-					backgroundRepeat: "no-repeat",
-					backgroundSize: "cover",
-					backgroundPosition: "center",
-				}}
-			>
+			{intro && (
 				<div
-					className="absolute top-0 left-0 w-full h-full flex justify-center items-center"
+					key={intro._id}
+					className="relative w-full h-[400px]"
 					style={{
-						backgroundColor: "rgba(0, 0, 0, 0.5)",
+						backgroundImage: `url(${intro?.backgroundPhoto})`,
+						backgroundRepeat: "no-repeat",
+						backgroundSize: "cover",
+						backgroundPosition: "center",
 					}}
 				>
-					<div className="absolute w-96 rounded-full left-36 top-40 flex items-center">
-						<div>
-							<img
-								className="w-20 rounded-full"
-								src="https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-								alt=""
-							/>
+					<div
+						className="absolute top-0 left-0 w-full h-full flex justify-center items-center"
+						style={{
+							backgroundColor: "rgba(0, 0, 0, 0.5)",
+						}}
+					>
+						<div className="w-11/12 mx-auto mt-32">
+							<ProfileBody intro={intro} />
 						</div>
-						<h3 className="font-cour text-light font-semiBold text-2xl ml-8">
-							Jane Doe
-						</h3>
 					</div>
 				</div>
-			</div>
-			<div className="w-10/12 mx-auto">
-				<ProfileBody />
-			</div>
+			)}
 		</>
 	);
 };

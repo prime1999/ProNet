@@ -27,7 +27,7 @@ app.use("/api", route);
 // for the post
 app.use("/api", postRoute);
 // for the user's profile
-app.use("/api/profileIntro", ProfileRoute);
+app.use("/api/profile", ProfileRoute);
 //app.use("/api/profile", ProfileRoute);
 
 // connect to db

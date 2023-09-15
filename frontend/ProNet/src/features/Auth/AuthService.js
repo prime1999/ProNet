@@ -50,11 +50,11 @@ const verifyCode = async (code) => {
 	return data;
 };
 
-const authUser = {
+const authService = {
 	registerUser,
 	sendCode,
 	verifyCode,
 	logUserIn,
 };
 
-export default authUser;
+export default authService;
