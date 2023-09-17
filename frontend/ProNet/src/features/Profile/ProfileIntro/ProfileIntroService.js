@@ -17,8 +17,28 @@ const getProfileIntro = async (token) => {
 	return data;
 };
 
+// -------------------------------- function to update the user's profile intro -------------------------- //
+const updateProfileIntro = async (introUpdates, token) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	};
+
+	const { data } = await axios.patch(
+		`${baseUrl()}profile/updateProfile/intro`,
+		{ introUpdates },
+		config
+	);
+
+	console.log(data);
+
+	return data;
+};
+
 const profileIntroService = {
 	getProfileIntro,
+	updateProfileIntro,
 };
 
 export default profileIntroService;

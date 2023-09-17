@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { FiEdit2 } from "react-icons/fi";
 import MiniSpinner from "../Spinner/MiniSpinner";
 import JobProfileModal from "../Modals/JobProfileModal";
 import ContactInfoModal from "../Modals/ContactInfoModal";
@@ -8,8 +10,21 @@ import {
 	getJobProfile,
 	reset,
 } from "../../features/Profile/JobProfile/JobProfileSlice";
+import Spinner from "../Spinner/Spinner";
+import { Avatar } from "@mui/material";
+import { updateProfileIntro } from "../../features/Profile/ProfileIntro/ProfileIntroSlice";
+import NotificationAlert from "../miscellaneous/NotificationAlert";
 
 const LeftProfileDetails = ({ intro }) => {
+	// get the user variable in the redux store
+	const { user } = useSelector((state) => state.auth);
+	// for the snackbar alert
+	const [openAlert, setOpenAlert] = useState(false);
+	const [alertMessage, setAlertMessage] = useState("");
+	const [alertSeverity, setAlertSeverity] = useState("success");
+
+	const [pic, setPic] = useState(intro?.pic);
+	const [loading, setLoading] = useState(false);
 	const [fetchJobProfileAgain, setFetchJobProfileAgain] = useState(false);
 	const [jobDetails, setJobDetails] = useState(null);
 	// init the dispatch function
@@ -19,9 +34,6 @@ const LeftProfileDetails = ({ intro }) => {
 	const { jobProfile, isLoading, isSuccess, isError, message } = useSelector(
 		(state) => state.JobProfile
 	);
-
-	// check the sentCode and verify variable in the redux store
-	const { user } = useSelector((state) => state.auth);
 
 	useEffect(() => {
 		dispatch(getJobProfile());
@@ -42,11 +54,79 @@ const LeftProfileDetails = ({ intro }) => {
 		dispatch(reset());
 	}, [isSuccess]);
 
+	// function to upload the user's profile picture
+	const handlePic = async (selectedPic) => {
+		setLoading(true);
+
+		if (!selectedPic) {
+			setLoading(false);
+			return;
+		}
+
+		try {
+			if (
+				selectedPic.type === "image/jpeg" ||
+				selectedPic.type === "image/png"
+			) {
+				const picData = new FormData();
+				// append the following key-value pairs to it
+				picData.append("file", selectedPic);
+				picData.append("upload_preset", "proNet");
+				picData.append("cloud_name", "ddboi173o");
+				// send the data(your new FormData with the required data) to your cloudinary url
+				const { data } = await axios.post(
+					"https://api.cloudinary.com/v1_1/ddboi173o/image/upload",
+					picData
+				);
+
+				setPic(data.url);
+				setLoading(false);
+				const introUpdates = {
+					pic: data.url,
+				};
+				dispatch(updateProfileIntro(introUpdates));
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	// function to show snack-bar alert
+	const handleShowSnackbar = (severity, message) => {
+		setOpenAlert(true);
+		setAlertSeverity(severity);
+		setAlertMessage(message);
+	};
+
 	return (
 		<>
 			<div className="w-full flex flex-col items-center">
 				<div className="relative -bottom-10">
-					<img className="w-28 rounded-full" src={user?.pic} alt="" />
+					{loading ? (
+						<>
+							<Spinner />
+						</>
+					) : (
+						<Avatar
+							sx={{ width: "120px", height: "120px" }}
+							alt="user avatar"
+							src={pic}
+						></Avatar>
+					)}
+					<div className="absolute top-20 left-20">
+						<label htmlFor="profilePic">
+							<p className="bg-light p-2 rounded-full duration-500 hover:cursor-pointer hover:bg-orange">
+								<FiEdit2 />
+							</p>
+						</label>
+						<input
+							type="file"
+							accept="image/*"
+							id="profilePic"
+							className="hidden"
+							onChange={(e) => handlePic(e.target.files[0])}
+						/>
+					</div>
 				</div>
 				<div className="w-full bg-white shadow-md px-4 py-8 rounded-md">
 					<div className="mt-4">
@@ -110,6 +190,12 @@ const LeftProfileDetails = ({ intro }) => {
 					</div>
 				</div>
 			</div>
+			<NotificationAlert
+				open={openAlert}
+				message={alertMessage}
+				severity={alertSeverity}
+				onClose={() => setOpenAlert(false)}
+			/>
 		</>
 	);
 };

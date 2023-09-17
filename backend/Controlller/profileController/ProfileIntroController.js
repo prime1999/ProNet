@@ -167,6 +167,10 @@ const updateProfiileIntro = async (userProfileIntro, introUpdates) => {
 		);
 	}
 
+	if (introUpdates.pic) {
+		userProfileIntro.pic = introUpdates.pic;
+	}
+
 	if (introUpdates.headLine) {
 		userProfileIntro.headLine = introUpdates.headLine;
 	}

@@ -120,15 +120,15 @@ const updateUser = asyncHandler(async (req, res) => {
 		// destructure the firstname and the lastname from the updateUser
 		const { firstName, lastName, pic } = updateUser;
 		// check what is to be updated
-		if (typeof firstName === "string" && firstName.trim() !== "") {
+		if (firstName !== undefined) {
 			// Update the user's firstName
 			userExist.firstName = firstName;
 		}
-		if (typeof lastName === "string" && lastName.trim() !== "") {
+		if (lastName !== undefined) {
 			// Update the user's lastName
 			userExist.lastName = lastName;
 		}
-		if (typeof pic === "string" && pic.trim() !== "") {
+		if (pic !== undefined) {
 			// Update the user's pic
 			userExist.pic = pic;
 		}

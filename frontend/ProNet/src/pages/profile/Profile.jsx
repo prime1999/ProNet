@@ -26,7 +26,11 @@ const Profile = () => {
 	useEffect(() => {
 		// check if the isSuccess variable from the redux store is true (that is the getProfileIntro was fulfilled)
 		if (isSuccess) {
-			setIntro(profileIntro[0]);
+			if (Array.isArray(profileIntro)) {
+				setIntro(profileIntro[0]);
+			} else {
+				setIntro(profileIntro);
+			}
 		}
 		// clear the redux store
 		dispatch(reset());
@@ -56,7 +60,7 @@ const Profile = () => {
 							backgroundColor: "rgba(0, 0, 0, 0.5)",
 						}}
 					>
-						<div className="w-11/12 mx-auto mt-32">
+						<div className="relative top-16 w-11/12 mx-auto mt-32">
 							<ProfileBody intro={intro} />
 						</div>
 					</div>

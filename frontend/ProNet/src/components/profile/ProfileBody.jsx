@@ -1,7 +1,4 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import LeftProfileDetails from "./LeftProfileDetails";
-import { getJobProfile } from "../../features/Profile/JobProfile/JobProfileSlice";
 
 const ProfileBody = ({ intro }) => {
 	return (
