@@ -1,13 +1,27 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { GrDocumentUpdate } from "react-icons/gr";
 import { MdCancel } from "react-icons/md";
 import { Chip } from "@mui/material";
 import Jobs from "../miscellaneous/Jobs";
 import CitiesAndCountries from "../miscellaneous/CitiesAndCountries";
-import { updateJobProfile } from "../../features/Profile/JobProfile/JobProfileSlice";
+import {
+	reset,
+	updateJobProfile,
+} from "../../features/Profile/JobProfile/JobProfileSlice";
+import NotificationAlert from "../miscellaneous/NotificationAlert";
 
-const UpdateJobPreference = ({ jobDetails }) => {
+const UpdateJobPreference = ({
+	jobDetails,
+	fetchJobProfileAgain,
+	setFetchJobProfileAgain,
+	editMode,
+	setEditMode,
+}) => {
+	// for the snackbar alert
+	const [openAlert, setOpenAlert] = useState(false);
+	const [alertMessage, setAlertMessage] = useState("");
+	const [alertSeverity, setAlertSeverity] = useState("success");
 	// init the distatch hook
 	const dispatch = useDispatch();
 	// state for the user's job profile details
@@ -65,19 +79,30 @@ const UpdateJobPreference = ({ jobDetails }) => {
 		// clear out the filteredJob list
 		setFilteredJobs(null);
 	};
-	// function to save the selected job title to the ist of jobs on the UI
+	// function to save the selected job title to the list of jobs on the UI
 	const handleAddJobTitle = (event) => {
 		const filtered = jobs.filter((job) =>
 			job.toLowerCase().includes(jobName.toLowerCase())
 		);
+		// check if the  job title is part of the guideline given
+		const isCorrect = jobs.some(
+			(job) => job.toLowerCase() === jobName.toLowerCase()
+		);
+		// check if the job doesn't already exist in the job title
+		const jobExist = jobTitles.some((job) => job === jobName);
 		// if the enter key is clicked and the filtered job list is currently filled
-		if (event.key === "Enter" && filtered) {
-			// add the selected job to the details
-			setDetails((prevState) => ({
-				...prevState,
-				jobTitles: [...jobTitles, jobName],
-			}));
-			setJobName("");
+		if (event.key === "Enter") {
+			if (!jobExist && isCorrect) {
+				// add the selected job to the details
+				setDetails((prevState) => ({
+					...prevState,
+					jobTitles: [...jobTitles, jobName],
+				}));
+				setJobName("");
+			} else {
+				// show a success alert message
+				handleShowSnackbar("error", "Please select from the drop down list");
+			}
 		}
 	};
 	// function to select a location where the user is available to work
@@ -103,14 +128,27 @@ const UpdateJobPreference = ({ jobDetails }) => {
 		const filtered = locations.filter((location) =>
 			location.toLowerCase().includes(locationName.toLowerCase())
 		);
+		// check if the  job title is part of the guideline given
+		const isCorrect = locations.some(
+			(location) => location.toLowerCase() === locationName.toLowerCase()
+		);
+		// check if the location doesn't already exist in the job location
+		const locationExist = jobLocations.some(
+			(location) => location === locationName
+		);
 		// if the enter key is clicked and the filtered job list is currently filled
-		if (event.key === "Enter" && filtered) {
-			// add the selected location to the details
-			setDetails((prevState) => ({
-				...prevState,
-				jobLocations: [...jobLocations, locationName],
-			}));
-			setLocationName("");
+		if (event.key === "Enter") {
+			if (isCorrect && !locationExist) {
+				// add the selected location to the details
+				setDetails((prevState) => ({
+					...prevState,
+					jobLocations: [...jobLocations, locationName],
+				}));
+				setLocationName("");
+			} else {
+				// show a success alert message
+				handleShowSnackbar("error", "Please select from the drop down list");
+			}
 		}
 	};
 	// function to get the value written in the job type input
@@ -131,18 +169,24 @@ const UpdateJobPreference = ({ jobDetails }) => {
 		const isCorrect = jobTypesEXp.some((job) => job.toLowerCase() === jobType);
 		// check if the job doesn't already exist in the job types
 		const jobExist = jobTypes.some((job) => job === jobType);
-		if (event.key === "Enter" && isCorrect && !jobExist) {
-			setDetails((prevState) => ({
-				...prevState,
-				jobTypes: [...jobTypes, jobType],
-			}));
-			setJobType("");
-		} else {
-			// show error alert
+		if (event.key === "Enter") {
+			if (isCorrect && !jobExist) {
+				setDetails((prevState) => ({
+					...prevState,
+					jobTypes: [...jobTypes, jobType],
+				}));
+				setJobType("");
+			} else {
+				// show a success alert message
+				handleShowSnackbar(
+					"error",
+					"select from (on-site, hybrid and remote) jobs"
+				);
+			}
 		}
 	};
 	// function to add the employment type chosen to the employment types in the details
-	const handleAddEmploymentType = () => {
+	const handleAddEmploymentType = (event) => {
 		// define a guideline for the empoyment type
 		const empoymentTypesEXp = [
 			"full-time",
@@ -158,15 +202,27 @@ const UpdateJobPreference = ({ jobDetails }) => {
 		const employmentExist = employmentTypes.some(
 			(employment) => employment.toLowerCase() === employmentType
 		);
-		if (event.key === "Enter" && isCorrect && !employmentExist) {
-			setDetails((prevState) => ({
-				...prevState,
-				employmentTypes: [...employmentTypes, employmentType],
-			}));
-			setEmploymentType("");
-		} else {
-			// show error alert
+		if (event.key === "Enter") {
+			if (isCorrect && !employmentExist) {
+				setDetails((prevState) => ({
+					...prevState,
+					employmentTypes: [...employmentTypes, employmentType],
+				}));
+				setEmploymentType("");
+			} else {
+				// show a success alert message
+				handleShowSnackbar(
+					"error",
+					"select from (full-time, part-time, internship and contract) jobs"
+				);
+			}
 		}
+	};
+	// function to show snack-bar alert
+	const handleShowSnackbar = (severity, message) => {
+		setOpenAlert(true);
+		setAlertSeverity(severity);
+		setAlertMessage(message);
 	};
 	// function to update the user function in the database
 	const updateProfile = () => {
@@ -179,11 +235,13 @@ const UpdateJobPreference = ({ jobDetails }) => {
 		};
 		// dispatch the updateJobProfile function in the job profile slice passing the jobUpdates as an argument
 		dispatch(updateJobProfile({ jobUpdates }));
-		console.log(jobUpdates);
+
+		dispatch(reset());
+		setFetchJobProfileAgain(!fetchJobProfileAgain);
+
+		setEditMode(!editMode);
 	};
-	useEffect(() => {
-		console.log(details);
-	}, [details]);
+
 	return (
 		<div>
 			<div className="p-4 font-semibold text-lg text-gray-400">
@@ -284,9 +342,9 @@ const UpdateJobPreference = ({ jobDetails }) => {
 					<h6 className="mb-2 text-gray-600 font-poppins font-bold">
 						Job Locations*
 					</h6>
-					<div className="flex items-center">
+					<div className="flex items-center flex-wrap">
 						{jobLocations?.map((profile, index) => (
-							<div key={index} className="mr-2">
+							<div key={index} className="mr-2 mt-2">
 								<Chip
 									sx={{ backgroundColor: "#3E3B6F", color: "#F6E8DF" }}
 									label={profile}
@@ -369,6 +427,12 @@ const UpdateJobPreference = ({ jobDetails }) => {
 					<p className="ml-2 font-dosis">Update</p>
 				</div>
 			</div>
+			<NotificationAlert
+				open={openAlert}
+				message={alertMessage}
+				severity={alertSeverity}
+				onClose={() => setOpenAlert(false)}
+			/>
 		</div>
 	);
 };

@@ -1,22 +1,22 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import JobProfileService from "./JobProfileService";
+import ContactInfoService from "./ContactInfoService";
 
 const initialState = {
-	jobProfile: null,
+	contactInfo: null,
 	isLoading: false,
 	isSuccess: false,
 	isError: false,
 	message: "",
 };
 
-// ----------------------------------- function to get the user's job profile ----------------------------- //
-export const getJobProfile = createAsyncThunk(
-	"JobProfile/getJobProfile",
+// ----------------------------------- function to get the user's contact info ----------------------------- //
+export const getContactInfo = createAsyncThunk(
+	"contactInfo/getContactInfo",
 	async (_, thunkAPI) => {
 		try {
-			// await on the get user job profile  function in the jobProfile service component
+			// await on the get user contact info function in the contact info service component
 			const token = thunkAPI.getState().auth.user.token;
-			return await JobProfileService.getJobProfile(token);
+			return await ContactInfoService.getContactInfo(token);
 		} catch (error) {
 			// assign an error value if there is one in any of the listed error value holders below
 			const message =
@@ -31,14 +31,14 @@ export const getJobProfile = createAsyncThunk(
 	}
 );
 
-// ----------------------------------- function to update the user's job profile ----------------------------- //
-export const updateJobProfile = createAsyncThunk(
-	"JobProfile/updateJobProfile",
-	async (jobUpdates, thunkAPI) => {
+// ----------------------------------- function to update the user's contact info ----------------------------- //
+export const updateContactInfo = createAsyncThunk(
+	"contactInfo/updateContactInfo",
+	async (contactUpdates, thunkAPI) => {
 		try {
-			// await on the update user job profile  function in the job Profile service component
+			// await on the update user contact info function in the contact info service component
 			const token = thunkAPI.getState().auth.user.token;
-			return await JobProfileService.updateJobProfile(jobUpdates, token);
+			return await ContactInfoService.updateContactInfo(contactUpdates, token);
 		} catch (error) {
 			// assign an error value if there is one in any of the listed error value holders below
 			const message =
@@ -53,38 +53,39 @@ export const updateJobProfile = createAsyncThunk(
 	}
 );
 
-export const JobProfileSlice = createSlice({
-	name: "jobProfile",
+export const contactInfoSlice = createSlice({
+	name: "contactInfo",
 	initialState,
 	reducers: {
 		reset: (state) => initialState,
 	},
 	extraReducers: (builders) => {
 		builders
-			// for getting the current user's job profile
-			.addCase(getJobProfile.pending, (state) => {
+			// for getting the current user's contact info
+			.addCase(getContactInfo.pending, (state) => {
 				state.isLoading = true;
 			})
-			.addCase(getJobProfile.fulfilled, (state, action) => {
+			.addCase(getContactInfo.fulfilled, (state, action) => {
 				state.isLoading = false;
-				state.jobProfile = action.payload;
+				state.contactInfo = action.payload;
 				state.isSuccess = true;
 			})
-			.addCase(getJobProfile.rejected, (state, action) => {
+			.addCase(getContactInfo.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = false;
 				state.isError = true;
 				state.message = action.payload;
 			})
-			// for updating the current user's job profile
-			.addCase(updateJobProfile.pending, (state) => {
+			// for updating the current user's contact info
+			.addCase(updateContactInfo.pending, (state) => {
 				state.isLoading = true;
 			})
-			.addCase(updateJobProfile.fulfilled, (state, action) => {
+			.addCase(updateContactInfo.fulfilled, (state, action) => {
 				state.isLoading = false;
+				state.contactInfo = action.payload;
 				state.isSuccess = true;
 			})
-			.addCase(updateJobProfile.rejected, (state, action) => {
+			.addCase(updateContactInfo.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = false;
 				state.isError = true;
@@ -93,6 +94,5 @@ export const JobProfileSlice = createSlice({
 	},
 });
 
-export const { reset } = JobProfileSlice.actions;
-
-export default JobProfileSlice.reducer;
+export const { reset } = contactInfoSlice.actions;
+export default contactInfoSlice.reducer;

@@ -11,7 +11,7 @@ const initialState = {
 
 // ----------------------------------- function to get the user's profie intro ----------------------------- //
 export const getProfileIntro = createAsyncThunk(
-	"auth/getProfileIntro",
+	"profileIntro/getProfileIntro",
 	async (_, thunkAPI) => {
 		try {
 			// await on the get user profile intro  function in the profileIntro service component

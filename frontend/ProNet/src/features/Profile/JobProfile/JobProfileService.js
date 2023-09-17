@@ -12,7 +12,7 @@ const getJobProfile = async (token) => {
 		`${baseUrl()}profile/getProfile/job`,
 		config
 	);
-
+	console.log(data);
 	return data;
 };
 

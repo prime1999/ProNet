@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import { BiMessageRounded, BiMenuAltLeft } from "react-icons/bi";
 import { IoMdNotificationsOutline } from "react-icons/io";
@@ -8,8 +8,11 @@ import { RxDashboard } from "react-icons/rx";
 import { Avatar, Menu, MenuItem, Drawer } from "@mui/material";
 import logo from "../../assets/images/png/logo.png";
 import ProfileDrawerDetails from "../../components/miscellaneous/ProfileDrawerDetails";
+import { logUserOut } from "../../features/Auth/AuthSlice";
 
 const MenuBar = () => {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	// for the drawer
 	const [open, setOpen] = useState(false);
 
@@ -37,6 +40,11 @@ const MenuBar = () => {
 
 	const handleCloseDropDown = () => {
 		setAnchorEl(null);
+	};
+
+	const handleLogOut = () => {
+		dispatch(logUserOut());
+		navigate("/login");
 	};
 
 	return (
@@ -132,7 +140,7 @@ const MenuBar = () => {
 
 								<Link
 									className="mb-4 w-full mt-4 border-2 border-white py-1 rounded-lg text-center duration-300 bg-darkBlue text-white hover:bg-white hover:text-darkBlue hover:border-darkBlue hover:border-2"
-									onClick={handleCloseDropDown}
+									onClick={handleLogOut}
 								>
 									Logout
 								</Link>

@@ -50,11 +50,16 @@ const verifyCode = async (code) => {
 	return data;
 };
 
+// ----------------------------------- function to lo user out ------------------------ //
+const logUserOut = async () => {
+	localStorage.removeItem("user");
+};
 const authService = {
 	registerUser,
 	sendCode,
 	verifyCode,
 	logUserIn,
+	logUserOut,
 };
 
 export default authService;

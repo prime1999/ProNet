@@ -1,17 +1,25 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { AiFillEye } from "react-icons/ai";
+import { FiEdit2 } from "react-icons/fi";
 import { Modal, Backdrop, Fade } from "@mui/material";
 import UpdateJobPreference from "../UpdateComponents/UpdateJobPreference";
 
-const JobProfileModal = ({ children, jobDetails, intro }) => {
+const JobProfileModal = ({
+	children,
+	jobDetails,
+	fetchJobProfileAgain,
+	setFetchJobProfileAgain,
+}) => {
 	// state to show the edit state
-	const [editMode, setEditMode] = useState(true);
+	const [editMode, setEditMode] = useState(false);
 	// state to handle the modal visibilty
 	const [open, setOpen] = useState(false);
 	// function to open the modal
 	const handleOpen = () => setOpen(true);
 	// function to close the modal
 	const handleClose = () => setOpen(false);
+
 	return (
 		<>
 			<div>
@@ -34,8 +42,12 @@ const JobProfileModal = ({ children, jobDetails, intro }) => {
 							<div className="absolute top-[10%] left-[35%] rounded-md shadow-md h-[430px] w-[500px] bg-white overflow-y-auto">
 								{!editMode ? (
 									<>
-										<div className="p-4 font-semibold text-lg text-gray-400">
+										<div className="flex items-center justify-between p-4 font-semibold text-lg text-gray-400">
 											<h4>Job Preference</h4>
+											<FiEdit2
+												onClick={() => setEditMode(!editMode)}
+												className="text-black font-bold hover:cursor-pointer"
+											/>
 										</div>
 										<hr className="border-darkBlue" />
 										<div className="p-4">
@@ -106,7 +118,13 @@ const JobProfileModal = ({ children, jobDetails, intro }) => {
 									</>
 								) : (
 									<>
-										<UpdateJobPreference jobDetails={jobDetails} />
+										<UpdateJobPreference
+											fetchJobProfileAgain={fetchJobProfileAgain}
+											setFetchJobProfileAgain={setFetchJobProfileAgain}
+											editMode={editMode}
+											setEditMode={setEditMode}
+											jobDetails={jobDetails}
+										/>
 									</>
 								)}
 							</div>

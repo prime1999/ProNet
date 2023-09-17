@@ -98,6 +98,11 @@ export const verifyCode = createAsyncThunk(
 	}
 );
 
+// ------------------------------ function to log user out -------------------- //
+export const logUserOut = createAsyncThunk("auth/logUserOut", async () => {
+	await authService.logUserOut();
+});
+
 // create auth slice
 export const AuthSlice = createSlice({
 	name: "Auth",
@@ -163,6 +168,10 @@ export const AuthSlice = createSlice({
 				state.isError = true;
 				state.verify = false;
 				console.log(action.payload);
+			})
+			// for logging a user out
+			.addCase(logUserOut.fulfilled, (state) => {
+				state.user = null;
 			});
 	},
 });
