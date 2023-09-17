@@ -64,10 +64,12 @@ const LeftProfileDetails = ({ intro }) => {
 		}
 
 		try {
+			// check if the imae selected is either a jpeg or a png file
 			if (
 				selectedPic.type === "image/jpeg" ||
 				selectedPic.type === "image/png"
 			) {
+				// create a new form data instance to send to cloudinary
 				const picData = new FormData();
 				// append the following key-value pairs to it
 				picData.append("file", selectedPic);
@@ -84,6 +86,7 @@ const LeftProfileDetails = ({ intro }) => {
 				const introUpdates = {
 					pic: data.url,
 				};
+				// dispatch the update profile intro function in the intro slice
 				dispatch(updateProfileIntro(introUpdates));
 			}
 		} catch (error) {

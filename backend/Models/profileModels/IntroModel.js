@@ -44,6 +44,9 @@ const ProfileIntroSchema = new Schema(
 		headLine: {
 			type: String,
 		},
+		summary: {
+			type: String,
+		},
 		education: [
 			{
 				type: String,
