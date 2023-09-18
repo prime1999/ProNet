@@ -46,7 +46,7 @@ const Profile = () => {
 			{intro && (
 				<div
 					key={intro._id}
-					className="relative w-full h-[400px]"
+					className="relative w-full h-[350px]"
 					style={{
 						backgroundImage: `url(${intro?.backgroundPhoto})`,
 						backgroundRepeat: "no-repeat",
@@ -60,7 +60,7 @@ const Profile = () => {
 							backgroundColor: "rgba(0, 0, 0, 0.5)",
 						}}
 					>
-						<div className="relative top-16 w-11/12 mx-auto mt-32">
+						<div className="relative top-48 w-10/12 mx-auto mt-32">
 							<ProfileBody intro={intro} />
 						</div>
 					</div>

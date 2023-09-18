@@ -18,6 +18,58 @@ const LocationSchema = new Schema(
 
 // ---------------------------------------- the location schema ends here ----------------------------- //
 
+// ---------------------------------------- the education schema starts here ----------------------------- //
+
+const EducationSchema = new Schema(
+	{
+		name: {
+			type: String,
+		},
+		degree: {
+			type: String,
+		},
+		fieldOfStudy: {
+			type: String,
+		},
+		startDate: {
+			type: String,
+		},
+		endDate: {
+			type: String,
+		},
+		grade: {
+			type: String,
+		},
+	},
+	{ timestamps: true }
+);
+
+// ---------------------------------------- the education schema ends here ----------------------------- //
+// ---------------------------------------- the experience schema starts here ----------------------------- //
+
+const ExperienceSchema = new Schema(
+	{
+		company: {
+			type: String,
+		},
+		position: {
+			type: String,
+		},
+		details: {
+			type: String,
+		},
+		startDate: {
+			type: String,
+		},
+		endDate: {
+			type: String,
+		},
+	},
+	{ timestamps: true }
+);
+
+// ---------------------------------------- the experience schema ends here ----------------------------- //
+
 const ProfileIntroSchema = new Schema(
 	{
 		user: {
@@ -49,7 +101,12 @@ const ProfileIntroSchema = new Schema(
 		},
 		education: [
 			{
-				type: String,
+				type: EducationSchema,
+			},
+		],
+		experience: [
+			{
+				type: ExperienceSchema,
 			},
 		],
 
