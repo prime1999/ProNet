@@ -8,6 +8,7 @@ import {
 } from "../../features/Profile/ProfileIntro/ProfileIntroSlice";
 import Spinner from "../../components/Spinner/Spinner";
 import ProfilePics from "../../components/profile/ProfilePics";
+import ProfilePageFooter from "../../components/profile/ProfilePageFooter";
 
 const Profile = () => {
 	const [intro, setIntro] = useState(null);
@@ -50,7 +51,7 @@ const Profile = () => {
 			{intro && (
 				<div
 					key={intro._id}
-					className="w-full h-[300px]"
+					className="w-full h-[350px]"
 					style={{
 						backgroundImage: `url(${intro?.backgroundPhoto})`,
 						backgroundRepeat: "no-repeat",
@@ -68,6 +69,7 @@ const Profile = () => {
 			<div className="container mx-auto mt-4 xl:w-10/12 ">
 				<ProfileBody intro={intro} />
 			</div>
+			<ProfilePageFooter />
 		</>
 	);
 };

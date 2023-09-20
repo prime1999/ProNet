@@ -15,7 +15,8 @@ const createProfileIntro = asyncHandler(async (req, res) => {
 
 	// if the user exist then
 	// get the details of the user's headline, education and the user's location from the request body
-	const { headLine, education, location, experience, summary } = req.body;
+	const { headLine, education, skills, location, experience, summary } =
+		req.body;
 	// make a try-catch block
 	try {
 		// create the profile data
@@ -23,6 +24,7 @@ const createProfileIntro = asyncHandler(async (req, res) => {
 			user: req.user._id,
 			firstName: req.user.firstName,
 			lastName: req.user.lastName,
+			skills,
 			headLine,
 			summary,
 			education,
@@ -189,6 +191,9 @@ const updateProfiileIntro = async (userProfileIntro, introUpdates) => {
 	}
 	if (introUpdates.experience !== undefined) {
 		userProfileIntro.experience = introUpdates.experience;
+	}
+	if (introUpdates.skills !== undefined) {
+		userProfileIntro.skills = introUpdates.skills;
 	}
 
 	if (introUpdates.location !== undefined) {

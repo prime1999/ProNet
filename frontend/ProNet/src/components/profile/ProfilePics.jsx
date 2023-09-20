@@ -77,34 +77,29 @@ const ProfilePics = ({
 
 	// function to update the background photo
 	const handleBackgroundPhoto = async (selectedPic) => {
-		console.log(222);
 		try {
 			setLoading(true);
-
+			// check if an image was chosen
 			if (!selectedPic) {
 				setLoading(false);
 				return;
 			}
-			console.log(11);
 			// check if the image selected is either a jpeg or a png file
 			if (
 				selectedPic.type === "image/jpeg" ||
 				selectedPic.type === "image/png"
 			) {
-				console.log(22);
 				// create a new form data instance to send to cloudinary
 				const picData = new FormData();
 				// append the following key-value pairs to it
 				picData.append("file", selectedPic);
 				picData.append("upload_preset", "proNet");
 				picData.append("cloud_name", "ddboi173o");
-				console.log(33);
 				// send the data(your new FormData with the required data) to your cloudinary url
 				const { data } = await axios.post(
 					"https://api.cloudinary.com/v1_1/ddboi173o/image/upload",
 					picData
 				);
-				console.log(44);
 				const picUrl = data.url;
 				setBgPic(picUrl);
 				setLoading(false);
@@ -125,7 +120,6 @@ const ProfilePics = ({
 				);
 			}
 		} catch (error) {
-			console.log(error);
 			setLoading(false);
 			// show error message
 			handleShowSnackbar("error", "could not upload pic");

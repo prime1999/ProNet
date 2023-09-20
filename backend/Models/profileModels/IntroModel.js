@@ -109,7 +109,11 @@ const ProfileIntroSchema = new Schema(
 				type: ExperienceSchema,
 			},
 		],
-
+		skills: [
+			{
+				type: String,
+			},
+		],
 		location: {
 			type: LocationSchema,
 			strict: "throw",

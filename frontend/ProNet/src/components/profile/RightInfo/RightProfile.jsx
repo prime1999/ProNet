@@ -3,7 +3,6 @@ import { FiEdit2 } from "react-icons/fi";
 import { AiOutlinePlus, AiOutlineArrowRight } from "react-icons/ai";
 import { IoIosSchool } from "react-icons/io";
 import ExperienceDetail from "./ExperienceDetail";
-import ProfilePageFooter from "../ProfilePageFooter";
 import UpdateSummary from "../../UpdateComponents/UpdateSummary";
 import UpdateEducation from "../../UpdateComponents/UpdateEducation";
 
@@ -72,7 +71,6 @@ const RightProfile = ({ intro }) => {
 				</div>
 			</div>
 			<ExperienceDetail intro={intro} />
-			<ProfilePageFooter />
 		</div>
 	);
 };
