@@ -13,6 +13,7 @@ const initialState = {
 export const getProfileIntro = createAsyncThunk(
 	"profileIntro/getProfileIntro",
 	async (_, thunkAPI) => {
+		console.log(123);
 		try {
 			// await on the get user profile intro  function in the profileIntro service component
 			const token = thunkAPI.getState().auth.user.token;
@@ -35,7 +36,6 @@ export const getProfileIntro = createAsyncThunk(
 export const updateProfileIntro = createAsyncThunk(
 	"profileIntro/updateProfileIntro",
 	async (introUpdates, thunkAPI) => {
-		console.log(introUpdates);
 		try {
 			// await on the update user profile intro  function in the profileIntro service component
 			const token = thunkAPI.getState().auth.user.token;

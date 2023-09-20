@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { FiEdit2 } from "react-icons/fi";
 import ProfileBody from "../../components/profile/ProfileBody";
 import {
 	getProfileIntro,
 	reset,
 } from "../../features/Profile/ProfileIntro/ProfileIntroSlice";
 import Spinner from "../../components/Spinner/Spinner";
+import ProfilePics from "../../components/profile/ProfilePics";
 
 const Profile = () => {
 	const [intro, setIntro] = useState(null);
+	const [fetchProfileIntroAgain, setFetchProfileIntroAgain] = useState(false);
 	// init the dispatch function
 	const dispatch = useDispatch();
 
@@ -20,12 +23,13 @@ const Profile = () => {
 	// dispatch the getProfileIntro function
 	useEffect(() => {
 		dispatch(getProfileIntro());
-	}, [dispatch]);
+	}, [fetchProfileIntroAgain]);
 
 	// to run anytime the isSuccess variable changes
 	useEffect(() => {
 		// check if the isSuccess variable from the redux store is true (that is the getProfileIntro was fulfilled)
 		if (isSuccess) {
+			console.log(profileIntro);
 			if (Array.isArray(profileIntro)) {
 				setIntro(profileIntro[0]);
 			} else {
@@ -34,7 +38,7 @@ const Profile = () => {
 		}
 		// clear the redux store
 		dispatch(reset());
-	}, [isSuccess]);
+	}, [isSuccess, fetchProfileIntroAgain]);
 
 	// if the dispatched function is still pending (loading), then show a spinner
 	if (isLoading) {
@@ -46,7 +50,7 @@ const Profile = () => {
 			{intro && (
 				<div
 					key={intro._id}
-					className="relative w-full h-[350px]"
+					className="w-full h-[300px]"
 					style={{
 						backgroundImage: `url(${intro?.backgroundPhoto})`,
 						backgroundRepeat: "no-repeat",
@@ -54,18 +58,16 @@ const Profile = () => {
 						backgroundPosition: "center",
 					}}
 				>
-					<div
-						className="absolute top-0 left-0 w-full h-full flex justify-center items-center"
-						style={{
-							backgroundColor: "rgba(0, 0, 0, 0.5)",
-						}}
-					>
-						<div className="relative top-48 w-10/12 mx-auto mt-32">
-							<ProfileBody intro={intro} />
-						</div>
-					</div>
+					<ProfilePics
+						fetchProfileIntroAgain={fetchProfileIntroAgain}
+						setFetchProfileIntroAgain={setFetchProfileIntroAgain}
+						intro={intro}
+					/>
 				</div>
 			)}
+			<div className="container mx-auto mt-4 xl:w-10/12 ">
+				<ProfileBody intro={intro} />
+			</div>
 		</>
 	);
 };

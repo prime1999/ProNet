@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FiEdit2 } from "react-icons/fi";
@@ -11,8 +10,6 @@ import {
 	reset,
 } from "../../features/Profile/JobProfile/JobProfileSlice";
 import Spinner from "../Spinner/Spinner";
-import { Avatar } from "@mui/material";
-import { updateProfileIntro } from "../../features/Profile/ProfileIntro/ProfileIntroSlice";
 import NotificationAlert from "../miscellaneous/NotificationAlert";
 
 const LeftProfileDetails = ({ intro }) => {
@@ -23,8 +20,6 @@ const LeftProfileDetails = ({ intro }) => {
 	const [alertMessage, setAlertMessage] = useState("");
 	const [alertSeverity, setAlertSeverity] = useState("success");
 
-	const [pic, setPic] = useState(intro?.pic);
-	const [loading, setLoading] = useState(false);
 	const [fetchJobProfileAgain, setFetchJobProfileAgain] = useState(false);
 	const [jobDetails, setJobDetails] = useState(null);
 	// init the dispatch function
@@ -54,46 +49,6 @@ const LeftProfileDetails = ({ intro }) => {
 		dispatch(reset());
 	}, [isSuccess]);
 
-	// function to upload the user's profile picture
-	const handlePic = async (selectedPic) => {
-		setLoading(true);
-
-		if (!selectedPic) {
-			setLoading(false);
-			return;
-		}
-
-		try {
-			// check if the imae selected is either a jpeg or a png file
-			if (
-				selectedPic.type === "image/jpeg" ||
-				selectedPic.type === "image/png"
-			) {
-				// create a new form data instance to send to cloudinary
-				const picData = new FormData();
-				// append the following key-value pairs to it
-				picData.append("file", selectedPic);
-				picData.append("upload_preset", "proNet");
-				picData.append("cloud_name", "ddboi173o");
-				// send the data(your new FormData with the required data) to your cloudinary url
-				const { data } = await axios.post(
-					"https://api.cloudinary.com/v1_1/ddboi173o/image/upload",
-					picData
-				);
-
-				setPic(data.url);
-				setLoading(false);
-				const introUpdates = {
-					pic: data.url,
-				};
-				// dispatch the update profile intro function in the intro slice
-				dispatch(updateProfileIntro(introUpdates));
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
 	// function to show snack-bar alert
 	const handleShowSnackbar = (severity, message) => {
 		setOpenAlert(true);
@@ -103,43 +58,16 @@ const LeftProfileDetails = ({ intro }) => {
 
 	return (
 		<>
-			<div className="w-full flex flex-col items-center">
-				<div className="relative -bottom-10">
-					{loading ? (
-						<>
-							<Spinner />
-						</>
-					) : (
-						<Avatar
-							sx={{ width: "120px", height: "120px" }}
-							alt="user avatar"
-							src={pic}
-						></Avatar>
-					)}
-					<div className="absolute top-20 left-20">
-						<label htmlFor="profilePic">
-							<p className="bg-light p-2 rounded-full duration-500 hover:cursor-pointer hover:bg-orange">
-								<FiEdit2 />
-							</p>
-						</label>
-						<input
-							type="file"
-							accept="image/*"
-							id="profilePic"
-							className="hidden"
-							onChange={(e) => handlePic(e.target.files[0])}
-						/>
-					</div>
-				</div>
-				<div className="w-full bg-white shadow-md px-4 py-8 rounded-md">
-					<div className="mt-4">
-						<div className="flex flex-col items-center justify-center">
-							<h4 className="font-poppins font-bold text-2xl text-center">
+			<div className="w-full flex flex-col items-start lg:items-center">
+				<div className="w-full bg-white border shadow-md px-4 py-8 rounded-md">
+					<div className="mt-2">
+						<div className="flex flex-col items-start lg:items-center justify-center">
+							<h4 className="font-poppins font-bold text-2xl text-right lg:text-center">
 								{user?.firstName}
 								{` ${user?.lastName}`}
 							</h4>
 							<p className="font-cour text-lg font-semibold text-gray-500">
-								{intro.headLine}
+								{intro?.headLine}
 							</p>
 						</div>
 						<div className="mt-16">
@@ -149,7 +77,7 @@ const LeftProfileDetails = ({ intro }) => {
 										Location
 									</p>
 									<p className="font-semibold">
-										{intro.location.city}, {` ${intro.location.country}`}
+										{intro?.location.city}, {` ${intro?.location.country}`}
 									</p>
 								</div>
 								<div>

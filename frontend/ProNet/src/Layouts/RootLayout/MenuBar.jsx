@@ -49,7 +49,7 @@ const MenuBar = () => {
 
 	return (
 		<>
-			<div className="container flex items-center justify-between flex-col mx-auto p-4 md:flex-row">
+			<div className="w-11/12 flex items-center justify-between flex-col mx-auto p-4 md:flex-row">
 				<div className="flex items-center justify-between w-full mb-8 md:m-0 md:hidden">
 					<BiMenuAltLeft
 						onClick={handleOpen}

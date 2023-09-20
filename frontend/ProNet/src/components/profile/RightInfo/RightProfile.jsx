@@ -10,7 +10,7 @@ import UpdateEducation from "../../UpdateComponents/UpdateEducation";
 const RightProfile = ({ intro }) => {
 	return (
 		<div className="w-full my-4">
-			<div className="w-full shadow-md bg-white rounded-sm p-4">
+			<div className="w-full border shadow-md bg-white rounded-sm p-4">
 				<div className="flex items-center justify-between mb-4">
 					<h6 className="font-semibold font-poppins">Summary</h6>
 					<UpdateSummary intro={intro}>
@@ -21,7 +21,7 @@ const RightProfile = ({ intro }) => {
 					{intro?.summary}
 				</p>
 			</div>
-			<div className="w-full shadow-md bg-white rounded-sm p-4 my-8">
+			<div className="w-full border shadow-md bg-white rounded-sm p-4 my-8">
 				<div className="flex items-start justify-between mb-4">
 					<h6 className="font-semibold font-poppins">Education</h6>
 					<div className="flex items-center">

@@ -5,11 +5,9 @@ import RightProfile from "./RightInfo/RightProfile";
 const RightProfileDetails = ({ intro }) => {
 	const dispatch = useDispatch();
 
-	console.log(intro);
-
 	return (
 		<>
-			<div className="relative top-96 w-full">
+			<div className="relative top-12 w-full xl:top-96 ">
 				<div>
 					<div>
 						<ul className="flex items-center font-semibold text-gray-400">

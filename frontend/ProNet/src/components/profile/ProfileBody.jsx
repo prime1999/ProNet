@@ -3,14 +3,12 @@ import RightProfileDetails from "./RightProfileDetails";
 
 const ProfileBody = ({ intro }) => {
 	return (
-		<div>
-			<div className="flex items-start">
-				<div className="mt-16 mr-4 w-1/4">
-					<LeftProfileDetails intro={intro} />
-				</div>
-				<div className="ml-8 w-3/4">
-					<RightProfileDetails intro={intro} />
-				</div>
+		<div className="flex items-start justify-betweenw-full">
+			<div className="w-1/4 mr-8">
+				<LeftProfileDetails intro={intro} />
+			</div>
+			<div className="w-3/4">
+				<RightProfileDetails intro={intro} />
 			</div>
 		</div>
 	);
