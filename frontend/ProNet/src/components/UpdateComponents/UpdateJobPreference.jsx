@@ -81,10 +81,7 @@ const UpdateJobPreference = ({
 	};
 	// function to save the selected job title to the list of jobs on the UI
 	const handleAddJobTitle = (event) => {
-		const filtered = jobs.filter((job) =>
-			job.toLowerCase().includes(jobName.toLowerCase())
-		);
-		// check if the  job title is part of the guideline given
+		// check if the job title is part of the guideline given
 		const isCorrect = jobs.some(
 			(job) => job.toLowerCase() === jobName.toLowerCase()
 		);

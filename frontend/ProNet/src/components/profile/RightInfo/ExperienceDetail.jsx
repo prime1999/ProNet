@@ -27,7 +27,7 @@ const ExperienceDetail = ({ intro }) => {
 														<BiBriefcase className="text-3xl text-gray-400" />
 													</div>
 													<div className="">
-														<p className="font-dosis font-sm text-gray-400">
+														<p className="font-dosis text-sm text-gray-400">
 															{experience?.startDate} - {experience?.endDate}
 														</p>
 														<h3 className="font-poppins text-lg uppercase font-semibold">

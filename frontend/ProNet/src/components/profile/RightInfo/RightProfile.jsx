@@ -5,6 +5,7 @@ import { IoIosSchool } from "react-icons/io";
 import ExperienceDetail from "./ExperienceDetail";
 import UpdateSummary from "../../UpdateComponents/UpdateSummary";
 import UpdateEducation from "../../UpdateComponents/UpdateEducation";
+import Skills from "./skills";
 
 const RightProfile = ({ intro }) => {
 	return (
@@ -39,7 +40,7 @@ const RightProfile = ({ intro }) => {
 											</div>
 											<div className="w-full">
 												<div className="flex justify-between items-center w-full">
-													<p className="font-dosis font-sm text-gray-400">
+													<p className="font-dosis text-sm text-gray-400">
 														{education?.startDate} - {education?.endDate}
 													</p>
 													<UpdateEducation
@@ -71,6 +72,7 @@ const RightProfile = ({ intro }) => {
 				</div>
 			</div>
 			<ExperienceDetail intro={intro} />
+			<Skills intro={intro} />
 		</div>
 	);
 };

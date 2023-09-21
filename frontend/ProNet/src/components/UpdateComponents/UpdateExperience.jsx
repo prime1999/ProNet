@@ -68,7 +68,7 @@ const UpdateExperience = ({ intro, experience, children }) => {
 					}}
 				>
 					<Fade in={open}>
-						<div className="absolute top-[10%] left-[10%] rounded-md shadow-md h-[500px] w-3/4 bg-white p-4 outline-0 overflow-y-auto xl:w-[800px] xl:left-[20%]">
+						<div className="absolute top-[5%] left-[10%] rounded-md shadow-md h-[500px] w-3/4 bg-white p-4 outline-0 overflow-y-auto lg:top-[5%] lg:w-1/2 lg:left-[30%]">
 							<h3 className="mb-8 font-poppins font-semibold text-xl">
 								Edit Work Experience
 							</h3>
