@@ -1,13 +1,20 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { GrDocumentUpdate } from "react-icons/gr";
 import { Modal, Backdrop, Fade } from "@mui/material";
-import { updateProfileIntro } from "../../features/Profile/ProfileIntro/ProfileIntroSlice";
-import NotificationAlert from "../miscellaneous/NotificationAlert";
+import NotificationAlert from "../../miscellaneous/NotificationAlert";
+import { updateProfileIntro } from "../../../features/Profile/ProfileIntro/ProfileIntroSlice";
 
-const UpdateEducation = ({ intro, education, children }) => {
+const AddEducationModal = ({ children, intro }) => {
 	const dispatch = useDispatch();
-	const [toUpdateEducation, setToUpdateEducation] = useState(education);
+	const [educationState, setEducationState] = useState({
+		name: "",
+		degree: "",
+		fieldOfStudy: "",
+		startDate: "",
+		endDate: "",
+		grade: "",
+	});
 	// state to handle the modal visibilty
 	const [open, setOpen] = useState(false);
 	// function to open the modal
@@ -20,24 +27,23 @@ const UpdateEducation = ({ intro, education, children }) => {
 	const [alertSeverity, setAlertSeverity] = useState("success");
 
 	const { name, degree, fieldOfStudy, grade, startDate, endDate } =
-		toUpdateEducation;
+		educationState;
 
 	const handleChange = (e) => {
-		setToUpdateEducation((prevState) => ({
+		setEducationState((prevState) => ({
 			...prevState,
 			[e.target.id]: e.target.value,
 		}));
 	};
-	const updateEducation = () => {
+
+	const addEducation = () => {
 		if (!name || !fieldOfStudy || !degree) {
 			handleShowSnackbar("error", "Please fill in all requied fields");
 		} else {
-			const updatedEducation = intro.map((intro) =>
-				intro._id === toUpdateEducation._id ? toUpdateEducation : intro
-			);
+			const newEducations = [...intro, educationState];
 
 			const introUpdates = {
-				education: updatedEducation,
+				education: newEducations,
 			};
 			dispatch(updateProfileIntro(introUpdates));
 		}
@@ -49,6 +55,7 @@ const UpdateEducation = ({ intro, education, children }) => {
 		setAlertSeverity(severity);
 		setAlertMessage(message);
 	};
+
 	return (
 		<div>
 			{children && <span onClick={handleOpen}>{children}</span>}
@@ -69,10 +76,10 @@ const UpdateEducation = ({ intro, education, children }) => {
 					<Fade in={open}>
 						<div className="absolute top-[5%] left-[30%] rounded-md shadow-md h-[500px] w-2/4 bg-white p-4 outline-0 overflow-y-auto xl:left-[20%]">
 							<h3 className="mb-8 font-poppins font-semibold text-xl">
-								Edit Education
+								Add Education
 							</h3>
-							<form key={toUpdateEducation?._id}>
-								<label className="text-gray-300">School*</label>
+							<form>
+								<label className="text-gray-600">School*</label>
 								<input
 									className="w-full border rounded-md p-2 my-2 focus:outline-none"
 									type="text"
@@ -80,7 +87,7 @@ const UpdateEducation = ({ intro, education, children }) => {
 									onChange={handleChange}
 									value={name}
 								/>
-								<label className="text-gray-300">Degree*</label>
+								<label className="text-gray-600">Degree*</label>
 								<input
 									className="w-full border rounded-md p-2 my-2 focus:outline-none"
 									type="text"
@@ -88,15 +95,15 @@ const UpdateEducation = ({ intro, education, children }) => {
 									onChange={handleChange}
 									value={degree}
 								/>
-								<label className="text-gray-300">Field of study*</label>
+								<label className="text-gray-600">Field of study*</label>
 								<input
 									className="w-full border rounded-md p-2 my-2 focus:outline-none"
 									type="text"
-									id="fieldToStudy"
+									id="fieldOfStudy"
 									onChange={handleChange}
 									value={fieldOfStudy}
 								/>
-								<label className="text-gray-300">Grade</label>
+								<label className="text-gray-600">Grade</label>
 								<input
 									className="w-full border rounded-md p-2 my-2 focus:outline-none"
 									type="text"
@@ -104,7 +111,7 @@ const UpdateEducation = ({ intro, education, children }) => {
 									onChange={handleChange}
 									value={grade}
 								/>
-								<label className="text-gray-300">Start date & end date</label>
+								<label className="text-gray-600">Start date & end date</label>
 								<div className="w-full flex justify-between items-center">
 									<input
 										className="w-1/2 border rounded-md p-2 my-2 focus:outline-none"
@@ -122,7 +129,7 @@ const UpdateEducation = ({ intro, education, children }) => {
 									/>
 								</div>
 								<div
-									onClick={updateEducation}
+									onClick={addEducation}
 									className="flex items-center w-24 p-2 mt-4 duration-500 bg-gradient-to-r from-orange to-pink rounded-md hover:cursor-pointer hover:bg-gradient-to-r hover:from-pink hover:to-orange"
 								>
 									<GrDocumentUpdate />
@@ -143,4 +150,4 @@ const UpdateEducation = ({ intro, education, children }) => {
 	);
 };
 
-export default UpdateEducation;
+export default AddEducationModal;

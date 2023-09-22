@@ -82,8 +82,8 @@ const LeftProfileDetails = ({ intro }) => {
 								</div>
 								<div>
 									<ContactInfoModal>
-										<Link className="text-darkBlue font-bold hover:border-b hover:border-darkBlue">
-											Contant info
+										<Link className="text-darkBlue text-sm font-bold hover:border-b hover:border-darkBlue">
+											Contact info
 										</Link>
 									</ContactInfoModal>
 								</div>
@@ -110,7 +110,7 @@ const LeftProfileDetails = ({ intro }) => {
 											setFetchJobProfileAgain={setFetchJobProfileAgain}
 											jobDetails={jobDetails}
 										>
-											<Link className="text-darkBlue font-bold hover:border-b hover:border-darkBlue">
+											<Link className="text-darkBlue text-sm font-bold hover:border-b hover:border-darkBlue">
 												See Details
 											</Link>
 										</JobProfileModal>

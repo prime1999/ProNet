@@ -6,6 +6,7 @@ import ExperienceDetail from "./ExperienceDetail";
 import UpdateSummary from "../../UpdateComponents/UpdateSummary";
 import UpdateEducation from "../../UpdateComponents/UpdateEducation";
 import Skills from "./skills";
+import AddEducationModal from "./AddEducationModal";
 
 const RightProfile = ({ intro }) => {
 	return (
@@ -25,7 +26,9 @@ const RightProfile = ({ intro }) => {
 				<div className="flex items-start justify-between mb-4">
 					<h6 className="font-semibold font-poppins">Education</h6>
 					<div className="flex items-center">
-						<AiOutlinePlus className="mr-4 text-lg hover:text-orange hover:cursor-pointer" />
+						<AddEducationModal intro={intro?.education}>
+							<AiOutlinePlus className="mr-4 text-lg hover:text-orange hover:cursor-pointer" />
+						</AddEducationModal>
 					</div>
 				</div>
 				<div>
@@ -33,22 +36,20 @@ const RightProfile = ({ intro }) => {
 						<div>
 							{intro?.education.map((education, index) => (
 								<div key={education?._id}>
-									{index < 2 && (
+									{index < 3 && (
 										<div className="flex items-start mt-4 mb-8">
 											<div className="mt-1 p-2 bg-gray-200 mr-2">
 												<IoIosSchool className="text-3xl text-gray-400" />
 											</div>
 											<div className="w-full">
 												<div className="flex justify-between items-center w-full">
-													<p className="font-dosis text-sm text-gray-400">
-														{education?.startDate} - {education?.endDate}
-													</p>
-													<UpdateEducation
-														intro={intro.education}
-														education={education}
-													>
-														<FiEdit2 className="hover:text-orange hover:cursor-pointer" />
-													</UpdateEducation>
+													<div>
+														{education?.startDate && (
+															<p className="font-dosis text-sm text-gray-400">
+																{education?.startDate} - {education?.endDate}
+															</p>
+														)}
+													</div>
 												</div>
 												<h3 className="font-poppins text-lg uppercase font-semibold">
 													{education?.name}
@@ -57,6 +58,12 @@ const RightProfile = ({ intro }) => {
 													{education?.degree} in {education?.fieldOfStudy}
 												</p>
 											</div>
+											<UpdateEducation
+												intro={intro.education}
+												education={education}
+											>
+												<FiEdit2 className="hover:text-orange hover:cursor-pointer" />
+											</UpdateEducation>
 										</div>
 									)}
 								</div>

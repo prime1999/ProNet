@@ -10,7 +10,6 @@ const Skills = ({ intro }) => {
 			<div className="flex items-start justify-between mb-4">
 				<h6 className="font-semibold font-poppins">Skills</h6>
 				<div className="flex items-center">
-					<AiOutlinePlus className="mr-4 text-lg hover:text-orange hover:cursor-pointer" />
 					<UpdateSkills intro={intro}>
 						<FiEdit2 className="hover:text-orange hover:cursor-pointer" />
 					</UpdateSkills>
