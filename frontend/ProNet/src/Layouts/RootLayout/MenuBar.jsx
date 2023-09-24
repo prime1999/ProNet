@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { PiMagnifyingGlass } from "react-icons/pi";
@@ -9,9 +9,14 @@ import { Avatar, Menu, MenuItem, Drawer } from "@mui/material";
 import logo from "../../assets/images/png/logo.png";
 import ProfileDrawerDetails from "../../components/miscellaneous/ProfileDrawerDetails";
 import { logUserOut } from "../../features/Auth/AuthSlice";
+import {
+	getProfileIntro,
+	reset,
+} from "../../features/Profile/ProfileIntro/ProfileIntroSlice";
 
 const MenuBar = () => {
 	const dispatch = useDispatch();
+	const [currentUser, setCurrentUser] = useState(null);
 	const navigate = useNavigate();
 	// for the drawer
 	const [open, setOpen] = useState(false);
@@ -22,6 +27,23 @@ const MenuBar = () => {
 
 	// check the sentCode and verify variable in the redux store
 	const { user } = useSelector((state) => state.auth);
+
+	// get the user's profile intro from the redux store
+	const { profileIntro, isLoading, isSuccess, isError, message } = useSelector(
+		(state) => state.profileIntro
+	);
+
+	// dispatch the getProfileIntro function
+	useEffect(() => {
+		dispatch(getProfileIntro());
+	}, [dispatch]);
+
+	useEffect(() => {
+		if (isSuccess) {
+			setCurrentUser(profileIntro[0]);
+		}
+		dispatch(reset());
+	}, [isSuccess]);
 
 	// function to open the side drawer
 	const handleOpen = () => {
@@ -41,7 +63,7 @@ const MenuBar = () => {
 	const handleCloseDropDown = () => {
 		setAnchorEl(null);
 	};
-
+	// function to log user out
 	const handleLogOut = () => {
 		dispatch(logUserOut());
 		navigate("/login");
@@ -87,7 +109,7 @@ const MenuBar = () => {
 				<form>
 					<div className="relative">
 						<input
-							className="px-6 py-2 rounded-md w-[300px] text-gray-300 font-poppins border border-gray-300 text-sm focus:outline-none"
+							className="px-6 py-2 rounded-md w-[300px] text-gray-300 text-sm font-poppins border border-gray-300 focus:outline-none"
 							type="text"
 							placeholder="Find jobs, people and more..."
 						/>
@@ -109,7 +131,7 @@ const MenuBar = () => {
 							sx={{ cursor: "pointer" }}
 							onClick={handleClick}
 							alt="Remy Sharp"
-							src={user?.pic}
+							src={currentUser?.pic}
 						/>
 
 						<Menu
@@ -124,7 +146,7 @@ const MenuBar = () => {
 						>
 							<div className="flex flex-col items-start justify-center p-4">
 								<div className="flex">
-									<Avatar src={user?.pic} />
+									<Avatar src={currentUser?.pic} />
 									<h3 className="font-poppins ml-2 font-bold text-xl text-darkBlue">
 										{user?.firstName}
 										{` ${user?.lastName}`}

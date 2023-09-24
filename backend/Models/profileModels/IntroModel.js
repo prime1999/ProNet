@@ -2,22 +2,6 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-// ---------------------------------------- the location schema starts here ----------------------------- //
-
-const LocationSchema = new Schema(
-	{
-		country: {
-			type: String,
-		},
-		city: {
-			type: String,
-		},
-	},
-	{ timestamps: true }
-);
-
-// ---------------------------------------- the location schema ends here ----------------------------- //
-
 // ---------------------------------------- the education schema starts here ----------------------------- //
 
 const EducationSchema = new Schema(
@@ -115,8 +99,7 @@ const ProfileIntroSchema = new Schema(
 			},
 		],
 		location: {
-			type: LocationSchema,
-			strict: "throw",
+			type: String,
 		},
 	},
 	{ timestamps: true }
