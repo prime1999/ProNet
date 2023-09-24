@@ -48,7 +48,7 @@ const createProfileIntro = asyncHandler(async (req, res) => {
 	}
 });
 
-// ------------------------------- function profile of the current user --------------------------- //
+// ------------------------------- function to get profile of the current user --------------------------- //
 const getMyProfileIntro = asyncHandler(async (req, res) => {
 	// check if the user exists in the database
 	const userExist = await User.findById(req.user._id);

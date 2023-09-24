@@ -16,6 +16,22 @@ const getProfileIntro = async (token) => {
 
 	return data;
 };
+// -------------------------------- function to create the user's profile intro -------------------------- //
+const createUserProfile = async (profileData, token) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	};
+
+	const { data } = await axios.post(
+		`${baseUrl()}profile/createProfile/intro`,
+		profileData,
+		config
+	);
+
+	return data;
+};
 
 // -------------------------------- function to update the user's profile intro -------------------------- //
 const updateProfileIntro = async (introUpdates, token) => {
@@ -31,13 +47,12 @@ const updateProfileIntro = async (introUpdates, token) => {
 		config
 	);
 
-	console.log(data);
-
 	return data;
 };
 
 const profileIntroService = {
 	getProfileIntro,
+	createUserProfile,
 	updateProfileIntro,
 };
 

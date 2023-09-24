@@ -1,12 +1,15 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { MdNavigateNext } from "react-icons/md";
 import { MdCancel } from "react-icons/md";
 import { Chip } from "@mui/material";
 import Jobs from "../../miscellaneous/Jobs";
 import NotificationAlert from "../../miscellaneous/NotificationAlert";
 import CitiesAndCountries from "../../miscellaneous/CitiesAndCountries";
+import { addJobProfile } from "../../../features/Profile/JobProfile/JobProfileSlice";
 
 const CreateJobProfile = ({ values }) => {
+	const dispatch = useDispatch();
 	const { jobProfileState, setJobProfileState, nextStep, prevStep } = values;
 
 	// state fot the input values
@@ -198,8 +201,17 @@ const CreateJobProfile = ({ values }) => {
 			}
 		}
 	};
-
 	// ---------------------------------------- functions for the job type ends here ------------------------ //
+
+	const handleCreateProfile = (e) => {
+		const jobData = {
+			jobTitles: JSON.stringify(jobProfileState.jobTitles),
+			jobTypes: JSON.stringify(jobProfileState.jobTypes),
+			jobLocations: JSON.stringify(jobProfileState.jobLocations),
+		};
+		dispatch(addJobProfile(jobData));
+		nextStep();
+	};
 
 	// function to show snack-bar alert
 	const handleShowSnackbar = (severity, message) => {
@@ -345,10 +357,10 @@ const CreateJobProfile = ({ values }) => {
 					<MdNavigateNext />
 				</button>
 				<button
-					onClick={nextStep}
-					className="flex items-center w-20 p-2 duration-500 bg-gradient-to-r from-orange to-pink rounded-md hover:cursor-pointer hover:bg-gradient-to-r hover:from-pink hover:to-orange"
+					onClick={handleCreateProfile}
+					className="flex items-center w-42 p-2 duration-500 bg-gradient-to-r from-orange to-pink rounded-md hover:cursor-pointer hover:bg-gradient-to-r hover:from-pink hover:to-orange"
 				>
-					<p className="mr-2 font-dosis">Next</p>
+					<p className="mr-2 font-dosis">Save and Continue</p>
 					<MdNavigateNext />
 				</button>
 			</div>

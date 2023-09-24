@@ -31,6 +31,28 @@ export const getProfileIntro = createAsyncThunk(
 		}
 	}
 );
+// ----------------------------------- function to create the user's profie intro ----------------------------- //
+export const createUserProfile = createAsyncThunk(
+	"profileIntro/createUserProfile",
+	async (profileData, thunkAPI) => {
+		console.log(123);
+		try {
+			// await on the create user profile intro  function in the profileIntro service component
+			const token = thunkAPI.getState().auth.user.token;
+			return await profileIntroService.createUserProfile(profileData, token);
+		} catch (error) {
+			// assign an error value if there is one in any of the listed error value holders below
+			const message =
+				(error.response &&
+					error.response.data &&
+					error.response.data.message) ||
+				error.message ||
+				error.toString();
+			// return the errror message using the thunkapi rejectwithvalue
+			return thunkAPI.rejectWithValue(message);
+		}
+	}
+);
 
 // ----------------------------------- function to update the user's profie intro ----------------------------- //
 export const updateProfileIntro = createAsyncThunk(
@@ -73,6 +95,20 @@ export const profileIntroSlice = createSlice({
 				state.isSuccess = true;
 			})
 			.addCase(getProfileIntro.rejected, (state, action) => {
+				state.isLoading = false;
+				state.isSuccess = false;
+				state.isError = true;
+				state.message = action.payload;
+			})
+			// for creating the profile intro
+			.addCase(createUserProfile.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(createUserProfile.fulfilled, (state) => {
+				state.isLoading = false;
+				state.isSuccess = true;
+			})
+			.addCase(createUserProfile.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = false;
 				state.isError = true;

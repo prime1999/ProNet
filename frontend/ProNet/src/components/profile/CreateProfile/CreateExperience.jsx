@@ -1,7 +1,16 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { MdNavigateNext } from "react-icons/md";
+import NotificationAlert from "../../miscellaneous/NotificationAlert";
+import { updateProfileIntro } from "../../../features/Profile/ProfileIntro/ProfileIntroSlice";
 
 const CreateExperience = ({ values }) => {
+	const dispatch = useDispatch();
+	// for the snackbar alert
+	const [openAlert, setOpenAlert] = useState(false);
+	const [alertMessage, setAlertMessage] = useState("");
+	const [alertSeverity, setAlertSeverity] = useState("success");
+
 	const { profileIntroState, setProfileIntroState, nextStep, prevStep } =
 		values;
 
@@ -13,13 +22,39 @@ const CreateExperience = ({ values }) => {
 			[e.target.id]: e.target.value,
 		}));
 	};
+
+	const handleCreateProfile = (e) => {
+		e.preventDefault();
+		if (!company || !position || !details || !startDate || !endDate) {
+			handleShowSnackbar("error", "Please fill in all fields");
+		} else {
+			const updatedEducation = {
+				company: profileIntroState.company,
+				position: profileIntroState.position,
+				details: profileIntroState.details,
+				startDate: profileIntroState.startDate,
+				endDate: profileIntroState.endDate,
+			};
+			const introUpdates = {
+				experience: [updatedEducation],
+			};
+			dispatch(updateProfileIntro(introUpdates));
+			nextStep();
+		}
+	};
+	// function to show snack-bar alert
+	const handleShowSnackbar = (severity, message) => {
+		setOpenAlert(true);
+		setAlertSeverity(severity);
+		setAlertMessage(message);
+	};
 	return (
 		<div className="">
 			<div>
 				<h6 className="text-lg font-semibold">
 					Welcome to <span className="font-black text-2xl">ProNet</span>
 				</h6>
-				<h6 className="font-normal font-cour">Add an Education history</h6>
+				<h6 className="font-normal font-cour">Add a Job History</h6>
 			</div>
 			<form className="mt-2">
 				<input
@@ -83,14 +118,20 @@ const CreateExperience = ({ values }) => {
 						<MdNavigateNext />
 					</button>
 					<button
-						onClick={nextStep}
-						className="flex items-center w-20 p-2 duration-500 bg-gradient-to-r from-orange to-pink rounded-md hover:cursor-pointer hover:bg-gradient-to-r hover:from-pink hover:to-orange"
+						onClick={handleCreateProfile}
+						className="flex items-center w-42 p-2 duration-500 bg-gradient-to-r from-orange to-pink rounded-md hover:cursor-pointer hover:bg-gradient-to-r hover:from-pink hover:to-orange"
 					>
-						<p className="mr-2 font-dosis">Next</p>
+						<p className="mr-2 font-dosis">Save and Continue</p>
 						<MdNavigateNext />
 					</button>
 				</div>
 			</form>
+			<NotificationAlert
+				open={openAlert}
+				message={alertMessage}
+				severity={alertSeverity}
+				onClose={() => setOpenAlert(false)}
+			/>
 		</div>
 	);
 };

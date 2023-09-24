@@ -31,6 +31,28 @@ export const getContactInfo = createAsyncThunk(
 	}
 );
 
+// ----------------------------------- function to create the user's contact info ----------------------------- //
+export const createContactInfo = createAsyncThunk(
+	"contactInfo/createContactInfo",
+	async (contactData, thunkAPI) => {
+		try {
+			// await on the create user contact info function in the contact info service component
+			const token = thunkAPI.getState().auth.user.token;
+			return await ContactInfoService.createContactInfo(contactData, token);
+		} catch (error) {
+			// assign an error value if there is one in any of the listed error value holders below
+			const message =
+				(error.response &&
+					error.response.data &&
+					error.response.data.message) ||
+				error.message ||
+				error.toString();
+			// return the errror message using the thunkapi rejectwithvalue
+			return thunkAPI.rejectWithValue(message);
+		}
+	}
+);
+
 // ----------------------------------- function to update the user's contact info ----------------------------- //
 export const updateContactInfo = createAsyncThunk(
 	"contactInfo/updateContactInfo",
@@ -71,6 +93,20 @@ export const contactInfoSlice = createSlice({
 				state.isSuccess = true;
 			})
 			.addCase(getContactInfo.rejected, (state, action) => {
+				state.isLoading = false;
+				state.isSuccess = false;
+				state.isError = true;
+				state.message = action.payload;
+			})
+			// for creating the current user's contact info
+			.addCase(createContactInfo.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(createContactInfo.fulfilled, (state) => {
+				state.isLoading = false;
+				state.isSuccess = true;
+			})
+			.addCase(createContactInfo.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = false;
 				state.isError = true;

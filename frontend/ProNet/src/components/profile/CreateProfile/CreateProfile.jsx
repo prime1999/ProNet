@@ -1,15 +1,14 @@
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 import CreateProfileIntro from "./CreateProfileIntro";
 import CreateContactInfo from "./CreateContactInfo";
 import CreateJobProfile from "./CreateJobProfile";
 import CreateSkillProfile from "./CreateSkillProfile";
-import WelcomeModal from "./WelcomeModal";
 import CreateEducationProfile from "./CreateEducationProfile";
 import CreateExperience from "./CreateExperience";
+import Welcome from "../../Welcome";
 
 const CreateProfile = () => {
-	const [step, setStep] = useState(1);
+	const [step, setStep] = useState(7);
 	const [profileIntroState, setProfileIntroState] = useState({
 		headLine: "",
 		summary: "",
@@ -115,7 +114,7 @@ const CreateProfile = () => {
 				/>
 			);
 		case 7:
-			return <WelcomeModal />;
+			return <Welcome />;
 	}
 };
 

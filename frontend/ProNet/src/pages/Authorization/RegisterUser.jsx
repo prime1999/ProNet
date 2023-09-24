@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-//import { Snackbar, Alert } from "@mui/material";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import logo from "../../assets/images/png/logo.png";
 import VerificationModal from "../../components/Auth/VerificationModal";
-import { reset } from "../../features/Auth/AuthSlice";
 import NotificationAlert from "../../components/miscellaneous/NotificationAlert";
-import CreateProfile from "../../components/profile/CreateProfile/CreateProfile";
 
 const RegisterUser = () => {
-	const [show, setShow] = useState("");
-	const [createProfile, setCreateProfile] = useState(true);
+	const [show, setShow] = useState("register");
 	// state for the phone number value
 	const [value, setValue] = useState("");
 
@@ -122,7 +118,11 @@ const RegisterUser = () => {
 										value={password}
 										onChange={handleChange}
 									/>
-									<VerificationModal value={value} formData={formData}>
+									<VerificationModal
+										setShow={setShow}
+										value={value}
+										formData={formData}
+									>
 										<p>REGISTER</p>
 									</VerificationModal>
 									<Link

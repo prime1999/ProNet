@@ -31,6 +31,28 @@ export const getJobProfile = createAsyncThunk(
 	}
 );
 
+// ----------------------------------- function to create the user's job profile ----------------------------- //
+export const addJobProfile = createAsyncThunk(
+	"JobProfile/addJobProfile",
+	async (jobData, thunkAPI) => {
+		try {
+			// await on the add user job profile  function in the jobProfile service component
+			const token = thunkAPI.getState().auth.user.token;
+			return await JobProfileService.addJobProfile(jobData, token);
+		} catch (error) {
+			// assign an error value if there is one in any of the listed error value holders below
+			const message =
+				(error.response &&
+					error.response.data &&
+					error.response.data.message) ||
+				error.message ||
+				error.toString();
+			// return the errror message using the thunkapi rejectwithvalue
+			return thunkAPI.rejectWithValue(message);
+		}
+	}
+);
+
 // ----------------------------------- function to update the user's job profile ----------------------------- //
 export const updateJobProfile = createAsyncThunk(
 	"JobProfile/updateJobProfile",
@@ -71,6 +93,20 @@ export const JobProfileSlice = createSlice({
 				state.isSuccess = true;
 			})
 			.addCase(getJobProfile.rejected, (state, action) => {
+				state.isLoading = false;
+				state.isSuccess = false;
+				state.isError = true;
+				state.message = action.payload;
+			})
+			// for creating the current user's job profile
+			.addCase(addJobProfile.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(addJobProfile.fulfilled, (state) => {
+				state.isLoading = false;
+				state.isSuccess = true;
+			})
+			.addCase(addJobProfile.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = false;
 				state.isError = true;

@@ -1,13 +1,25 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import CitiesAndCountries from "../../miscellaneous/CitiesAndCountries";
 import { MdNavigateNext } from "react-icons/md";
+import NotificationAlert from "../../miscellaneous/NotificationAlert";
+import { createUserProfile } from "../../../features/Profile/ProfileIntro/ProfileIntroSlice";
 
 const CreateProfileIntro = ({ values }) => {
+	const dispatch = useDispatch();
+	// for the snackbar alert
+	console.log(values);
 	const { profileIntroState, setProfileIntroState, nextStep, prevStep } =
 		values;
+	console.log(profileIntroState);
 	// for the location selection
 	const [locations, setLocations] = useState(CitiesAndCountries());
 	const [filterLocations, setFilteredLocations] = useState(null);
+
+	// for the snackbar alert
+	const [openAlert, setOpenAlert] = useState(false);
+	const [alertMessage, setAlertMessage] = useState("");
+	const [alertSeverity, setAlertSeverity] = useState("success");
 
 	const { headLine, summary, location } = profileIntroState;
 
@@ -43,6 +55,32 @@ const CreateProfileIntro = ({ values }) => {
 			[e.target.id]: e.target.value,
 		}));
 	};
+
+	const handleCreateProfile = (e) => {
+		e.preventDefault();
+		if (!headLine || !location) {
+			handleShowSnackbar("error", "Please fill in all required fields");
+		} else {
+			const profileData = {
+				headLine: profileIntroState.headLine,
+				summary: profileIntroState.summary,
+				location: profileIntroState.location,
+				skills: [],
+				education: [],
+				experience: [],
+			};
+			dispatch(createUserProfile(profileData));
+			nextStep();
+		}
+	};
+
+	// function to show snack-bar alert
+	const handleShowSnackbar = (severity, message) => {
+		setOpenAlert(true);
+		setAlertSeverity(severity);
+		setAlertMessage(message);
+	};
+
 	return (
 		<div className="">
 			<div>
@@ -96,7 +134,7 @@ const CreateProfileIntro = ({ values }) => {
 				</div>
 				<div className="flex items-end justify-end mt-4">
 					<button
-						onClick={nextStep}
+						onClick={handleCreateProfile}
 						className="flex items-center w-20 p-2 duration-500 bg-gradient-to-r from-orange to-pink rounded-md hover:cursor-pointer hover:bg-gradient-to-r hover:from-pink hover:to-orange"
 					>
 						<p className="mr-2 font-dosis">Next</p>
@@ -104,6 +142,12 @@ const CreateProfileIntro = ({ values }) => {
 					</button>
 				</div>
 			</form>
+			<NotificationAlert
+				open={openAlert}
+				message={alertMessage}
+				severity={alertSeverity}
+				onClose={() => setOpenAlert(false)}
+			/>
 		</div>
 	);
 };

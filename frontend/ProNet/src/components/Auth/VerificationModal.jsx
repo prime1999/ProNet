@@ -11,7 +11,7 @@ import {
 	verifyCode,
 } from "../../features/Auth/AuthSlice";
 
-const VerificationModal = ({ children, value, formData }) => {
+const VerificationModal = ({ children, value, formData, setShow }) => {
 	// for the snackbar alert
 	const [openAlert, setOpenAlert] = useState(false);
 	const [alertMessage, setAlertMessage] = useState("");
@@ -48,6 +48,7 @@ const VerificationModal = ({ children, value, formData }) => {
 				phoneNumber: value,
 			};
 			dispatch(registerUser(data));
+			setShow("");
 		}
 	}, [verify, dispatch]);
 

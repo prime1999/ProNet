@@ -1,7 +1,15 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { MdNavigateNext } from "react-icons/md";
+import NotificationAlert from "../../miscellaneous/NotificationAlert";
+import { createContactInfo } from "../../../features/Profile/ContactInfo/ContactInfoSlice";
 
 const CreateContactInfo = ({ values }) => {
+	const dispatch = useDispatch();
+	// for the snackbar alert
+	const [openAlert, setOpenAlert] = useState(false);
+	const [alertMessage, setAlertMessage] = useState("");
+	const [alertSeverity, setAlertSeverity] = useState("success");
 	const { contactProfileState, setContactProfileState, nextStep, prevStep } =
 		values;
 
@@ -12,6 +20,43 @@ const CreateContactInfo = ({ values }) => {
 			...prevState,
 			[e.target.id]: e.target.value,
 		}));
+	};
+
+	const handleCreateProfile = (e) => {
+		e.preventDefault();
+
+		if (website && !isValidWebsite(website)) {
+			handleShowSnackbar("error", "Please enter a valid url");
+		}
+
+		if (!address) {
+			handleShowSnackbar("error", "Please fill in required fields");
+		}
+		const createContact = {
+			address: contactProfileState.address,
+			birthDay: contactProfileState.birthDay,
+			website: contactProfileState.website,
+		};
+
+		dispatch(createContactInfo(createContact));
+		nextStep();
+	};
+
+	// function to check if the website is a valid website url
+	const isValidWebsite = (inputText) => {
+		// Regular expression pattern for a website address validation
+		const websitePattern =
+			/^(https?:\/\/|www\.)[A-Za-z0-9-]+\.[A-Za-z]{2,}(\.[A-Za-z]{2,})?$/;
+
+		// Test if the inputText matches the pattern
+		return websitePattern.test(inputText);
+	};
+
+	// function to show snack-bar alert
+	const handleShowSnackbar = (severity, message) => {
+		setOpenAlert(true);
+		setAlertSeverity(severity);
+		setAlertMessage(message);
 	};
 	return (
 		<div className="">
@@ -34,7 +79,7 @@ const CreateContactInfo = ({ values }) => {
 				/>
 				<input
 					className="w-full h-[40px] rounded-md py-2 mt-4 px-4 bg-transparent border border-gray-200 focus:outline-none"
-					placeholder="Position"
+					placeholder="Website"
 					type="text"
 					id="website"
 					value={website}
@@ -60,14 +105,20 @@ const CreateContactInfo = ({ values }) => {
 						<MdNavigateNext />
 					</button>
 					<button
-						onClick={nextStep}
-						className="flex items-center w-20 p-2 duration-500 bg-gradient-to-r from-orange to-pink rounded-md hover:cursor-pointer hover:bg-gradient-to-r hover:from-pink hover:to-orange"
+						onClick={handleCreateProfile}
+						className="flex items-center w-42 p-2 duration-500 bg-gradient-to-r from-orange to-pink rounded-md hover:cursor-pointer hover:bg-gradient-to-r hover:from-pink hover:to-orange"
 					>
-						<p className="mr-2 font-dosis">Next</p>
+						<p className="mr-2 font-dosis">Save and Continue</p>
 						<MdNavigateNext />
 					</button>
 				</div>
 			</form>
+			<NotificationAlert
+				open={openAlert}
+				message={alertMessage}
+				severity={alertSeverity}
+				onClose={() => setOpenAlert(false)}
+			/>
 		</div>
 	);
 };

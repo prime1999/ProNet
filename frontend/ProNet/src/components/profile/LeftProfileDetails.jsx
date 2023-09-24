@@ -76,9 +76,7 @@ const LeftProfileDetails = ({ intro }) => {
 									<p className="text-gray-400 font-semibold text-lg">
 										Location
 									</p>
-									<p className="font-semibold">
-										{intro?.location.city}, {` ${intro?.location.country}`}
-									</p>
+									<p className="font-semibold">{intro?.location}</p>
 								</div>
 								<div>
 									<ContactInfoModal>

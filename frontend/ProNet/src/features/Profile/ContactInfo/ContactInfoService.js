@@ -15,6 +15,22 @@ const getContactInfo = async (token) => {
 
 	return data;
 };
+// -------------------------------- function to create the current user's contact info ------------------------- //
+const createContactInfo = async (contactData, token) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	};
+
+	const { data } = await axios.post(
+		`${API_URL}/createProfile/contact`,
+		contactData,
+		config
+	);
+
+	return data;
+};
 
 // -------------------------------- function to update the current user's contact info ------------------------- //
 const updateContactInfo = async (contactUpdates, token) => {
@@ -35,6 +51,7 @@ const updateContactInfo = async (contactUpdates, token) => {
 
 const ContactInfoService = {
 	getContactInfo,
+	createContactInfo,
 	updateContactInfo,
 };
 export default ContactInfoService;
