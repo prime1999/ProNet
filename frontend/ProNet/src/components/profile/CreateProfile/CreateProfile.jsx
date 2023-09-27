@@ -8,7 +8,7 @@ import CreateExperience from "./CreateExperience";
 import Welcome from "../../Welcome";
 
 const CreateProfile = () => {
-	const [step, setStep] = useState(7);
+	const [step, setStep] = useState(1);
 	const [profileIntroState, setProfileIntroState] = useState({
 		headLine: "",
 		summary: "",

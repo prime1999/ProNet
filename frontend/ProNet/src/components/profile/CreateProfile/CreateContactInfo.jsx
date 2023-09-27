@@ -2,7 +2,10 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { MdNavigateNext } from "react-icons/md";
 import NotificationAlert from "../../miscellaneous/NotificationAlert";
-import { createContactInfo } from "../../../features/Profile/ContactInfo/ContactInfoSlice";
+import {
+	reset,
+	createContactInfo,
+} from "../../../features/Profile/ContactInfo/ContactInfoSlice";
 
 const CreateContactInfo = ({ values }) => {
 	const dispatch = useDispatch();
@@ -39,6 +42,7 @@ const CreateContactInfo = ({ values }) => {
 		};
 
 		dispatch(createContactInfo(createContact));
+		dispatch(reset());
 		nextStep();
 	};
 

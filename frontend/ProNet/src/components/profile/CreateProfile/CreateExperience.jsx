@@ -2,7 +2,10 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { MdNavigateNext } from "react-icons/md";
 import NotificationAlert from "../../miscellaneous/NotificationAlert";
-import { updateProfileIntro } from "../../../features/Profile/ProfileIntro/ProfileIntroSlice";
+import {
+	reset,
+	updateProfileIntro,
+} from "../../../features/Profile/ProfileIntro/ProfileIntroSlice";
 
 const CreateExperience = ({ values }) => {
 	const dispatch = useDispatch();
@@ -39,6 +42,7 @@ const CreateExperience = ({ values }) => {
 				experience: [updatedEducation],
 			};
 			dispatch(updateProfileIntro(introUpdates));
+			dispatch(reset());
 			nextStep();
 		}
 	};

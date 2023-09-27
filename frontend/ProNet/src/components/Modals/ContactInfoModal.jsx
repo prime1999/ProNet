@@ -30,12 +30,17 @@ const ContactInfoModal = ({ children }) => {
 
 	useEffect(() => {
 		dispatch(getContactInfo());
-		console.log(fetchContactsAgain);
 	}, [fetchContactsAgain]);
 
 	useEffect(() => {
 		if (isSuccess) {
-			setContact(contactInfo[0]);
+			// check if the contact info is an array
+			// if it is then
+			if (Array.isArray(contactInfo)) {
+				setContact(contactInfo[0]);
+			} else {
+				setContact(contactInfo);
+			}
 		}
 		dispatch(reset());
 	}, [isSuccess]);

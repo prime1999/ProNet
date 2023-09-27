@@ -66,7 +66,7 @@ const LeftProfileDetails = ({ intro }) => {
 								{user?.firstName}
 								{` ${user?.lastName}`}
 							</h4>
-							<p className="font-cour text-lg font-semibold text-gray-500">
+							<p className="font-cour text-center text-lg font-semibold text-gray-500">
 								{intro?.headLine}
 							</p>
 						</div>

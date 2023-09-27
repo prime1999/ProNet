@@ -6,7 +6,10 @@ import { Chip } from "@mui/material";
 import Jobs from "../../miscellaneous/Jobs";
 import NotificationAlert from "../../miscellaneous/NotificationAlert";
 import CitiesAndCountries from "../../miscellaneous/CitiesAndCountries";
-import { addJobProfile } from "../../../features/Profile/JobProfile/JobProfileSlice";
+import {
+	reset,
+	addJobProfile,
+} from "../../../features/Profile/JobProfile/JobProfileSlice";
 
 const CreateJobProfile = ({ values }) => {
 	const dispatch = useDispatch();
@@ -210,6 +213,7 @@ const CreateJobProfile = ({ values }) => {
 			jobLocations: JSON.stringify(jobProfileState.jobLocations),
 		};
 		dispatch(addJobProfile(jobData));
+		dispatch(reset());
 		nextStep();
 	};
 

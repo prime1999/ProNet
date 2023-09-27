@@ -3,7 +3,10 @@ import { useDispatch } from "react-redux";
 import CitiesAndCountries from "../../miscellaneous/CitiesAndCountries";
 import { MdNavigateNext } from "react-icons/md";
 import NotificationAlert from "../../miscellaneous/NotificationAlert";
-import { createUserProfile } from "../../../features/Profile/ProfileIntro/ProfileIntroSlice";
+import {
+	reset,
+	createUserProfile,
+} from "../../../features/Profile/ProfileIntro/ProfileIntroSlice";
 
 const CreateProfileIntro = ({ values }) => {
 	const dispatch = useDispatch();
@@ -70,6 +73,7 @@ const CreateProfileIntro = ({ values }) => {
 				experience: [],
 			};
 			dispatch(createUserProfile(profileData));
+			dispatch(reset());
 			nextStep();
 		}
 	};

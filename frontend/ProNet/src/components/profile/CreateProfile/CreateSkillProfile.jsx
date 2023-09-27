@@ -5,6 +5,10 @@ import { MdCancel } from "react-icons/md";
 import { Chip } from "@mui/material";
 import SkillsList from "../../miscellaneous/SkillsList";
 import { addJobProfile } from "../../../features/Profile/JobProfile/JobProfileSlice";
+import {
+	reset,
+	updateProfileIntro,
+} from "../../../features/Profile/ProfileIntro/ProfileIntroSlice";
 
 const CreateSkillProfile = ({ values }) => {
 	const dispatch = useDispatch();
@@ -35,14 +39,14 @@ const CreateSkillProfile = ({ values }) => {
 
 	// function to add the skill to the list of skills to the DB
 	const handleAddSkillTitle = (event) => {
-		// check if the skill inputted is part of the skill lists in th eguideline
+		// check if the skill inputted is part of the skill lists in the guideline
 		const isCorrect = mySkills.some(
 			(skill) => skill.toLowerCase() === skill.toLowerCase()
 		);
 
 		// check if the skill is not already been choosen by the user
 		const skillExist = skills.some(
-			(skill) => skill.toLowerCase() === skill.toLowerCase()
+			(s) => s.toLowerCase() == skill.toLowerCase()
 		);
 
 		if (event.key === "Enter") {
@@ -53,6 +57,13 @@ const CreateSkillProfile = ({ values }) => {
 					skills: [...skills, skill],
 				}));
 				setSkill("");
+			} else {
+				console.log({
+					mySkills,
+					skills,
+					isCorrect,
+					skillExist,
+				});
 			}
 		}
 	};
@@ -69,7 +80,12 @@ const CreateSkillProfile = ({ values }) => {
 	};
 
 	const handleCreateProfile = () => {
-		dispatch(addJobProfile());
+		const introUpdates = {
+			skills: skillProfileState.skills,
+		};
+		dispatch(updateProfileIntro(introUpdates));
+		dispatch(reset());
+		nextStep();
 	};
 
 	return (

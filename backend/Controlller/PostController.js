@@ -1,10 +1,11 @@
-const asyncHander = require("express-async-handler");
+const asyncHandler = require("express-async-handler");
 const User = require("../Models/UserModel");
 const Post = require("../Models/PostModel");
+const IntroSchema = require("../Models/profileModels/IntroModel");
 const Comment = require("../Models/CommentModel");
 
 // ----------------------------------- function to create a post ----------------------------------- //
-const createPost = asyncHander(async (req, res) => {
+const createPost = asyncHandler(async (req, res) => {
 	const { content, media } = req.body;
 
 	// check if the user exist
@@ -51,7 +52,7 @@ const createPost = asyncHander(async (req, res) => {
 });
 
 // ---------------------------- function to get a post --------------------------------- //
-const getPost = asyncHander(async (req, res) => {
+const getPost = asyncHandler(async (req, res) => {
 	// get the user exist
 	const userExist = await User.findById(req.user._id);
 	// check if the user exist
@@ -85,7 +86,7 @@ const getPost = asyncHander(async (req, res) => {
 });
 
 // ---------------------------- function to get all of a user's post --------------------------------- //
-const getPosts = asyncHander(async (req, res) => {
+const getPosts = asyncHandler(async (req, res) => {
 	// get the user exist
 	const userExist = await User.findById(req.user._id);
 	// check if the user exist
@@ -118,8 +119,46 @@ const getPosts = asyncHander(async (req, res) => {
 	}
 });
 
+// --------------------------------- function to get posts for a user's feed ------------------------- //
+const getPostFeed = asyncHandler(async (req, res) => {
+	// get the user exist
+	const userExist = await User.findById(req.user._id);
+	// check if the user exist
+	if (!userExist) {
+		// if the user doesn't exist
+		throw new Error("User Not Authorised");
+	}
+	// if the user exist, then
+	// make a try-catch block
+	try {
+		let userProfile = await IntroSchema.find({ user: req.user._id });
+
+		if (!userProfile) {
+			throw new Error("User not Authorised");
+		}
+
+		console.log(userProfile[0].skills);
+
+		let feeds = await Post.find(
+			{
+				$text: {
+					$search: `${userProfile.headLine} ${userProfile[0].skills.join(" ")}`, // Concatenate and search user's "headLine" and skills
+				},
+			},
+			{ score: { $meta: "textScore" } }
+		);
+		console.log(feeds.length);
+		res.status(200);
+		res.json(feeds);
+	} catch (error) {
+		console.log(error);
+		res.status(400);
+		throw new Error(error.message);
+	}
+});
+
 // ---------------------------- function to delete a user's post --------------------------------- //
-const deletePost = asyncHander(async (req, res) => {
+const deletePost = asyncHandler(async (req, res) => {
 	// get the user exist
 	const userExist = await User.findById(req.user._id);
 	// check if the user exist
@@ -145,4 +184,4 @@ const deletePost = asyncHander(async (req, res) => {
 	}
 });
 
-module.exports = { createPost, getPost, getPosts, deletePost };
+module.exports = { createPost, getPost, getPosts, getPostFeed, deletePost };

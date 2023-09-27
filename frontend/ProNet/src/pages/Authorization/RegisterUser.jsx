@@ -6,6 +6,7 @@ import PhoneInput from "react-phone-number-input";
 import logo from "../../assets/images/png/logo.png";
 import VerificationModal from "../../components/Auth/VerificationModal";
 import NotificationAlert from "../../components/miscellaneous/NotificationAlert";
+import CreateProfile from "../../components/profile/CreateProfile/CreateProfile";
 
 const RegisterUser = () => {
 	const [show, setShow] = useState("register");
@@ -16,8 +17,6 @@ const RegisterUser = () => {
 	const [openAlert, setOpenAlert] = useState(false);
 	const [alertMessage, setAlertMessage] = useState("");
 	const [alertSeverity, setAlertSeverity] = useState("success");
-	const navigate = useNavigate();
-	const dispatch = useDispatch();
 
 	// check the sentCode and verify variable in the redux store
 	const { sentCode, verify, isSuccess } = useSelector((state) => state.auth);

@@ -124,6 +124,7 @@ const VerificationModal = ({ children, value, formData, setShow }) => {
 									className="w-full h-[40px] font-dosis tracking-widest text-lg my-4 rounded-md py-2 px-4 bg-transparent border border-gray-200 focus:outline-none"
 									type="number"
 									placeholder="Enter code"
+									autoFocus
 								/>
 							</form>
 						</div>
