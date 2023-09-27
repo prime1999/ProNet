@@ -9,7 +9,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import RegisterUser from "./pages/Authorization/RegisterUser";
 import LogIn from "./pages/Authorization/LogIn";
-import Dashoboard from "./pages/NewFeed/Dashboard";
 import Home from "./pages/LandingPage/Home";
 import RootLayout from "./Layouts/RootLayout/RootLayout";
 import Profile from "./pages/profile/Profile";
@@ -19,25 +18,22 @@ import Dashboard from "./pages/NewFeed/Dashboard";
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<>
-			// ------------------------- route for the app ---------------------------
-			//
+			{/* // ------------------------- route for the app --------------------------- */}
 			<Route path="/" element={<RootLayout />}>
 				<Route path="/" element={<PrivateRoute />}>
-					<Route path="index" element={<Dashboard />} />
+					<Route index element={<Dashboard />} />
 					<Route path="/profile" element={<PrivateRoute />}>
 						<Route path="/profile" element={<Profile />} />
 					</Route>
 				</Route>
 			</Route>
-			// route for the landing page
+			{/* // route for the landing page */}
 			<Route path="/home" element={<Home />} />
-			// -------------------------- for authrorization --------------------- //
-			// route for register users page
+			{/* // -------------------------- for authrorization --------------------- // */}
+			{/* // route for register users page */}
 			<Route path="/register" element={<RegisterUser />} />
-			// route for register users page
+			{/* // route for register users page */}
 			<Route path="/login" element={<LogIn />} />
-			// route for register users pagedashboard
-			<Route path="/dashboard" element={<Dashoboard />} />
 		</>
 	)
 );

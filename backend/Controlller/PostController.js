@@ -131,27 +131,39 @@ const getPostFeed = asyncHandler(async (req, res) => {
 	// if the user exist, then
 	// make a try-catch block
 	try {
+		// find the profile of the current user
 		let userProfile = await IntroSchema.find({ user: req.user._id });
-
+		// check if the user's profile exist
 		if (!userProfile) {
+			// if it doesn't then, throw an error
 			throw new Error("User not Authorised");
 		}
-
-		console.log(userProfile[0].skills);
-
+		// find the posts to send to the user's feed based on the user's:
 		let feeds = await Post.find(
 			{
 				$text: {
+					// headLine and skills by search for the keywords in the headlIne and skills write ups
 					$search: `${userProfile.headLine} ${userProfile[0].skills.join(" ")}`, // Concatenate and search user's "headLine" and skills
 				},
 			},
+			// show the posts in order of there score(how musch they match the user's profile)
 			{ score: { $meta: "textScore" } }
 		);
 		console.log(feeds.length);
+		// return the feeds with the status code of 200
 		res.status(200);
-		res.json(feeds);
+		// if the feeds exist i.e there is a post that matches the user's profie, then
+		if (feeds) {
+			// send the feeds to the frontend
+			res.json(feeds);
+			// but there is not a post that matches the user's profile then
+		} else {
+			// get al available post
+			let feed = await Post.find();
+			// and send them to the frontend
+			res.json(feed);
+		}
 	} catch (error) {
-		console.log(error);
 		res.status(400);
 		throw new Error(error.message);
 	}

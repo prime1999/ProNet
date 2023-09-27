@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FiEdit2 } from "react-icons/fi";
 import ProfileBody from "../../components/profile/ProfileBody";
 import {
 	getProfileIntro,
@@ -30,7 +29,6 @@ const Profile = () => {
 	useEffect(() => {
 		// check if the isSuccess variable from the redux store is true (that is the getProfileIntro was fulfilled)
 		if (isSuccess) {
-			console.log(profileIntro);
 			if (Array.isArray(profileIntro)) {
 				setIntro(profileIntro[0]);
 			} else {
