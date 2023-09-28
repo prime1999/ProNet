@@ -43,19 +43,27 @@ const LeftComponent = ({ intro }) => {
 					<div className="w-full mt-4">
 						<Link className="flex items-center text-sm my-2">
 							<MdGroups2 className="mr-2 text-lg text-orange" />{" "}
-							<p className="text-gray-500">React developers</p>
+							<p className="text-gray-500 duration-300 hover:ml-2">
+								React developers
+							</p>
 						</Link>
-						<Link className="flex items-center text-sm my-2">
+						<Link className="flex items-center text-sm my-4">
 							<MdGroups2 className="mr-2 text-lg text-orange" />{" "}
-							<p className="text-gray-500">React developers</p>
+							<p className="text-gray-500 duration-300 hover:ml-2">
+								React developers
+							</p>
 						</Link>
-						<Link className="flex items-center text-sm my-2">
+						<Link className="flex items-center text-sm my-4">
 							<MdGroups2 className="mr-2 text-lg text-orange" />{" "}
-							<p className="text-gray-500">React developers</p>
+							<p className="text-gray-500 duration-300 hover:ml-2">
+								React developers
+							</p>
 						</Link>
-						<Link className="flex items-center text-sm my-2">
+						<Link className="flex items-center text-sm my-4">
 							<MdGroups2 className="mr-2 text-lg text-orange" />{" "}
-							<p className="text-gray-500">React developers</p>
+							<p className="text-gray-500 duration-300 hover:ml-2">
+								React developers
+							</p>
 						</Link>
 						<Link className="text-sm mt-4 text-orange duration-500 hover:underline">
 							See All

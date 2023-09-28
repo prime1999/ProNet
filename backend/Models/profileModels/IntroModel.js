@@ -105,4 +105,7 @@ const ProfileIntroSchema = new Schema(
 	{ timestamps: true }
 );
 
+// Create a text index on the 'headLine' field
+ProfileIntroSchema.index({ headLine: "text", summary: "text", skills: "text" });
+
 module.exports = mongoose.model("IntroSchema", ProfileIntroSchema);

@@ -1,7 +1,50 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../Models/UserModel");
+const IntroSchema = require("../Models/profileModels/IntroModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
+// ----------------------------- function to get Users with same interest --------------------------- //
+const getPeopleWithSameInterest = asyncHandler(async (req, res) => {
+	// try check the current user in the DB,
+	const userExist = await User.findOne({ _id: req.user._id });
+	// then check if the user exist
+	if (!userExist) {
+		// then throw an error
+		throw new Error("Not Authorized");
+	}
+	try {
+		// if the user does exist
+		// get the user's profile from the DB
+		const userProfile = await IntroSchema.find({ user: req.user._id });
+		if (!userProfile) {
+			throw new Error("User Not Authorized");
+		}
+		const details = {
+			headLine: userProfile[0].headLine,
+			summary: userProfile[0].summary,
+		};
+		// find the posts to send to the user's feed based on the user's:
+		let suggestions = await IntroSchema.find(
+			{
+				$text: {
+					// headLine and skills by search for the keywords in the headlIne and skills write ups
+					$search: `${userProfile.headLine} ${userProfile[0].skills.join(
+						" "
+					)} ${userProfile[0].summary}`, // Concatenate and search user's "headLine", "summary" and skills
+				},
+			},
+			// show the users in order of there score(how musch they match the user's profile)
+			{ score: { $meta: "textScore" } }
+		);
+		console.log(suggestions.length);
+		res.json(suggestions);
+	} catch (error) {
+		// if there is an error in the try block
+		res.status(400);
+		throw new Error(error.message);
+	}
+});
 
 // ----------------------------- function to create a user --------------------------- //
 const registerUser = asyncHandler(async (req, res) => {
@@ -149,4 +192,9 @@ const generateToken = (_id) => {
 	return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: "5d" });
 };
 
-module.exports = { registerUser, logUserIn, updateUser };
+module.exports = {
+	registerUser,
+	logUserIn,
+	updateUser,
+	getPeopleWithSameInterest,
+};

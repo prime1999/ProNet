@@ -149,7 +149,6 @@ const getPostFeed = asyncHandler(async (req, res) => {
 			// show the posts in order of there score(how musch they match the user's profile)
 			{ score: { $meta: "textScore" } }
 		);
-		console.log(feeds.length);
 		// return the feeds with the status code of 200
 		res.status(200);
 		// if the feeds exist i.e there is a post that matches the user's profie, then
