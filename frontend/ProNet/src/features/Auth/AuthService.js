@@ -13,8 +13,6 @@ const registerUser = async (userData) => {
 		localStorage.setItem("user", JSON.stringify(data));
 	}
 
-	console.log(data);
-
 	return data;
 };
 
@@ -28,6 +26,19 @@ const logUserIn = async (userData) => {
 		// save the data gotten to local storage
 		localStorage.setItem("user", JSON.stringify(data));
 	}
+
+	return data;
+};
+// ----------------------------------- function to get people with same interest ------------------------ //
+const getPeopleWithSameInterest = async (token) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	};
+	// send the request to the backend
+	const { data } = await axios.get(`${API_URL}/user/getPeople`, config);
+
 	console.log(data);
 
 	return data;
@@ -43,19 +54,18 @@ const sendCode = async (phone) => {
 
 // ----------------------------------- function to verify inputed code ------------------------ //
 const verifyCode = async (code) => {
-	//console.log(code);
 	// send the request to the backend
 	const { data } = await axios.post(`${API_URL}/verifyCode`, code);
-	console.log(data);
 	return data;
 };
 
-// ----------------------------------- function to lo user out ------------------------ //
+// ----------------------------------- function to log user out ------------------------ //
 const logUserOut = async () => {
 	localStorage.removeItem("user");
 };
 const authService = {
 	registerUser,
+	getPeopleWithSameInterest,
 	sendCode,
 	verifyCode,
 	logUserIn,

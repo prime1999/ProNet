@@ -8,10 +8,10 @@ import {
 import { Grid } from "@mui/material";
 import LeftComponent from "../../components/NewFeed/LeftComponent";
 import ComponentLoader from "../../components/Spinner/ComponentLoader";
+import RightComponent from "../../components/NewFeed/RightComponent";
 
 const Dashboard = () => {
 	const [intro, setIntro] = useState(null);
-	const [fetchProfileIntroAgain, setFetchProfileIntroAgain] = useState(false);
 	// init the dispatch function
 	const dispatch = useDispatch();
 
@@ -57,7 +57,7 @@ const Dashboard = () => {
 						<div className="bg-red-500">xs=6 md=4</div>
 					</Grid>
 					<Grid item xs={6} md={3}>
-						<div className="bg-red-500">xs=6 md=4</div>
+						<RightComponent />
 					</Grid>
 				</Grid>
 			</div>

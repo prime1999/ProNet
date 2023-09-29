@@ -20,25 +20,38 @@ const getPeopleWithSameInterest = asyncHandler(async (req, res) => {
 		if (!userProfile) {
 			throw new Error("User Not Authorized");
 		}
-		const details = {
-			headLine: userProfile[0].headLine,
-			summary: userProfile[0].summary,
-		};
+
 		// find the posts to send to the user's feed based on the user's:
 		let suggestions = await IntroSchema.find(
 			{
 				$text: {
-					// headLine and skills by search for the keywords in the headlIne and skills write ups
+					// headLine, summary and skills by search for the keywords in the headlIne, summary and skills write ups
 					$search: `${userProfile.headLine} ${userProfile[0].skills.join(
 						" "
 					)} ${userProfile[0].summary}`, // Concatenate and search user's "headLine", "summary" and skills
 				},
+				user: { $ne: req.user._id },
 			},
-			// show the users in order of there score(how musch they match the user's profile)
+			// show the users in order of there score(how much they match the user's profile)
 			{ score: { $meta: "textScore" } }
 		);
-		console.log(suggestions.length);
-		res.json(suggestions);
+		// init a variable with an empty array
+		const usersSuggested = [];
+
+		// map through the suggestions gotten
+		suggestions.map((suggestion) => {
+			// get the user's name, headLine and pic, and stote them in a variable
+			const user = {
+				name: `${suggestion.firstName} ${suggestion.lastName}`,
+				headLine: suggestion.headLine,
+				pic: suggestion.pic,
+			};
+			// then pus hthe variable to the usersSuggested array
+			usersSuggested.push(user);
+		});
+		// send the suggested users to the frontend
+		res.status(200);
+		res.json(usersSuggested);
 	} catch (error) {
 		// if there is an error in the try block
 		res.status(400);

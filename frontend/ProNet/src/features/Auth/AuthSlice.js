@@ -6,6 +6,7 @@ let user = JSON.parse(localStorage.getItem("user"));
 const initialState = {
 	user: user ? user : null,
 	users: null,
+	people: null,
 	verify: null,
 	sentCode: null,
 	isLoading: false,
@@ -43,6 +44,28 @@ export const logUserIn = createAsyncThunk(
 		try {
 			// await on the log in user  function in the auth service component
 			return await authService.logUserIn(userData);
+		} catch (error) {
+			// assign an error value if there is one in any of the listed error value holders below
+			const message =
+				(error.response &&
+					error.response.data &&
+					error.response.data.message) ||
+				error.message ||
+				error.toString();
+			// return the errror message using the thunkapi rejectwithvalue
+			return thunkAPI.rejectWithValue(message);
+		}
+	}
+);
+
+// ----------------------------------- function to get people with same interest ----------------------------- //
+export const getPeopleWithSameInterest = createAsyncThunk(
+	"auth/getPeople",
+	async (_, thunkAPI) => {
+		try {
+			// await on the getPeopleWithSameInterest  function in the auth service component
+			const token = thunkAPI.getState().auth.user.token;
+			return await authService.getPeopleWithSameInterest(token);
 		} catch (error) {
 			// assign an error value if there is one in any of the listed error value holders below
 			const message =
@@ -137,6 +160,21 @@ export const AuthSlice = createSlice({
 				state.isSuccess = true;
 			})
 			.addCase(logUserIn.rejected, (state, action) => {
+				state.isLoading = false;
+				state.isSuccess = false;
+				state.isError = true;
+				state.message = action.payload;
+			})
+			// for getting people with same interest
+			.addCase(getPeopleWithSameInterest.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(getPeopleWithSameInterest.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.people = action.payload;
+				state.isSuccess = true;
+			})
+			.addCase(getPeopleWithSameInterest.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = false;
 				state.isError = true;
