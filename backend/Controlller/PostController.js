@@ -66,13 +66,15 @@ const getPost = asyncHandler(async (req, res) => {
 		// find the post based of its id in the request params
 		let post = await Post.findById(req.params.postId)
 			// fill the likes array with the users that liked the post
-			.populate("likes", "-password");
+			.populate("likes", "-password")
+			.populate("comments");
 
 		// fiil the user details of the comment ection
 		post = await User.populate(post, {
 			path: "comments.author",
 			select: "name, pic, email",
 		});
+
 		// if the post was found then send it to the frontend
 		if (post) {
 			res.status(201);
@@ -100,12 +102,17 @@ const getPosts = asyncHandler(async (req, res) => {
 		// find the post based of its id in the request params
 		let posts = await Post.find({ author: req.params.authorId })
 			// fill the likes array with the users that liked the posts
-			.populate("likes", "-password");
+			.populate("comments")
+			.populate("likes", "-password")
+			.populate({
+				path: "author",
+				select: "firstName lastName pic email",
+			});
 
-		// fiil the user details of the comment ection
+		// // fiil the user details of the comment ection
 		posts = await User.populate(posts, {
 			path: "comments.author",
-			select: "name, pic, email",
+			select: "firstName lastName pic email",
 		});
 		// if the posts was found then send it to the frontend
 		if (posts) {

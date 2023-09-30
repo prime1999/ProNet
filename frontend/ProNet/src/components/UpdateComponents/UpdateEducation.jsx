@@ -27,6 +27,7 @@ const UpdateEducation = ({ intro, education, children }) => {
 			...prevState,
 			[e.target.id]: e.target.value,
 		}));
+		console.log(toUpdateEducation);
 	};
 	const updateEducation = () => {
 		if (!name || !fieldOfStudy || !degree) {
@@ -92,7 +93,7 @@ const UpdateEducation = ({ intro, education, children }) => {
 								<input
 									className="w-full border rounded-md p-2 my-2 focus:outline-none"
 									type="text"
-									id="fieldToStudy"
+									id="fieldOfStudy"
 									onChange={handleChange}
 									value={fieldOfStudy}
 								/>
