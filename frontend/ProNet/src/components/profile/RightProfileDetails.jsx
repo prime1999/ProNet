@@ -7,7 +7,7 @@ const RightProfileDetails = ({ intro }) => {
 
 	return (
 		<>
-			<div className="relative top-12 w-full xl:top-96 ">
+			<div className="relative w-full top-12 ">
 				<div>
 					<div>
 						<ul className="flex items-center font-semibold text-gray-400">

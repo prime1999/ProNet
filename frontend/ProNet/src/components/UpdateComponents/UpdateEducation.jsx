@@ -68,7 +68,7 @@ const UpdateEducation = ({ intro, education, children }) => {
 					}}
 				>
 					<Fade in={open}>
-						<div className="absolute top-[5%] left-[30%] rounded-md shadow-md h-[500px] w-2/4 bg-white p-4 outline-0 overflow-y-auto xl:left-[20%]">
+						<div className="absolute top-[5%] left-[10%] rounded-md shadow-md h-[500px] w-3/4 bg-white p-4 outline-0 overflow-y-auto md:top-[25%] lg:top-[15%] lg:w-1/2 lg:left-[30%]">
 							<h3 className="mb-8 font-poppins font-semibold text-xl">
 								Edit Education
 							</h3>

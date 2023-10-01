@@ -5,7 +5,7 @@ import { PiMagnifyingGlass } from "react-icons/pi";
 import { BiMessageRounded, BiMenuAltLeft } from "react-icons/bi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { RxDashboard } from "react-icons/rx";
-import { Avatar, Menu, MenuItem, Drawer } from "@mui/material";
+import { Avatar, Menu, Drawer } from "@mui/material";
 import logo from "../../assets/images/png/logo.png";
 import ProfileDrawerDetails from "../../components/miscellaneous/ProfileDrawerDetails";
 import { logUserOut } from "../../features/Auth/AuthSlice";
@@ -72,7 +72,7 @@ const MenuBar = () => {
 	return (
 		<>
 			<div className="w-11/12 flex items-center justify-between flex-col mx-auto p-4 md:flex-row">
-				<div className="flex items-center justify-between w-full mb-8 md:m-0 md:hidden">
+				<div className="flex items-center justify-between w-full mb-8 md:m-0 md:justify-start lg:hidden">
 					<BiMenuAltLeft
 						onClick={handleOpen}
 						className="text-3xl text-darkBlue hover:cursor-pointer"
@@ -87,12 +87,12 @@ const MenuBar = () => {
 				</div>
 				<Link
 					to="/"
-					className="hidden md:flex items-center font-black font-semibold text-3xl"
+					className="hidden items-center font-black font-semibold text-3xl lg:flex"
 				>
 					<img className="w-8" src={logo} alt="" />
 					<h1 className="ml-2">ProNet</h1>
 				</Link>
-				<div className="hidden lg:flex items-center justify-between text-darkBlue font-poppins font-bold">
+				<div className="hidden items-center justify-between text-darkBlue font-poppins font-bold lg:flex">
 					<Link className="h-6 duration-200 hover:border-b-2 hover:border-darkBlue">
 						Feeds
 					</Link>
@@ -106,17 +106,17 @@ const MenuBar = () => {
 						More
 					</Link>
 				</div>
-				<form>
+				<form className="md:mr-4">
 					<div className="relative">
 						<input
-							className="px-6 py-2 rounded-md w-[300px] text-gray-300 text-sm font-poppins border border-gray-300 focus:outline-none"
+							className="px-6 py-2 rounded-md w-[300px] text-gray-300 text-xs font-poppins border border-gray-300 focus:outline-none"
 							type="text"
 							placeholder="Find jobs, people and more..."
 						/>
-						<PiMagnifyingGlass className="absolute left-2 top-3 text-gray-300" />
+						<PiMagnifyingGlass className="absolute left-2 top-2 text-gray-300" />
 					</div>
 				</form>
-				<div className="hidden lg:flex items-center justify-between font-bold text-lg text-darkBlue ">
+				<div className="hidden items-center justify-between font-bold text-lg text-darkBlue lg:flex">
 					<Link className="text-2xl">
 						<RxDashboard />
 					</Link>

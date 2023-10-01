@@ -97,12 +97,12 @@ const UpdateContactInfo = ({
 	};
 
 	return (
-		<div>
+		<div className="w-full">
 			<div className="p-4 font-semibold text-lg text-gray-400">
 				<h4>Edit Contact Info</h4>
 			</div>
 			<hr className="border-darkBlue" />
-			<div className="px-4 py-4">
+			<div className="px-4 py-4 w-full">
 				<div className="flex items-center mb-8">
 					<h6 className="font-bold">Email</h6>
 					<p className="ml-4 font-bold text-darkBlue">{contact?.email}</p>
@@ -117,16 +117,16 @@ const UpdateContactInfo = ({
 						<BiEdit className="ml-2 mt-1 font-bold text-darkBlue" />
 					</Link>
 				</div>
-				<div className="mt-8">
+				<div className="mt-8 w-full">
 					<div className="flex items-center">
 						<h6 className="font-bold">Birthday</h6>
 						<p className="ml-4 font-bold text-darkBlue">{contact?.BirthDay}</p>
 					</div>
-					<div className="flex items-center mt-2">
+					<div className="flex items-center mt-2 w-full">
 						<input
 							type="number"
 							value={day}
-							className="border px-2 py-1 rounded-md focus:outline-none"
+							className="border w-1/2 px-2 py-1 rounded-md focus:outline-none"
 							onChange={(e) => handleDayChange(e)}
 							placeholder="Day"
 							maxLength="2"
@@ -135,7 +135,7 @@ const UpdateContactInfo = ({
 						<input
 							type="number"
 							value={month}
-							className="ml-4 border px-2 py-1 rounded-md focus:outline-none"
+							className="ml-4 w-1/2 border px-2 py-1 rounded-md focus:outline-none"
 							onChange={(e) => handleMonthChange(e)}
 							placeholder="Month"
 							maxLength="2"

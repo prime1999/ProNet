@@ -107,7 +107,7 @@ const UpdateSkills = ({ children, intro }) => {
 					}}
 				>
 					<Fade in={open}>
-						<div className="absolute top-[10%] left-[25%] rounded-md shadow-md h-[400px] w-2/4 bg-white p-4 outline-0 overflow-y-auto xl:w-[300px] xl:left-[20%]">
+						<div className="absolute top-[10%] left-[15%] rounded-md shadow-md h-[400px] w-9/12 bg-white p-4 outline-0 overflow-y-auto xl:w-[700px] xl:left-[25%]">
 							<h3 className="mb-8 font-poppins font-semibold text-xl">
 								Edit Skills
 							</h3>

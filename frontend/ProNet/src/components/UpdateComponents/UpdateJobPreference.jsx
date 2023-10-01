@@ -240,22 +240,20 @@ const UpdateJobPreference = ({
 	};
 
 	return (
-		<div>
+		<div className="w-full">
 			<div className="p-4 font-semibold text-lg text-gray-400">
 				<h4>Edit Job Preference</h4>
 			</div>
 			<hr className="border-gray-300" />
-			<div className="p-4">
+			<div className="p-4 w-full">
 				<p className="text-sm text-gray-400 mb-4">* Indicates required</p>
 				<div>
-					<h6 className="mb-2 text-gray-600 font-poppins font-bold">
-						Job Titles*
-					</h6>
+					<h6 className="text-gray-600 font-poppins font-bold">Job Titles*</h6>
 					<div>
 						{/* ----------------------------------------- job titles ------------------------------------------------ */}
 						<div className="flex items-center flex-wrap">
 							{jobTitles?.map((profile, index) => (
-								<div key={index} className="mr-2">
+								<div key={index} className="mr-2 mt-2">
 									<Chip
 										sx={{
 											backgroundColor: "#3E3B6F",
@@ -306,9 +304,9 @@ const UpdateJobPreference = ({
 						<h6 className="mb-2 text-gray-600 font-poppins font-bold">
 							Job Types*
 						</h6>
-						<div className="flex items-center">
+						<div className="flex items-center flex-wrap">
 							{jobTypes?.map((profile, index) => (
-								<div key={index} className="mr-2">
+								<div key={index} className="mr-2 mt-2">
 									<Chip
 										sx={{ backgroundColor: "#3E3B6F", color: "#F6E8DF" }}
 										label={profile}
@@ -382,13 +380,13 @@ const UpdateJobPreference = ({
 					</div>
 				</div>
 				{/* ----------------------------------------- employment types ------------------------------------------------ */}
-				<div className="mt-8">
+				<div className="mt-8 w-full">
 					<h6 className="mb-2 text-gray-600 font-poppins font-bold">
 						Employment Types*
 					</h6>
-					<div className="flex items-center">
+					<div className="flex items-center flex-wrap">
 						{employmentTypes?.map((profile, index) => (
-							<div key={index} className="mr-2">
+							<div key={index} className="mr-2 mt-2">
 								<Chip
 									sx={{ backgroundColor: "#3E3B6F", color: "#F6E8DF" }}
 									label={profile}
@@ -404,7 +402,7 @@ const UpdateJobPreference = ({
 					</div>
 					<div>
 						<input
-							className="w-full px-2 py-1 rounded-md mt-4 border border-gray-300 focus:outline-none focus:border-2 focus:border-gray-500"
+							className="w-full px-2 py-1 rounded-md mt-4 text-xs border border-gray-300 focus:outline-none focus:border-2 focus:border-gray-500"
 							placeholder="Full-Time, Part-Time, Internship, Contract"
 							type="text"
 							value={employmentType}

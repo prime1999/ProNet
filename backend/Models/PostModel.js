@@ -11,9 +11,11 @@ const postSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		media: {
-			type: String, // You can use a String to store the URL of the uploaded media
-		},
+		media: [
+			{
+				type: String, // You can use a String to store the URL of the uploaded media
+			},
+		],
 		tags: [
 			{
 				type: String,

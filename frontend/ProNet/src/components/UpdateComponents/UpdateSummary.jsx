@@ -18,10 +18,12 @@ const UpdateSummary = ({ intro, children }) => {
 		setSummary(e.target.value);
 	};
 	const updateSummary = () => {
-		const introUpdates = {
-			summary,
-		};
-		dispatch(updateProfileIntro(introUpdates));
+		if (summary) {
+			const introUpdates = {
+				summary,
+			};
+			dispatch(updateProfileIntro(introUpdates));
+		}
 	};
 	return (
 		<div>
@@ -41,7 +43,7 @@ const UpdateSummary = ({ intro, children }) => {
 					}}
 				>
 					<Fade in={open}>
-						<div className="absolute top-[40%] left-[20%] rounded-md shadow-md h-[200px] w-[800px] bg-white p-4 outline-0 overflow-y-auto">
+						<div className="absolute top-[40%] left-[15%] rounded-md shadow-md h-[200px] w-8/12 bg-white p-4 outline-0 overflow-y-auto">
 							<h3 className="font-bold font-poppins text-lg mb-2">
 								Edit Summary
 							</h3>

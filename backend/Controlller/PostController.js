@@ -18,7 +18,7 @@ const createPost = asyncHandler(async (req, res) => {
 	// but if the user exist, then proceed
 
 	// check if the content was sent from the frontend
-	if (!content) {
+	if (!content && !media) {
 		// if it was not sent
 		throw new Error("Invalid post data");
 	}
@@ -30,7 +30,7 @@ const createPost = asyncHandler(async (req, res) => {
 		const postData = {
 			author: req.user._id,
 			content,
-			media,
+			media: JSON.parse(media),
 		};
 
 		// create the post
