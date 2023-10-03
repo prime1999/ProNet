@@ -1,8 +1,9 @@
 import React from "react";
 import { AiFillCalendar } from "react-icons/ai";
 import { BiPhotoAlbum, BiSolidBookAlt } from "react-icons/bi";
-import { Avatar, Menu } from "@mui/material";
+import { Avatar } from "@mui/material";
 import CreatePostModal from "../Modals/CreatePostModal";
+import FeedBody from "./FeedBody";
 const PostFeed = ({ intro }) => {
 	return (
 		<div className="w-full">
@@ -31,6 +32,9 @@ const PostFeed = ({ intro }) => {
 						</button>
 					</CreatePostModal>
 				</div>
+			</div>
+			<div className="mt-4 w-full">
+				<FeedBody />
 			</div>
 		</div>
 	);

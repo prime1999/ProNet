@@ -1,15 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { MdCancel } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { GrAttachment } from "react-icons/gr";
 import { Modal, Backdrop, Fade, Avatar } from "@mui/material";
+import { createPost } from "../../features/Post/PostSlice";
+import NotificationAlert from "../miscellaneous/NotificationAlert";
 
 const CreatePostModal = ({ children, intro }) => {
+	const dispatch = useDispatch();
 	// post states
 	const [pics, setPics] = useState([]);
 	const [postText, setPostText] = useState("");
 	const [loading, setLoading] = useState(false);
+
+	// for the snackbar alert
+	const [openAlert, setOpenAlert] = useState(false);
+	const [alertMessage, setAlertMessage] = useState("");
+	const [alertSeverity, setAlertSeverity] = useState("success");
 
 	// state to handle the modal visibilty
 	const [open, setOpen] = useState(false);
@@ -18,32 +26,43 @@ const CreatePostModal = ({ children, intro }) => {
 	// function to close the modal
 	const handleClose = () => setOpen(false);
 
+	// function to upload files selected by the user
 	const handlepics = async (selectedPics) => {
+		// make a try-catch block
 		try {
+			// set the loading to true to show a loader
 			setLoading(true);
-
+			// check if a file was selected
 			if (!selectedPics) {
+				// if it wasn't then,set remove the loader and cancel the upload process
 				setLoading(false);
 				return;
 			}
+			// if it was then,
+			// store the files selected in an array
 			const files = [...selectedPics];
-			console.log(files);
+			// loop through the files
 			for (const pic of files) {
-				console.log(123);
+				// on each pic of the files, check if the type is a jpeg or png
 				if (pic.type === "image/jpeg" || pic.type === "image/png") {
+					// await on uploadImage function of each pic
 					await uploadImage(pic);
 				} else {
-					console.log(
+					// show an error message if any of the file is not a jpeg or png file
+					handleShowSnackbar(
+						"error",
 						`File ${pic.name} is not an image and will not be uploaded.`
 					);
 				}
 			}
+			// set the loading to false after upload is done
 			setLoading(false);
 		} catch (error) {
-			console.log(error);
+			handleShowSnackbar("error", "files cannot be uploaded, please try again");
 		}
 	};
 
+	// function to upload an image
 	const uploadImage = async (pic) => {
 		// create a new form data instance to send to cloudinary
 		const picData = new FormData();
@@ -56,26 +75,53 @@ const CreatePostModal = ({ children, intro }) => {
 			"https://api.cloudinary.com/v1_1/ddboi173o/image/upload",
 			picData
 		);
+		// store the image url in the picUrl variable
 		const picUrl = data.url;
-		console.log(data);
+		// push the url to the Pics array state
 		setPics((prevPics) => [...prevPics, picUrl]);
 	};
 
+	// function to create the post based on the data entered by the user
 	const handleCreatePost = async (e) => {
+		// prevent the default behaviour of the form
 		e.preventDefault();
-		console.log(123);
+		// make a try-catch block
+		try {
+			// check if the user's post is a text or fiiles or both
+			if (postText !== "" || pics) {
+				// if the user actually has one of them, then:
+				// store the data entered in the variable
+				const postData = {
+					content: postText,
+					media: JSON.stringify(pics),
+				};
+				// dispatch the createPost function in the post slice, passing the postData as an argument
+				dispatch(createPost(postData));
+				// after the post has been uploaded, clear all the fields used by the user
+				setPostText("");
+				setPics([]);
+				// show a success message
+				handleShowSnackbar("success", "post upload successful");
+			}
+		} catch (error) {
+			// if there was an error in the try block, then show an error message
+			handleShowSnackbar("error", "post upload failed");
+		}
 	};
 
+	// function to remove a file from been uploaded to the DB
 	const handleRemoveFile = (pic) => {
+		// filter out the file to be removed from the pics array
 		const newFiles = pics.filter((file) => file !== pic);
-		console.log(newFiles);
 		setPics(newFiles);
 	};
 
-	useEffect(() => {
-		console.log(pics);
-	}, [pics]);
-
+	// function to show snack-bar alert
+	const handleShowSnackbar = (severity, message) => {
+		setOpenAlert(true);
+		setAlertSeverity(severity);
+		setAlertMessage(message);
+	};
 	return (
 		<div className="w-full">
 			{children && (
@@ -170,6 +216,12 @@ const CreatePostModal = ({ children, intro }) => {
 					</Fade>
 				</Modal>
 			</div>
+			<NotificationAlert
+				open={openAlert}
+				message={alertMessage}
+				severity={alertSeverity}
+				onClose={() => setOpenAlert(false)}
+			/>
 		</div>
 	);
 };

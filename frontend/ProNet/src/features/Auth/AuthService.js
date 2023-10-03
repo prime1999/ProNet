@@ -1,11 +1,10 @@
 import axios from "axios";
-
-const API_URL = "http://localhost:8000/api";
+import { baseUrl } from "../../config/BaseURL";
 
 // ----------------------------------- function to register a user ------------------------ //
 const registerUser = async (userData) => {
 	// send the request to the backend
-	const { data } = await axios.post(`${API_URL}/user`, userData);
+	const { data } = await axios.post(`${baseUrl()}user`, userData);
 
 	// check if a data was sent back
 	if (data) {
@@ -19,7 +18,7 @@ const registerUser = async (userData) => {
 // ----------------------------------- function to register a user ------------------------ //
 const logUserIn = async (userData) => {
 	// send the request to the backend
-	const { data } = await axios.post(`${API_URL}/user/login`, userData);
+	const { data } = await axios.post(`${baseUrl()}user/login`, userData);
 
 	// check if a data was sent back
 	if (data) {
@@ -37,7 +36,7 @@ const getPeopleWithSameInterest = async (token) => {
 		},
 	};
 	// send the request to the backend
-	const { data } = await axios.get(`${API_URL}/user/getPeople`, config);
+	const { data } = await axios.get(`${baseUrl()}user/getPeople`, config);
 
 	console.log(data);
 
@@ -47,7 +46,7 @@ const getPeopleWithSameInterest = async (token) => {
 // ----------------------------------- function to send verification code ------------------------ //
 const sendCode = async (phone) => {
 	// send the request to the backend
-	const { data } = await axios.post(`${API_URL}/sendCode`, phone);
+	const { data } = await axios.post(`${baseUrl()}sendCode`, phone);
 
 	return data;
 };
@@ -55,7 +54,7 @@ const sendCode = async (phone) => {
 // ----------------------------------- function to verify inputed code ------------------------ //
 const verifyCode = async (code) => {
 	// send the request to the backend
-	const { data } = await axios.post(`${API_URL}/verifyCode`, code);
+	const { data } = await axios.post(`${baseUrl()}verifyCode`, code);
 	return data;
 };
 
