@@ -173,18 +173,22 @@ const getPostFeed = asyncHandler(async (req, res) => {
 				// check if a profile for the author of the current feed author was found
 				if (feedProfile.length > 0) {
 					// if it was then add the headLine from the profile to the feeds and store it in a variable
-					const postFeed = { ...feed, headLine: feedProfile[0].headLine };
+					//const postFeed = { ...feed, headLine: feedProfile[0].headLine };
 					// then store the _doc and the headLine in the feedPosts variable initialized earlier
 					feedPosts = {
-						details: postFeed._doc,
-						headLine: postFeed.headLine,
+						details: feed,
+						name: `${feedProfile[0].firstName} ${feedProfile[0].lastName}`,
+						pic: feedProfile[0].pic,
+						headLine: feedProfile[0].headLine,
 					};
 					// if the user's profie was not found then,
 				} else {
 					// store the current feed and a headLine of an empty string in the feedPosts variable
 					feedPosts = {
 						details: feed,
-						headLine: "",
+						name: "App Tester",
+						pic: "",
+						headLine: "Software Developer",
 					};
 				}
 				// add each feedPosts to the postFeeds array

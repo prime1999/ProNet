@@ -144,7 +144,7 @@ const CreatePostModal = ({ children, intro }) => {
 					}}
 				>
 					<Fade in={open}>
-						<div className="absolute top-[5%] left-[3%] p-4 rounded-md shadow-md h-[500px] w-[400px] bg-white md:w-[500px] md:left-[32%]">
+						<div className="absolute top-[5%] p-4 rounded-md shadow-md h-[500px] w-full bg-white md:w-[600px] md:left-[18%] lg:left-[28%]">
 							<div className="relative h-full">
 								<h6 className="text-center font-poppins font-bold">
 									Create a Post

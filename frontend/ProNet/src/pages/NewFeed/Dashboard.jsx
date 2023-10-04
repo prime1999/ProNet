@@ -50,15 +50,17 @@ const Dashboard = () => {
 			<div className="w-11/12 mx-auto mt-4">
 				<Grid container spacing={2}>
 					<Grid item xs={12} md={3}>
-						{!isLoading && intro ? (
-							<div>
-								<LeftComponent intro={intro} />
-							</div>
-						) : (
-							<div className="flex items-center justify-center">
-								<ComponentLoader />
-							</div>
-						)}
+						<div className="hidden lg:flex">
+							{!isLoading && intro ? (
+								<div>
+									<LeftComponent intro={intro} />
+								</div>
+							) : (
+								<div className="flex items-center justify-center">
+									<ComponentLoader />
+								</div>
+							)}
+						</div>
 					</Grid>
 					<Grid item xs={12} md={6}>
 						<div>

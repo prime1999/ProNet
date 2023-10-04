@@ -208,3 +208,34 @@ input[type="number"]::-webkit-outer-spin-button {
     transform: rotate(360deg);
   }
 } 
+
+/* Customize the Swiper navigation buttons */
+.swiper-button-prev,
+.swiper-button-next {
+  padding: 30px;
+  width: 40px; /* Set the width */
+  height: 40px; /* Set the height */
+  background-color: rgba(25, 0, 255, 0.4); /* Background color */
+  color: #fff; /* Text color */
+  font-size: 5px; /* Font size */
+  font-weight: bold;
+}
+
+/* Hover effect
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  
+} */
+
+/* Active (clicked) state */
+.swiper-button-prev.swiper-button-disabled,
+.swiper-button-next.swiper-button-disabled {
+  display: none;
+}
+
+@media screen and (max-width: 884px) {
+  .swiper-button-prev,
+.swiper-button-next {
+  display: none;
+}
+}

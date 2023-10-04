@@ -5,7 +5,7 @@ const Comment = require("../Models/CommentModel");
 
 // --------------------------------- funtion to make a comment ------------------------------ //
 const createComment = asyncHandler(async (req, res) => {
-	const { content, postId } = req.body;
+	const { content, media, postId } = req.body;
 	// check if the user exist
 	const userExist = await User.findById(req.user._id);
 	// if the user does not exist then
@@ -14,8 +14,8 @@ const createComment = asyncHandler(async (req, res) => {
 	}
 
 	// but if the user exist, then proceed
-	// check if the content and the is of the post was sent from the frontend
-	if (!content || !postId) {
+	// check if the content or media and the is of the post was sent from the frontend
+	if ((!content || !media) && !postId) {
 		// if it was not sent
 		throw new Error("Invalid data");
 	}
@@ -27,6 +27,7 @@ const createComment = asyncHandler(async (req, res) => {
 		const commentData = {
 			author: req.user._id,
 			content,
+			media,
 			post: postId,
 		};
 

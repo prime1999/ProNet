@@ -34,7 +34,7 @@ const RightComponent = () => {
 		dispatch(reset());
 	}, [isSuccess]);
 	return (
-		<div>
+		<div className="hidden lg:block">
 			{/* TO PERFORM A FILTER BASED ON USERS ALREADY CONNECTED WITH */}
 			{isLoading || !users ? (
 				<>

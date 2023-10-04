@@ -7,17 +7,21 @@ import { FiMoreVertical } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { RxDashboard } from "react-icons/rx";
 import logo from "../../assets/images/png/logo.png";
+import CurrentUser from "../CurrentUser";
 
 const ProfileDrawerDetails = () => {
 	return (
 		<div className="w-[240px] px-8 py-8">
-			<Link
+			{/* <Link
 				to="/"
 				className="flex items-center font-black font-semibold text-3xl"
 			>
 				<img className="w-8" src={logo} alt="" />
 				<h1 className="ml-2">ProNet</h1>
-			</Link>
+			</Link> */}
+			<div>
+				<CurrentUser />
+			</div>
 			<div className="flex flex-col items-start mt-8 text-darkBlue font-poppins font-bold">
 				<Link className="flex items-center h-8 duration-400 px-4 py-1 rounded-md w-full hover:bg-light">
 					<GrArticle />

@@ -14,6 +14,9 @@ const commentSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now,
 	},
+	media: {
+		type: String,
+	},
 	post: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Post", // Reference to the Post model

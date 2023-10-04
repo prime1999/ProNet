@@ -10,26 +10,21 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
-const FileSwiper = () => {
+const FileSwiper = ({ media }) => {
 	return (
-		<div className="w-full">
-			{" "}
+		<div className="">
 			<Swiper
-				className="w-full"
-				// install Swiper modules
 				modules={[Navigation, Pagination, Scrollbar, A11y]}
 				spaceBetween={50}
-				slidesPerView={3}
+				slidesPerView={1}
 				navigation
-				pagination={{ clickable: true }}
 				scrollbar={{ draggable: true }}
-				onSwiper={(swiper) => console.log(swiper)}
-				onSlideChange={() => console.log("slide change")}
 			>
-				<SwiperSlide className="w-full">Slide 1</SwiperSlide>
-				<SwiperSlide>Slide 2</SwiperSlide>
-				<SwiperSlide>Slide 3</SwiperSlide>
-				<SwiperSlide>Slide 4</SwiperSlide>
+				{media.map((file, index) => (
+					<SwiperSlide key={index} className="w-full">
+						<img className="w-full" src={file} />
+					</SwiperSlide>
+				))}
 			</Swiper>
 		</div>
 	);
