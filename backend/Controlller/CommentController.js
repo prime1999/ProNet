@@ -88,6 +88,10 @@ const getComments = asyncHandler(async (req, res) => {
 			.populate({
 				path: "replies",
 				select: "author content likes replies media ",
+			})
+			.populate({
+				path: "author",
+				select: "firstName lastName pic",
 			});
 		// further populate the author with the user details except the password and email
 		postComments = await User.populate(postComments, {

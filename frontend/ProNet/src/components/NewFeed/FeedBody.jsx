@@ -7,13 +7,13 @@ import {
 	BsShareFill,
 	BsFillSendFill,
 } from "react-icons/bs";
-import { RiGalleryLine } from "react-icons/ri";
 import { Avatar } from "@mui/material";
 import FileSwiper from "../FileSwiper";
 import { getFeed } from "../../features/Post/PostSlice";
+import CommentsList from "./Comments/CommentsList";
 
 const FeedBody = () => {
-	const [toComment, setToComment] = useState(false);
+	const [toComment, setToComment] = useState("");
 	const [showComments, setShowComments] = useState(false);
 	const dispatch = useDispatch();
 
@@ -64,7 +64,11 @@ const FeedBody = () => {
 								<hr />
 								<div className="mt-4 flex items-center justify-between">
 									<div
-										onClick={() => setToComment((prevState) => !prevState)}
+										onClick={() =>
+											setToComment((prevState) =>
+												prevState === post.details._id ? "" : post.details._id
+											)
+										}
 										className="flex items-center hover:text-blue-500 hover:cursor-pointer"
 									>
 										<BiMessage className="" />{" "}
@@ -93,21 +97,9 @@ const FeedBody = () => {
 								</div>
 							</div>
 						</div>
-						{toComment && (
+						{toComment === post.details._id && (
 							<div className="mt-8">
-								<div className="relative">
-									<input
-										type="text"
-										placeholder="comment on post"
-										className="w-full px-4 py-2 rounded-xl bg-gray-100 border focus:outline-none"
-									/>
-									<div className="absolute top-3 right-3 text-lg text-gray-500">
-										<label htmlFor="gallery" className="hover:cursor-pointer">
-											<RiGalleryLine />
-										</label>
-										<input type="file" id="gallery" className="hidden" />
-									</div>
-								</div>
+								<CommentsList postId={post.details._id} />
 							</div>
 						)}
 					</div>
