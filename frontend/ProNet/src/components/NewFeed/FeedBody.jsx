@@ -14,6 +14,7 @@ import { getFeed } from "../../features/Post/PostSlice";
 
 const FeedBody = () => {
 	const [toComment, setToComment] = useState(false);
+	const [showComments, setShowComments] = useState(false);
 	const dispatch = useDispatch();
 
 	const { feed, isLoading, isSuccess } = useSelector((state) => state.post);
@@ -47,6 +48,18 @@ const FeedBody = () => {
 							<div>
 								<FileSwiper media={post.details.media} />
 							</div>
+							<div className="w-11/12 mx-auto flex items-cente justify-between mt-4">
+								<div className="text-sm text-gray-400 hover:cursor-pointer hover:border-b">
+									{post.details.likes.length !== 0 && (
+										<div>{`${post.details.likes.length} Likes`}</div>
+									)}
+								</div>
+								<div className="text-sm text-gray-400 hover:cursor-pointer hover:border-b">
+									{post.details.comments.length !== 0 && (
+										<div>{`${post.details.comments.length} Comments`}</div>
+									)}
+								</div>
+							</div>
 							<div className="mt-4 px-4 py-2">
 								<hr />
 								<div className="mt-4 flex items-center justify-between">
@@ -55,19 +68,15 @@ const FeedBody = () => {
 										className="flex items-center hover:text-blue-500 hover:cursor-pointer"
 									>
 										<BiMessage className="" />{" "}
-										<p className="text-gray-700 text-xs ml-1 md:text-sm">{`${
-											post.details.comments.length > 0
-												? post.details.comments.length
-												: ""
-										} Comments`}</p>
+										<p className="text-gray-700 text-xs ml-1 md:text-sm">
+											Comment
+										</p>
 									</div>
 									<div className="flex items-center hover:text-red-500 hover:cursor-pointer">
 										<BsHandThumbsUp />{" "}
-										<p className="text-gray-700 text-xs ml-1 md:text-sm">{`${
-											post.details.likes.length > 0
-												? post.details.likes.length
-												: ""
-										} Likes`}</p>
+										<p className="text-gray-700 text-xs ml-1 md:text-sm">
+											like
+										</p>
 									</div>
 									<div className="flex items-center hover:text-blue-800 hover:cursor-pointer">
 										<BsShareFill />{" "}
