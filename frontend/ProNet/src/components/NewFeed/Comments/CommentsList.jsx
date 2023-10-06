@@ -13,32 +13,36 @@ const CommentsList = ({ postId }) => {
 		(state) => state.comments
 	);
 
-	useEffect(() => {
-		if (isSuccess) {
-			setPostComments(comments);
-		}
-
-		dispatch(reset());
-	}, [isSuccess]);
+	const { user } = useSelector((state) => state.auth);
 
 	useEffect(() => {
 		dispatch(getComments(postId));
 	}, []);
 
+	useEffect(() => {
+		if (isSuccess) {
+			setPostComments(comments);
+		}
+		dispatch(reset());
+	}, [isSuccess]);
+
 	return (
 		<div>
-			<div className="relative">
-				<input
-					type="text"
-					placeholder="comment on post"
-					autoFocus={true}
-					className="w-full px-4 py-2 rounded-xl bg-gray-100 border focus:outline-none"
-				/>
-				<div className="absolute top-3 right-3 text-lg text-gray-500">
-					<label htmlFor="gallery" className="hover:cursor-pointer">
-						<RiGalleryLine />
-					</label>
-					<input type="file" id="gallery" className="hidden" />
+			<div className="flex items-center w-full">
+				<Avatar src={user.pic} />
+				<div className="relative ml-2 w-full">
+					<input
+						type="text"
+						placeholder="comment on post"
+						autoFocus={true}
+						className="w-full px-4 py-2 rounded-xl bg-gray-100 border focus:outline-none"
+					/>
+					<div className="absolute top-3 right-3 text-lg text-gray-500">
+						<label htmlFor="gallery" className="hover:cursor-pointer">
+							<RiGalleryLine />
+						</label>
+						<input type="file" id="gallery" className="hidden" />
+					</div>
 				</div>
 			</div>
 			<div className="mt-4">

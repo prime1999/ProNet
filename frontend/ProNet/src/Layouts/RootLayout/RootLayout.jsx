@@ -1,11 +1,15 @@
-import React from "react";
-import MenuBar from "./MenuBar";
+import { lazy, Suspense } from "react";
 import { Outlet } from "react-router-dom";
+import MenuBarLoader from "../../components/miscellaneous/skeletons/MenuBarLoader";
+
+const MenuBar = lazy(() => import("./MenuBar"));
 
 const RootLayout = () => {
 	return (
 		<div>
-			<MenuBar />
+			<Suspense fallback={<MenuBarLoader />}>
+				<MenuBar />
+			</Suspense>
 			<div className="">
 				<Outlet />
 			</div>

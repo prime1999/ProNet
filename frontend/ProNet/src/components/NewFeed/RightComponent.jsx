@@ -28,7 +28,6 @@ const RightComponent = () => {
 		// check if the isSuccess variable from the redux store is true (that is the getProfileIntro was fulfilled)
 		if (isSuccess) {
 			setUsers(people);
-			console.log(people);
 		}
 		// clear the redux store
 		dispatch(reset());
@@ -36,31 +35,33 @@ const RightComponent = () => {
 	return (
 		<div className="hidden lg:block">
 			{/* TO PERFORM A FILTER BASED ON USERS ALREADY CONNECTED WITH */}
-			{isLoading || !users ? (
-				<>
-					<ComponentLoader />
-				</>
-			) : (
-				<div className="flex items-center justify-center bg-white shadow-sm p-4 w-full">
-					<div className="flex flex-col items-center justify-center w-full">
-						<div className="flex items-center justify-between font-bold w-full">
-							<h6>Keep in touch</h6>
-							<MdNavigateNext className="bg-light p-1 rounded-full text-2xl text-orange hover:cursor-pointer" />
-						</div>
-						<div>
-							{users.map((user, index) => (
-								<Link key={index} className="flex items-center text-sm my-2">
-									<Avatar src={user?.pic} />
-									<div className="ml-4">
-										<h6 className="font-semibold">{user.name}</h6>
-										<p className="text-xs text-gray-500">{user.headLine}</p>
-									</div>
-								</Link>
-							))}
-						</div>
+
+			<div className="flex items-center justify-center bg-white shadow-sm p-4 w-full">
+				<div className="flex flex-col items-center justify-center w-full">
+					<div className="flex items-center justify-between font-bold w-full">
+						<h6>Keep in touch</h6>
+						<MdNavigateNext className="bg-light p-1 rounded-full text-2xl text-orange hover:cursor-pointer" />
+					</div>
+					<div>
+						{users && !isLoading ? (
+							<>
+								{users?.map((user, index) => (
+									<Link key={index} className="flex items-center text-sm my-2">
+										<Avatar src={user?.pic} />
+										<div className="ml-4">
+											<h6 className="font-semibold">{user?.name}</h6>
+											<p className="text-xs text-gray-500">{user?.headLine}</p>
+										</div>
+									</Link>
+								))}
+							</>
+						) : (
+							<ComponentLoader />
+						)}
 					</div>
 				</div>
-			)}
+			</div>
+
 			{/* TO MAKE A COURSES IN THE DB AND SHOW THEM HERE */}
 			<div className="flex items-center justify-center bg-white mt-4 shadow-sm p-4 w-full">
 				<div className="w-full">

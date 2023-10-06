@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {
@@ -7,10 +7,16 @@ import {
 } from "../../features/Profile/ProfileIntro/ProfileIntroSlice";
 
 import { Grid } from "@mui/material";
-import LeftComponent from "../../components/NewFeed/LeftComponent";
-import ComponentLoader from "../../components/Spinner/ComponentLoader";
-import RightComponent from "../../components/NewFeed/RightComponent";
 import PostFeed from "../../components/NewFeed/PostFeed";
+import LeftFeedComponentLoader from "../../components/miscellaneous/skeletons/LeftFeedComponentLoader";
+import RightFeedComponentLoader from "../../components/miscellaneous/skeletons/RightFeedComponentLoader";
+
+const LeftComponent = lazy(() =>
+	import("../../components/NewFeed/LeftComponent")
+);
+const RightComponent = lazy(() =>
+	import("../../components/NewFeed/RightComponent")
+);
 
 const Dashboard = () => {
 	const [intro, setIntro] = useState(null);
@@ -51,13 +57,11 @@ const Dashboard = () => {
 				<Grid container spacing={2}>
 					<Grid item xs={12} md={3}>
 						<div className="hidden lg:flex">
-							{!isLoading && intro ? (
-								<div>
-									<LeftComponent intro={intro} />
-								</div>
-							) : (
-								<div className="flex items-center justify-center">
-									<ComponentLoader />
+							{!isLoading && intro && (
+								<div className="w-full">
+									<Suspense fallback={<LeftFeedComponentLoader />}>
+										<LeftComponent intro={intro} />
+									</Suspense>
 								</div>
 							)}
 						</div>
@@ -68,7 +72,9 @@ const Dashboard = () => {
 						</div>
 					</Grid>
 					<Grid item xs={12} md={3}>
-						<RightComponent />
+						<Suspense fallback={<RightFeedComponentLoader />}>
+							<RightComponent />
+						</Suspense>
 					</Grid>
 				</Grid>
 			</div>
