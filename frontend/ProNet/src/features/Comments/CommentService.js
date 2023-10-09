@@ -18,6 +18,24 @@ const getComments = async (postId, token) => {
 	return data;
 };
 
-const CommentService = { getComments };
+// ----------------------------------- function to get comments on a post ---------------------------------- //
+const createComment = async (commentDetails, token) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	};
+
+	const { data } = await axios.post(
+		`${baseUrl()}/createComment`,
+		commentDetails,
+		config
+	);
+
+	console.log(data);
+	return data;
+};
+
+const CommentService = { getComments, createComment };
 
 export default CommentService;

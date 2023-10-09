@@ -1,12 +1,12 @@
-import { useEffect, lazy, Suspense } from "react";
+import { useEffect, lazy, Suspense, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { getFeed } from "../../features/Post/PostSlice";
+import { getFeed, reset } from "../../features/Post/PostSlice";
 import FeedListsLazyLoader from "../miscellaneous/skeletons/FeedListsLazyLoader";
 
 const FeedList = lazy(() => import("./FeedList"));
 
-const FeedBody = () => {
+const FeedBody = ({ intro }) => {
+	const [feeds, setFeeds] = useState(null);
 	const dispatch = useDispatch();
 
 	const { feed, isLoading, isSuccess } = useSelector((state) => state.post);
@@ -15,12 +15,19 @@ const FeedBody = () => {
 		dispatch(getFeed());
 	}, []);
 
+	useEffect(() => {
+		if (isSuccess) {
+			setFeeds(feed);
+		}
+		dispatch(reset());
+	}, [isSuccess]);
+
 	return (
 		<div className="mt-8">
-			{feed &&
-				feed?.map((post) => (
+			{feeds &&
+				feeds?.map((post) => (
 					<Suspense key={post.details._id} fallback={<FeedListsLazyLoader />}>
-						<FeedList post={post} />
+						<FeedList intro={intro} post={post} />
 					</Suspense>
 				))}
 		</div>

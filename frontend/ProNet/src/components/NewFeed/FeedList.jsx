@@ -11,7 +11,10 @@ import CommentsList from "./Comments/CommentsList";
 
 const FileSwiper = lazy(() => import("../FileSwiper"));
 
-const FeedList = ({ post }) => {
+const FeedList = ({ post, intro }) => {
+	const [commentLength, setCommentLength] = useState(
+		post.details.comments.length
+	);
 	const [toComment, setToComment] = useState("");
 	const [showComments, setShowComments] = useState([]);
 
@@ -64,9 +67,7 @@ const FeedList = ({ post }) => {
 							)}
 						</div>
 						<div className="text-sm text-gray-400 hover:cursor-pointer hover:border-b">
-							{post.details.comments.length !== 0 && (
-								<div>{`${post.details.comments.length} Comments`}</div>
-							)}
+							{commentLength !== 0 && <div>{`${commentLength} Comments`}</div>}
 						</div>
 					</div>
 					<div className="mt-4 px-4 py-2">
@@ -96,7 +97,12 @@ const FeedList = ({ post }) => {
 				</div>
 				{showComments.includes(post.details._id) && (
 					<div className="mt-8">
-						<CommentsList postId={post.details._id} />
+						<CommentsList
+							intro={intro}
+							setCommentLength={setCommentLength}
+							commentLength={commentLength}
+							postId={post.details._id}
+						/>
 					</div>
 				)}
 			</div>

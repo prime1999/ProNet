@@ -11,7 +11,7 @@ const PostFeed = ({ intro }) => {
 				<CreatePostSection intro={intro} />
 			</Suspense>
 			<div className="mt-4 w-full">
-				<FeedBody />
+				<FeedBody intro={intro} />
 			</div>
 		</div>
 	);
