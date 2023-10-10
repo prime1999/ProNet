@@ -213,6 +213,65 @@ const getPostFeed = asyncHandler(async (req, res) => {
 	}
 });
 
+// --------------------------------- function to like or unlike a post ------------------------------ //
+const reactToAPost = asyncHandler(async (req, res) => {
+	// get the user exist
+	const userExist = await User.findById(req.user._id);
+	// check if the user exist
+	if (!userExist) {
+		// if the user doesn't exist
+		throw new Error("User Not Authorised");
+	}
+	// if the user exist, then
+	// make a try-catch block
+	try {
+		// the details from the request body
+		const { postId } = req.body;
+		// find the post based on the post Id
+		const post = await Post.findById(postId);
+		// check if the post was found
+		if (!post) {
+			// if it was not found, then
+			throw new Error("Post not found");
+		}
+		// if it was
+		// check it the user has already reacted to the post
+		const hasReacted = post.likes.includes(req.user._id);
+		// if user has reacted to the post then,
+		if (hasReacted) {
+			// make the user unLike the post
+			let unLike = await Post.findByIdAndUpdate(
+				postId,
+				// then update the likes array to pull the user to be removed from the array
+				{
+					$pull: { likes: req.user._id },
+				},
+				// set new to true for it to work
+				{ new: true }
+			);
+
+			res.status(200);
+			res.json(unLike);
+		} else {
+			// if user is yet to react to the post
+			let like = await Post.findByIdAndUpdate(
+				postId,
+				// then update the likes array to push the user to be added from the array
+				{
+					$push: { likes: req.user._id },
+				},
+				// set new to true for it to work
+				{ new: true }
+			);
+			res.status(200);
+			res.json(like);
+		}
+	} catch (error) {
+		// if an error occured in the try block, then
+		throw new Error(error.message);
+	}
+});
+
 // ---------------------------- function to delete a user's post --------------------------------- //
 const deletePost = asyncHandler(async (req, res) => {
 	// get the user exist
@@ -240,4 +299,11 @@ const deletePost = asyncHandler(async (req, res) => {
 	}
 });
 
-module.exports = { createPost, getPost, getPosts, getPostFeed, deletePost };
+module.exports = {
+	createPost,
+	getPost,
+	getPosts,
+	getPostFeed,
+	reactToAPost,
+	deletePost,
+};

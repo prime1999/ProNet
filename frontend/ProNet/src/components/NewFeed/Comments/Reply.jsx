@@ -13,11 +13,14 @@ const Reply = ({
 	setCommentReply,
 }) => {
 	const [myReplyText, setMyReplyText] = useState("");
+	// init the useDispatch function
 	const dispatch = useDispatch();
 
 	// function to give reply to a comment
 	const handleReply = (event) => {
+		// check if the enter is the one clicked and if the input field has been filled
 		if (event.key === "Enter" && myReplyText) {
+			// set a sample reply data to show on the UI untill thee one from the backend is gotten
 			let sampleReply = {
 				_id: Date.now(),
 				author: {
@@ -36,9 +39,13 @@ const Reply = ({
 				content: myReplyText,
 				parentCommentId: comment._id,
 			};
+			// send the reply to the backend
 			dispatch(createComment(newReply));
+			// increment the replies length by 1
 			setNewReplyLength(newReplyLength + 1);
+			// set the comment Reply yo the reply from the user for in other to change the UI
 			setCommentReply(sampleReply);
+			// clear the input field
 			setMyReplyText("");
 		}
 	};

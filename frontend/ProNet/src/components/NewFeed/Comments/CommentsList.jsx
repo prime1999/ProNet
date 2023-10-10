@@ -11,34 +11,43 @@ import {
 import Reply from "./Reply";
 
 const CommentsList = ({ postId, intro, setCommentLength, commentLength }) => {
+	// state for show the reply input field by using the comment id
 	const [replyToComment, setReplyToComment] = useState("");
+	// state for storing the post comments
 	const [postComments, setPostComments] = useState(null);
+	// state to store the reply by the user temporarily in oter to show it on the UI
 	const [commentReply, setCommentReply] = useState(null);
-
+	// state for the comment inputted
 	const [myCommentText, setMyCommentText] = useState("");
-
+	// state to increment the reply length by
 	const [newReplyLength, setNewReplyLength] = useState(0);
-
+	// init the dispatch function
 	const dispatch = useDispatch();
-
+	// get comments from he redux store comments
 	const { comments, isLoading, isSuccess, isError, message } = useSelector(
 		(state) => state.comments
 	);
 
 	useEffect(() => {
+		// get the comments from the backend
 		dispatch(getComments(postId));
 	}, []);
 
 	useEffect(() => {
+		// if the comments was gotten successfully then,
 		if (isSuccess) {
+			// store them in the postComments state
 			setPostComments(comments);
 		}
+		// clear out the redux store
 		dispatch(reset());
 	}, [isSuccess]);
 
 	// function to comment on  post
 	const handleComment = (event) => {
+		// check if the enter is the one clicked and if the input field has been filled
 		if (event.key === "Enter" && myCommentText) {
+			// set a sample comment data to show on the UI untill thee one from the backend is gotten
 			let sampleComment = {
 				_id: Date.now(),
 				author: {
@@ -57,13 +66,18 @@ const CommentsList = ({ postId, intro, setCommentLength, commentLength }) => {
 				content: myCommentText,
 				postId,
 			};
+			// send the reply to the backend
 			dispatch(createComment(newComment));
+			// increment the comments length by 1
 			setCommentLength(commentLength + 1);
+			// add the comment to the UI
 			setPostComments([sampleComment, ...postComments]);
+			// clear out the comment text input field
 			setMyCommentText("");
 		}
 	};
 
+	// function to change the replies length
 	const handleReplyLength = (comment) => {
 		return comment.replies.length + newReplyLength;
 	};
@@ -71,12 +85,17 @@ const CommentsList = ({ postId, intro, setCommentLength, commentLength }) => {
 	// used this function to get the comment replies inorder for me to be able to modify it later
 	const handleCommentReplies = useCallback(
 		(comment) => {
+			// init a replies variable dto an empty array
 			let replies = [];
+			// if there has been a reply text, then
 			if (commentReply !== null) {
+				// add the reply to the comments replies and savethem in the replies array
 				replies = [commentReply, ...comment?.replies];
 			} else {
+				// save only the initial replies in the replies array
 				replies = [...comment?.replies];
 			}
+			// return the replies array
 			return replies;
 		},
 		[commentReply] // added the commentReply (the new reply) as a dependency
