@@ -8,25 +8,21 @@ import {
 	getComments,
 	reset,
 } from "../../../features/Comments/CommentSlice";
-import Reply from "./Reply";
+import ReplyComponent from "../../miscellaneous/comments/Comment/Comment/ReplyComponent";
 
 const CommentsList = ({ postId, intro, setCommentLength, commentLength }) => {
-	// state for show the reply input field by using the comment id
-	const [replyToComment, setReplyToComment] = useState("");
 	// state for storing the post comments
 	const [postComments, setPostComments] = useState(null);
-	// state to store the reply by the user temporarily in oter to show it on the UI
-	const [commentReply, setCommentReply] = useState(null);
 	// state for the comment inputted
 	const [myCommentText, setMyCommentText] = useState("");
-	// state to increment the reply length by
-	const [newReplyLength, setNewReplyLength] = useState(0);
 	// init the dispatch function
 	const dispatch = useDispatch();
 	// get comments from he redux store comments
 	const { comments, isLoading, isSuccess, isError, message } = useSelector(
 		(state) => state.comments
 	);
+	// get user's from he redux store users
+	const { user } = useSelector((state) => state.auth);
 
 	useEffect(() => {
 		// get the comments from the backend
@@ -77,30 +73,6 @@ const CommentsList = ({ postId, intro, setCommentLength, commentLength }) => {
 		}
 	};
 
-	// function to change the replies length
-	const handleReplyLength = (comment) => {
-		return comment.replies.length + newReplyLength;
-	};
-
-	// used this function to get the comment replies inorder for me to be able to modify it later
-	const handleCommentReplies = useCallback(
-		(comment) => {
-			// init a replies variable dto an empty array
-			let replies = [];
-			// if there has been a reply text, then
-			if (commentReply !== null) {
-				// add the reply to the comments replies and savethem in the replies array
-				replies = [commentReply, ...comment?.replies];
-			} else {
-				// save only the initial replies in the replies array
-				replies = [...comment?.replies];
-			}
-			// return the replies array
-			return replies;
-		},
-		[commentReply] // added the commentReply (the new reply) as a dependency
-	);
-
 	return (
 		<div>
 			<div className="flex items-center w-full">
@@ -128,90 +100,7 @@ const CommentsList = ({ postId, intro, setCommentLength, commentLength }) => {
 					</div>
 				</div>
 			</div>
-			<div className="mt-4">
-				{postComments &&
-					postComments?.map((comment) => (
-						<div key={comment._id} className="flex items-start mb-4 w-full">
-							<Avatar src={comment.author.pic} />
-							<div className="ml-4 w-full">
-								<h6 className="font-semibold">{`${comment.author.firstName} ${comment.author.lastName}`}</h6>
-								{/* <p>to add the user's  headline</p> */}
-								<p className="text-gray-700">{comment.content}</p>
-								<div className="flex items-center mt-2 text-sm text-gray-400">
-									<p className="hover:cursor-pointer">
-										Like{" "}
-										{comment.likes.length !== 0 && (
-											<span>
-												<BsFillHandThumbsUpFill />{" "}
-												{`${comment.likes.length} likes`}
-											</span>
-										)}{" "}
-									</p>
-									<p className="mx-2">|</p>
-									<p>
-										<span
-											onClick={() => setReplyToComment(comment._id)}
-											className="hover:cursor-pointer"
-										>
-											Reply{" "}
-										</span>
-										{comment.replies.length !== 0 && (
-											<span>{`${handleReplyLength(comment)} reply`}</span>
-										)}{" "}
-									</p>
-								</div>
-								{replyToComment === comment._id && (
-									<div className="w-full">
-										{replyToComment && (
-											<Reply
-												intro={intro}
-												comment={comment}
-												newReplyLength={newReplyLength}
-												setCommentReply={setCommentReply}
-												setNewReplyLength={setNewReplyLength}
-											/>
-										)}
-									</div>
-								)}
-								{comment.replies.length !== 0 && (
-									<div className="mt-4">
-										<hr className="mb-4" />
-										{handleCommentReplies(comment).map((reply) => (
-											<div key={reply._id} className="flex items-start my-2">
-												<Avatar src={reply.author.pic} />
-												<div className="ml-4">
-													<h6 className="font-semibold">{`${reply.author.firstName} ${reply.author.lastName}`}</h6>
-													{/* <p>to add the user's  headline</p> */}
-													<p className="text-gray-700">{reply.content}</p>
-													<div className="flex items-center mt-2 text-sm text-gray-400">
-														<p className="hover:cursor-pointer">
-															Like{" "}
-															{reply.likes.length !== 0 && (
-																<span>
-																	<BsFillHandThumbsUpFill />{" "}
-																	{`${reply.likes.length} likes`}
-																</span>
-															)}{" "}
-														</p>
-														<p className="mx-2">|</p>
-														<p className="">
-															<span className="hover:cursor-pointer">
-																Reply{" "}
-															</span>
-															{reply.replies.length !== 0 && (
-																<span>{`${reply.replies.length} reply`}</span>
-															)}{" "}
-														</p>
-													</div>
-												</div>
-											</div>
-										))}
-									</div>
-								)}
-							</div>
-						</div>
-					))}
-			</div>
+			<ReplyComponent intro={intro} postComments={postComments} />
 		</div>
 	);
 };

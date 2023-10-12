@@ -50,6 +50,28 @@ export const getFeed = createAsyncThunk("post/getFeed", async (_, thunkAPI) => {
 	}
 });
 
+// ----------------------------------- function to to react to a post ----------------------------- //
+export const reactToAPost = createAsyncThunk(
+	"post/reactToAPost",
+	async (postId, thunkAPI) => {
+		try {
+			// await on the reactToAPost  function in the post service component
+			const token = thunkAPI.getState().auth.user.token;
+			return await postService.reactToAPost(postId, token);
+		} catch (error) {
+			// assign an error value if there is one in any of the listed error value holders below
+			const message =
+				(error.response &&
+					error.response.data &&
+					error.response.data.message) ||
+				error.message ||
+				error.toString();
+			// return the errror message using the thunkapi rejectwithvalue
+			return thunkAPI.rejectWithValue(message);
+		}
+	}
+);
+
 // create post slice
 export const PostSlice = createSlice({
 	name: "posts",
@@ -84,6 +106,19 @@ export const PostSlice = createSlice({
 				state.isSuccess = true;
 			})
 			.addCase(getFeed.rejected, (state, action) => {
+				state.isLoading = false;
+				state.isSuccess = false;
+				state.isError = true;
+				state.message = action.payload;
+			})
+			// for react to a post
+			.addCase(reactToAPost.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(reactToAPost.fulfilled, (state) => {
+				state.isLoading = false;
+			})
+			.addCase(reactToAPost.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = false;
 				state.isError = true;

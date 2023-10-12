@@ -98,7 +98,10 @@ const getComments = asyncHandler(async (req, res) => {
 			path: "replies.author",
 			select: "firstName lastName pic",
 		});
-
+		// for (const comment of postComments) {
+		// 	// Fetch nested replies
+		// 	comment.replies = await getComments(postId, comment._id);
+		// }
 		// if any comments was found
 		if (postComments) {
 			// send it to the frontend with the status code of 400

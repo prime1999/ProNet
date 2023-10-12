@@ -6,6 +6,7 @@ import FeedListsLazyLoader from "../miscellaneous/skeletons/FeedListsLazyLoader"
 const FeedList = lazy(() => import("./FeedList"));
 
 const FeedBody = ({ intro }) => {
+	const [fetchFeedsAgain, setFetchFeedsAgain] = useState(false);
 	const [feeds, setFeeds] = useState(null);
 	const dispatch = useDispatch();
 
@@ -13,7 +14,7 @@ const FeedBody = ({ intro }) => {
 
 	useEffect(() => {
 		dispatch(getFeed());
-	}, []);
+	}, [fetchFeedsAgain]);
 
 	useEffect(() => {
 		if (isSuccess) {
@@ -27,7 +28,12 @@ const FeedBody = ({ intro }) => {
 			{feeds &&
 				feeds?.map((post) => (
 					<Suspense key={post.details._id} fallback={<FeedListsLazyLoader />}>
-						<FeedList intro={intro} post={post} />
+						<FeedList
+							fetchFeedsAgain={fetchFeedsAgain}
+							setFetchFeedsAgain={setFetchFeedsAgain}
+							intro={intro}
+							post={post}
+						/>
 					</Suspense>
 				))}
 		</div>

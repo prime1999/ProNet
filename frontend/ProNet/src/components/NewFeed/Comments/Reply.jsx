@@ -4,6 +4,7 @@ import { Avatar } from "@mui/material";
 import { RiGalleryLine } from "react-icons/ri";
 import { BsFillHandThumbsUpFill } from "react-icons/bs";
 import { createComment } from "../../../features/Comments/CommentSlice";
+import ReplyComponent from "../../miscellaneous/comments/Comment/Comment/ReplyComponent";
 
 const Reply = ({
 	intro,
@@ -15,7 +16,7 @@ const Reply = ({
 	const [myReplyText, setMyReplyText] = useState("");
 	// init the useDispatch function
 	const dispatch = useDispatch();
-
+	console.log(comment);
 	// function to give reply to a comment
 	const handleReply = (event) => {
 		// check if the enter is the one clicked and if the input field has been filled
@@ -76,6 +77,7 @@ const Reply = ({
 					</div>
 				</div>
 			</div>
+			{/* <ReplyComponent intro={intro} postComments={[comment]} /> to use for the nested replies UI*/}
 		</div>
 	);
 };

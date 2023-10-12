@@ -1,4 +1,5 @@
-import { useState, lazy, Suspense } from "react";
+import { useState, lazy, Suspense, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { BiMessage } from "react-icons/bi";
 import {
 	BsFillHandThumbsUpFill,
@@ -8,15 +9,29 @@ import {
 } from "react-icons/bs";
 import { Avatar, Skeleton } from "@mui/material";
 import CommentsList from "./Comments/CommentsList";
+import { reactToAPost } from "../../features/Post/PostSlice";
 
 const FileSwiper = lazy(() => import("../FileSwiper"));
 
-const FeedList = ({ post, intro }) => {
+const FeedList = ({ post, intro, fetchFeedsAgain, setFetchFeedsAgain }) => {
+	const dispatch = useDispatch();
+	const [likes, setLikes] = useState(null);
+	const [liked, setLiked] = useState(false);
 	const [commentLength, setCommentLength] = useState(
 		post.details.comments.length
 	);
 	const [toComment, setToComment] = useState("");
 	const [showComments, setShowComments] = useState([]);
+
+	// get user's from he redux store users
+	const { user } = useSelector((state) => state.auth);
+
+	useEffect(() => {
+		let liked = post.details.likes.includes(user._id);
+		if (liked) {
+			setLiked(true);
+		}
+	}, []);
 
 	const handleShowCommentSection = (id) => {
 		// Check if the post's comments are currently displayed
@@ -31,6 +46,25 @@ const FeedList = ({ post, intro }) => {
 			setShowComments((prevState) => [...prevState, id]);
 		}
 	};
+
+	const reactToPost = (postId) => {
+		dispatch(reactToAPost(postId));
+		setLiked(!liked);
+		setFetchFeedsAgain(!fetchFeedsAgain);
+	};
+
+	const showLiked = () => {
+		if (liked) {
+			if (post.details.likes.length === 1) {
+				return "you";
+			} else {
+				return `you and ${post.details.likes.length - 1} others`;
+			}
+		} else if (post.details.likes.length !== 0) {
+			return `${post.details.likes.length} Likes`;
+		}
+	};
+
 	return (
 		<div>
 			<div className="w-full mt-4 bg-white shadow-sm p-4">
@@ -62,11 +96,12 @@ const FeedList = ({ post, intro }) => {
 					</div>
 					<div className="w-11/12 mx-auto flex items-cente justify-between mt-4">
 						<div className="text-sm text-gray-400 hover:cursor-pointer hover:border-b">
-							{post.details.likes.length !== 0 && (
-								<div>{`${post.details.likes.length} Likes`}</div>
-							)}
+							{showLiked()}
 						</div>
-						<div className="text-sm text-gray-400 hover:cursor-pointer hover:border-b">
+						<div
+							onClick={() => handleShowCommentSection(post.details._id)}
+							className="text-sm text-gray-400 hover:cursor-pointer hover:border-b"
+						>
 							{commentLength !== 0 && <div>{`${commentLength} Comments`}</div>}
 						</div>
 					</div>
@@ -80,9 +115,25 @@ const FeedList = ({ post, intro }) => {
 								<BiMessage className="" />{" "}
 								<p className="text-gray-700 text-xs ml-1 md:text-sm">Comment</p>
 							</div>
-							<div className="flex items-center hover:text-red-500 hover:cursor-pointer">
-								<BsHandThumbsUp />{" "}
-								<p className="text-gray-700 text-xs ml-1 md:text-sm">like</p>
+							<div
+								onClick={() => reactToPost(post.details._id)}
+								className="flex items-center hover:text-red-500 hover:cursor-pointer"
+							>
+								{liked ? (
+									<>
+										<BsFillHandThumbsUpFill className="text-red-500 text-lg" />
+										<p className="text-gray-700 text-xs ml-1 md:text-sm">
+											liked
+										</p>
+									</>
+								) : (
+									<>
+										<BsHandThumbsUp />{" "}
+										<p className="text-gray-700 text-xs ml-1 md:text-sm">
+											like
+										</p>
+									</>
+								)}
 							</div>
 							<div className="flex items-center hover:text-blue-800 hover:cursor-pointer">
 								<BsShareFill />{" "}
