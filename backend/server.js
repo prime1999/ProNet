@@ -9,6 +9,7 @@ const route = require("./Routes/SMSRoute");
 const postRoute = require("./Routes/PostRoute");
 const ProfileRoute = require("./Routes/profileRoutes/ProfileRoute");
 const commentRoute = require("./Routes/CommentsRoute");
+const jobRoute = require("./Routes/JobRoute");
 
 // create an express app
 const app = express();
@@ -32,6 +33,8 @@ app.use("/api", commentRoute);
 // for the user's profile
 app.use("/api/profile", ProfileRoute);
 //app.use("/api/profile", ProfileRoute);
+// for the job
+app.use("/api/jobs", jobRoute);
 
 // connect to db
 connectDb();

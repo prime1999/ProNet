@@ -25,13 +25,14 @@ const sendCode = asyncHander(async (req, res) => {
 		// set the initialized sentCode varibale to the code generated
 		sentCode = code;
 		// send the code generated to the phoneNumber
-		const message = await twilioClient.messages.create({
+		await twilioClient.messages.create({
 			body: `your verification code is: ${code}`,
 			from: process.env.TWILIO_NUMBER,
 			to: phoneNumber,
 		});
 		res.json({ success: true });
 	} catch (error) {
+		console.log(error);
 		res.status(500).json({ success: false, error: "SMS not sent" });
 	}
 });

@@ -7,8 +7,11 @@ import logo from "../../assets/images/png/logo.png";
 import VerificationModal from "../../components/Auth/VerificationModal";
 import NotificationAlert from "../../components/miscellaneous/NotificationAlert";
 import CreateProfile from "../../components/profile/CreateProfile/CreateProfile";
+import { registerUser, reset } from "../../features/Auth/AuthSlice";
 
 const RegisterUser = () => {
+	// init the useDispatch function
+	const dispatch = useDispatch();
 	const [show, setShow] = useState("register");
 	// state for the phone number value
 	const [value, setValue] = useState("");
@@ -30,15 +33,15 @@ const RegisterUser = () => {
 
 	useEffect(() => {
 		// check if the code was sent
-		if (sentCode === false) {
-			// if it was not then throw an error message
-			handleShowSnackbar("error", "Code not sent: Check number");
-		}
+		// if (sentCode === false) {
+		// 	// if it was not then throw an error message
+		// 	handleShowSnackbar("error", "Code not sent: Check number");
+		// }
 		if (isSuccess) {
 			handleShowSnackbar("success", "Welcome to ProNet");
 			setShow("createProfile");
 		}
-		//dispatch(reset());
+		dispatch(reset());
 	}, [sentCode, isSuccess]);
 
 	// function to show snack-bar alert
@@ -59,13 +62,24 @@ const RegisterUser = () => {
 		}));
 	};
 
+	// to use till twilo account is functioning again
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		const data = {
+			...formData,
+			phoneNumber: value,
+		};
+		dispatch(registerUser(data));
+	};
+
 	return (
 		<div className="image-back">
 			<div className="h-screen flex items-center justify-center">
 				<div className="h-[550px] w-[450px] glassmorphism-card p-4 overflow-auto">
 					{show === "register" ? (
 						<>
-							<form className="h-full">
+							<form onSubmit={handleSubmit} className="h-full">
 								<Link
 									to="/"
 									className="flex items-center font-black font-semibold text-4xl"
@@ -117,13 +131,21 @@ const RegisterUser = () => {
 										value={password}
 										onChange={handleChange}
 									/>
-									<VerificationModal
+									{/* uncomment once twilo account is working again */}
+									{/* <VerificationModal
 										setShow={setShow}
 										value={value}
 										formData={formData}
 									>
 										<p>REGISTER</p>
-									</VerificationModal>
+									</VerificationModal> */}
+									{/* remove once twilio accaount is working again */}
+									<button
+										//onClick={handleVerification}
+										className="py-2 px-4 mt-2 font-bold w-full text-md bg-gradient-to-r from-orange to-pink rounded-md duration-1000 ease-in-out hover:bg-gradient-to-r hover:from-pink hover:to-orange"
+									>
+										Register
+									</button>
 									<Link
 										to="/login"
 										className="mt-2 font-dosis duration-500 hover:text-orange"
