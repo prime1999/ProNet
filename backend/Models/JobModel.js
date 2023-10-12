@@ -22,6 +22,10 @@ const jobSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		skills: {
+			type: [String],
+			required: true,
+		},
 		requirements: {
 			type: [String], // An array of job requirements
 			required: true,
@@ -32,5 +36,13 @@ const jobSchema = new mongoose.Schema(
 	},
 	{ timestamps: true }
 );
+
+// Define text indexes on 'title', 'description', 'requirements' and 'skills' fields
+jobSchema.index({
+	title: "text",
+	description: "text",
+	requirements: "text",
+	skills: "text",
+});
 
 module.exports = mongoose.model("Job", jobSchema);
