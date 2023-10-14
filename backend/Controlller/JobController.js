@@ -107,8 +107,11 @@ const getUsersJobPostings = asyncHandler(async (req, res) => {
 	try {
 		// find the jobs based on your user's id
 		const jobs = await Job.find({ user: req.params.userId });
-		console.log(jobs.length);
-		res.status(200).json(jobs);
+		if (jobs) {
+			res.status(200).json(jobs);
+		} else {
+			throw new Error("No jobs postings by this user");
+		}
 	} catch (error) {
 		// if an error ocurred in the try block then,
 		res.status(400);
@@ -116,4 +119,104 @@ const getUsersJobPostings = asyncHandler(async (req, res) => {
 	}
 });
 
-module.exports = { postJob, recommendJobs, getUsersJobPostings };
+// -------------------------------- function to get the current user's job postings --------------------------- //
+const getCurrentUserJobPostings = asyncHandler(async (req, res) => {
+	// get the user exist
+	const userExist = await User.findById(req.user._id);
+	// check if the user exist
+	if (!userExist) {
+		// if the user doesn't exist
+		throw new Error("User Not Authorised");
+	}
+	// if user exist
+	// make a try-block
+
+	try {
+		// get the current user's job postings using the user's id
+		const jobs = await Job.find({ user: req.user._id });
+		if (jobs) {
+			res.status(200).json(jobs);
+		} else {
+			throw new Error("No Job Postings by User");
+		}
+	} catch (error) {
+		// if an error ocurred in the try block then,
+		res.status(400);
+		throw new Error(error.message);
+	}
+});
+
+// -------------------------------- function to delete a job posting ------------------------------ //
+const deleteJobPosting = asyncHandler(async (req, res) => {
+	// get the user exist
+	const userExist = await User.findById(req.user._id);
+	// check if the user exist
+	if (!userExist) {
+		// if the user doesn't exist
+		throw new Error("User Not Authorised");
+	}
+	// if user exist
+	// make a try-block
+
+	try {
+		// check if the user is the creator of the job posting
+		const checkJob = await Job.findOne({
+			_id: req.params.jobId,
+			user: req.user._id.toString(),
+		});
+		if (checkJob) {
+			const deleteJob = await Job.findByIdAndDelete(req.params.jobId);
+			res.status(200).json(deleteJob);
+		} else {
+			// throw error if the user is not the creator of the job posting
+			throw new Error("User not Authorised");
+		}
+	} catch (error) {
+		// if an error ocurred in the try block then,
+		res.status(400);
+		throw new Error(error.message);
+	}
+});
+
+// -------------------------------------- function to update a job posting ---------------------------- //
+const updateJobPosting = asyncHandler(async (req, res) => {
+	// get the user exist
+	const userExist = await User.findById(req.user._id);
+	// check if the user exist
+	if (!userExist) {
+		// if the user doesn't exist
+		throw new Error("User Not Authorised");
+	}
+	// if user exist
+	// make a try-block
+	try {
+		// check if the user is the creator of the job posting
+		const checkJob = await Job.findOne({
+			_id: req.params.jobId,
+			user: req.user._id.toString(),
+		});
+		if (checkJob) {
+			const updateJob = await Job.findOneAndUpdate(
+				{ _id: req.params.jobId },
+				{ ...req.body }
+			);
+			res.status(200).json(updateJob);
+		} else {
+			// throw error if the user is not the creator of the job posting
+			throw new Error("User not Authorised");
+		}
+	} catch (error) {
+		// if an error ocurred in the try block then,
+		res.status(400);
+		throw new Error(error.message);
+	}
+});
+
+module.exports = {
+	postJob,
+	recommendJobs,
+	getUsersJobPostings,
+	getCurrentUserJobPostings,
+	deleteJobPosting,
+	updateJobPosting,
+};
