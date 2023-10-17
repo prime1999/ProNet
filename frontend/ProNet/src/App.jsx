@@ -14,6 +14,7 @@ import RootLayout from "./Layouts/RootLayout/RootLayout";
 import Profile from "./pages/profile/Profile";
 import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./pages/NewFeed/Dashboard";
+import JobDashboard from "./pages/jobs/JobDashboard";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -24,6 +25,9 @@ const router = createBrowserRouter(
 					<Route index element={<Dashboard />} />
 					<Route path="/profile" element={<PrivateRoute />}>
 						<Route path="/profile" element={<Profile />} />
+					</Route>
+					<Route path="/jobs" element={<PrivateRoute />}>
+						<Route path="/jobs" element={<JobDashboard />} />
 					</Route>
 				</Route>
 			</Route>

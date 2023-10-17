@@ -24,9 +24,11 @@ const postJob = asyncHandler(async (req, res) => {
 			skills,
 			requirements,
 			salary,
+			jobType,
+			employmentType,
 		} = req.body;
 		// create the new job posting data
-		const newJob = new Job({
+		const newJob = {
 			user: req.user._id,
 			title,
 			company,
@@ -35,7 +37,9 @@ const postJob = asyncHandler(async (req, res) => {
 			skills,
 			requirements,
 			salary,
-		});
+			jobType,
+			employmentType,
+		};
 
 		// create the new job posting
 		const job = await Job.create(newJob);

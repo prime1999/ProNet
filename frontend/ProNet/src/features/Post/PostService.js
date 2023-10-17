@@ -31,7 +31,6 @@ const getFeed = async (token) => {
 
 // ----------------------------------- function to react to a post ---------------------------------- //
 const reactToAPost = async (postId, token) => {
-	console.log(postId);
 	const config = {
 		headers: {
 			Authorization: `Bearer ${token}`,

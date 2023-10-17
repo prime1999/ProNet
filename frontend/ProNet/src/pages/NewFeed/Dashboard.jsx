@@ -1,12 +1,11 @@
 import { useState, useEffect, lazy, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { Grid } from "@mui/material";
 import {
 	reset,
 	getProfileIntro,
 } from "../../features/Profile/ProfileIntro/ProfileIntroSlice";
-
-import { Grid } from "@mui/material";
 import PostFeed from "../../components/NewFeed/PostFeed";
 import LeftFeedComponentLoader from "../../components/miscellaneous/skeletons/LeftFeedComponentLoader";
 import RightFeedComponentLoader from "../../components/miscellaneous/skeletons/RightFeedComponentLoader";

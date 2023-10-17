@@ -239,3 +239,16 @@ input[type="number"]::-webkit-outer-spin-button {
   display: none;
 }
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(136, 136, 136, 0.281);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #0691d1;
+}

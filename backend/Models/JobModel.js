@@ -26,6 +26,14 @@ const jobSchema = new mongoose.Schema(
 			type: [String],
 			required: true,
 		},
+		jobType: {
+			type: [String],
+			required: true,
+		},
+		employmentType: {
+			type: [String],
+			required: true,
+		},
 		requirements: {
 			type: [String], // An array of job requirements
 			required: true,
