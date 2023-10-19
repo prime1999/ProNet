@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import logo from "../../assets/images/png/logo.png";
-import VerificationModal from "../../components/Auth/VerificationModal";
+//import VerificationModal from "../../components/Auth/VerificationModal";
 import NotificationAlert from "../../components/miscellaneous/NotificationAlert";
 import CreateProfile from "../../components/profile/CreateProfile/CreateProfile";
 import { registerUser, reset } from "../../features/Auth/AuthSlice";

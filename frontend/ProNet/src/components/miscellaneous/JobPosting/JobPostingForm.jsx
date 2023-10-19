@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PrevFormState from "./PrevFormState";
+import NextFormState from "./NextFormState";
 
 const JobPostingForm = () => {
 	// state to show next step
