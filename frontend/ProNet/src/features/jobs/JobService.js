@@ -14,7 +14,18 @@ const getRecommendedJobs = async (token) => {
 	console.log(data);
 	return data;
 };
+// ----------------------------- function to create a job posting -------------------------- //
+const createJobPosting = async (jobData, token) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	};
+	const { data } = await axios.post(`${API_URL}postJob`, jobData, config);
+	console.log(data);
+	return data;
+};
 
-const jobService = { getRecommendedJobs };
+const jobService = { getRecommendedJobs, createJobPosting };
 
 export default jobService;

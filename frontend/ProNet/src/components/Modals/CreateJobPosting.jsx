@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { Modal, Backdrop, Fade, Avatar } from "@mui/material";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Modal, Backdrop, Fade } from "@mui/material";
 import JobPostingForm from "../miscellaneous/JobPosting/JobPostingForm";
+import { reset } from "../../features/jobs/JobSlice";
 
 const CreateJobPosting = ({ children }) => {
 	// state to handle the modal visibilty
@@ -9,6 +11,15 @@ const CreateJobPosting = ({ children }) => {
 	const handleOpen = () => setOpen(true);
 	// function to close the modal
 	const handleClose = () => setOpen(false);
+
+	const { isSuccess } = useSelector((state) => state.jobs);
+
+	useEffect(() => {
+		if (isSuccess) {
+			setOpen(false);
+			reset();
+		}
+	}, [isSuccess]);
 	return (
 		<div className="w-full">
 			{children && (
@@ -31,7 +42,7 @@ const CreateJobPosting = ({ children }) => {
 					}}
 				>
 					<Fade in={open}>
-						<div className="absolute top-[5%] p-4 rounded-md shadow-md h-[550px] w-full bg-white md:w-[500px] md:left-[18%] lg:left-[35%]">
+						<div className="absolute top-[5%] p-4 rounded-md shadow-md h-[550px] w-full overflow-auto bg-white md:w-[500px] md:left-[18%] lg:left-[35%]">
 							<JobPostingForm />
 						</div>
 					</Fade>

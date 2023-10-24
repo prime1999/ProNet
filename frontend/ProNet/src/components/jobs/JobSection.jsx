@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import JobSearch from "./JobSearch";
-import { getRecommendedJobs } from "../../features/jobs/JobSlice";
+import { getRecommendedJobs, reset } from "../../features/jobs/JobSlice";
 import Spinner from "../Spinner/Spinner";
 
 const JobSection = () => {
@@ -19,16 +19,17 @@ const JobSection = () => {
 	useEffect(() => {
 		if (isSuccess) {
 			setRecommendedJobs([...jobFeed]);
+			reset();
 		}
 	}, [isSuccess, jobFeed]);
-
-	if (isLoading) {
-		return <Spinner />;
-	}
 
 	const getPrice = (price) => {
 		return price / 1000;
 	};
+
+	if (isLoading) {
+		return <Spinner />;
+	}
 	return (
 		<div>
 			<div className="w-11/12 mx-auto h-screen overflow-auto">

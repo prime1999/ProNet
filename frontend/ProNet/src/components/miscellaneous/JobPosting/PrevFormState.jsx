@@ -86,16 +86,24 @@ const PrevFormState = ({ setStep, jobPostingData, setJobPostingData }) => {
 	// 	setFilteredJobs(null);
 	// };
 
+	// function to add a requiremnts to the job posting data
 	const handleSelect = (event) => {
+		// check if the enter key was clicked
 		if (event.key === "Enter") {
+			// prevent the default form submission behaviour
 			event.preventDefault();
+			// check if the requiremet has already been specified before
 			const checkValue = requirements.includes(requirementValue);
+			// if it has not been then:
 			if (!checkValue) {
+				// add the requirement to the requirements array in the job posting data
 				setJobPostingData((prevState) => ({
 					...prevState,
 					requirements: [...requirements, requirementValue],
 				}));
+				// clear the input field
 				setRequirementValue("");
+				// but if it has been
 			} else {
 				// perform an error handler
 				console.log("exists");
@@ -103,31 +111,43 @@ const PrevFormState = ({ setStep, jobPostingData, setJobPostingData }) => {
 		}
 	};
 
+	// function to edit the job requirements lists
 	const handleDelete = (value) => {
+		// update the the job data state to remove the desired requirement
 		setJobPostingData((prevState) => ({
 			...prevState,
 			requirements: requirements.filter((requirement) => requirement !== value),
 		}));
 	};
 
+	// save the info and move to the next step
 	const handleSubmit = (e) => {
+		// prevent the default form submission
 		e.preventDefault();
+		// check if the job description has been filled
 		if (description === "") {
+			// if not
 			// perform an error handler
 			handleShowSnackbar("error", "fill in job description");
 		}
+		// check if the company name field has been filled
 		if (company === "") {
+			// if not
 			// perform an error handler
 			handleShowSnackbar("error", "fill in the company's name");
 		}
+		// check if the requirements array has been filled
 		if (requirements == []) {
+			// if not
 			// perform an error handler
 			handleShowSnackbar(
 				"error",
 				"please give job requirements for quick response"
 			);
 		}
+		// if all this has been filled then:
 		if (description !== "" && company !== "" && requirements) {
+			// add them to the job posting data
 			setJobPostingData((prevState) => ({
 				...prevState,
 				title: titleValue.value,
@@ -147,7 +167,7 @@ const PrevFormState = ({ setStep, jobPostingData, setJobPostingData }) => {
 	return (
 		<div className="px-4">
 			<h6 className="text-2xl font-semibold">Post a job for free</h6>
-			<form onSubmit={handleSubmit} className="mt-2">
+			<form onSubmit={handleSubmit} className="">
 				{/* <div className="relative z-50">
 					<label className="text-md text-gray-500">Job Title*</label>
 					<input

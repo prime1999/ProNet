@@ -32,6 +32,27 @@ export const getRecommendedJobs = createAsyncThunk(
 		}
 	}
 );
+// ----------------------------- function to create a job posting ----------------------------- //
+export const createJobPosting = createAsyncThunk(
+	"jobs/createJobPosting",
+	async (jobData, thunkAPI) => {
+		try {
+			// await on the createJobPosting function in the jobs service component
+			const token = thunkAPI.getState().auth.user.token;
+			return await jobService.createJobPosting(jobData, token);
+		} catch (error) {
+			// assign an error value if there is one in any of the listed error value holders below
+			const message =
+				(error.response &&
+					error.response.data &&
+					error.response.data.message) ||
+				error.message ||
+				error.toString();
+			// return the errror message using the thunkapi rejectwithvalue
+			return thunkAPI.rejectWithValue(message);
+		}
+	}
+);
 
 export const JobSlice = createSlice({
 	name: "jobs",
@@ -50,6 +71,19 @@ export const JobSlice = createSlice({
 				state.isSuccess = true;
 			})
 			.addCase(getRecommendedJobs.rejected, (state, action) => {
+				state.isLoading = false;
+				state.message = action.payload;
+				state.isSuccess = false;
+				state.isError = true;
+			})
+			.addCase(createJobPosting.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(createJobPosting.fulfilled, (state) => {
+				state.isLoading = false;
+				state.isSuccess = true;
+			})
+			.addCase(createJobPosting.rejected, (state, action) => {
 				state.isLoading = false;
 				state.message = action.payload;
 				state.isSuccess = false;
