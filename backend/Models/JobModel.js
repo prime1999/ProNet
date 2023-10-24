@@ -48,6 +48,7 @@ const jobSchema = new mongoose.Schema(
 // Define text indexes on 'title', 'description', 'requirements' and 'skills' fields
 jobSchema.index({
 	title: "text",
+	company: "text",
 	description: "text",
 	requirements: "text",
 	skills: "text",

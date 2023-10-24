@@ -216,6 +216,38 @@ const updateJobPosting = asyncHandler(async (req, res) => {
 	}
 });
 
+// --------------------------------- function to search for a job posting ------------------------- //
+const searchJobPosting = asyncHandler(async (req, res) => {
+	// get the user exist
+	const userExist = await User.findById(req.user._id);
+	// check if the user exist
+	if (!userExist) {
+		// if the user doesn't exist
+		throw new Error("User Not Authorised");
+	}
+	// if user exist
+	// make a try-block
+	try {
+		const { keyword } = req.body;
+		// search jobs based on the keyword
+		let jobs = await Job.find(
+			{
+				$text: {
+					// headLine and skills by search for the keyword
+					$search: keyword, // Concatenate and search user's "headLine" and skills
+				},
+			},
+			// show the jobs in order of there score(how much they match the user's profile)
+			{ score: { $meta: "textScore" } }
+		);
+
+		res.status(200).json(jobs);
+	} catch (error) {
+		res.status(400);
+		throw new Error(error.message);
+	}
+});
+
 module.exports = {
 	postJob,
 	recommendJobs,
@@ -223,4 +255,5 @@ module.exports = {
 	getCurrentUserJobPostings,
 	deleteJobPosting,
 	updateJobPosting,
+	searchJobPosting,
 };
