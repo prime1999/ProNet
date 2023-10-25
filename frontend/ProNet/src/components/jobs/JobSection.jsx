@@ -18,7 +18,7 @@ const JobSection = () => {
 
 	useEffect(() => {
 		if (isSuccess) {
-			setRecommendedJobs([...jobFeed]);
+			setRecommendedJobs(jobFeed);
 			reset();
 		}
 	}, [isSuccess, jobFeed]);
@@ -36,7 +36,10 @@ const JobSection = () => {
 				<h2 className="font-poppins font-semibold text-xl mb-4">Job Board</h2>
 				<JobSearch />
 				{recommendedJobs && (
-					<div className="mt-16">
+					<div className="mt-8">
+						<h6 className="mb-2 font-poppins font-semibold text-lg">
+							Recommended jobs
+						</h6>
 						{recommendedJobs?.map((job) => (
 							<div
 								key={job._id}

@@ -24,7 +24,7 @@ jobRoute.post("/postJob", protect, postJob);
 jobRoute.get("/recommendJobs", protect, recommendJobs);
 jobRoute.get("/getUsersJobPostings/:userId", protect, getUsersJobPostings);
 jobRoute.get("/getUserJobPostings", protect, getCurrentUserJobPostings);
-jobRoute.get("/searchJobs", protect, searchJobPosting);
+jobRoute.post("/searchJobs", protect, searchJobPosting);
 jobRoute.patch("/updateJobPosting/:jobId", protect, updateJobPosting);
 jobRoute.delete("/deleteJobPosting/:jobId", protect, deleteJobPosting);
 
