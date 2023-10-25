@@ -229,21 +229,58 @@ const searchJobPosting = asyncHandler(async (req, res) => {
 	// make a try-block
 	try {
 		const { keyword } = req.body;
-		// search jobs based on the keyword
-		let jobs = await Job.find(
-			{
-				$text: {
-					// headLine and skills by search for the keyword
-					$search: keyword, // Concatenate and search user's "headLine" and skills
+		let jobs;
+		if (Array.isArray(keyword)) {
+			console.log(123);
+			jobs = await searchThroughArray(keyword);
+			console.log(jobs.length);
+		} else {
+			// search jobs based on the keyword
+			jobs = await Job.find(
+				{
+					$text: {
+						// headLine and skills by search for the keyword
+						$search: keyword, // Concatenate and search user's "headLine" and skills
+						$caseSensitive: false, // Perform a case-insensitive search
+					},
 				},
-			},
-			// show the jobs in order of there score(how much they match the user's profile)
-			{ score: { $meta: "textScore" } }
-		);
-
+				// show the jobs in order of there score(how much they match the user's profile)
+				{ score: { $meta: "textScore" } }
+			);
+		}
 		res.status(200).json(jobs);
 	} catch (error) {
 		res.status(400);
+		throw new Error(error.message);
+	}
+});
+
+// function to search job posting if the keyword is an array
+const searchThroughArray = asyncHandler(async (keyword) => {
+	try {
+		console.log(keyword);
+
+		const result = await Job.find({
+			$or: [
+				{
+					jobType: {
+						$in: keyword.map((keyword) => new RegExp(keyword, "i")),
+					},
+				},
+				{
+					skills: {
+						$in: keyword.map((keyword) => new RegExp(keyword, "i")),
+					},
+				},
+				{
+					employmentType: {
+						$in: keyword.map((keyword) => new RegExp(keyword, "i")),
+					},
+				},
+			],
+		}).exec();
+		return result;
+	} catch (error) {
 		throw new Error(error.message);
 	}
 });
