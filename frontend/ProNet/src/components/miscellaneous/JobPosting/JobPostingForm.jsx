@@ -4,7 +4,7 @@ import NextFormState from "./NextFormState";
 
 const JobPostingForm = () => {
 	// state to show next step
-	const [step, setStep] = useState(2);
+	const [step, setStep] = useState(1);
 	// state for the the job posting
 	const [jobPostingData, setJobPostingData] = useState({
 		title: "",

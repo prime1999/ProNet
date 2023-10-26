@@ -231,9 +231,7 @@ const searchJobPosting = asyncHandler(async (req, res) => {
 		const { keyword } = req.body;
 		let jobs;
 		if (Array.isArray(keyword)) {
-			console.log(123);
 			jobs = await searchThroughArray(keyword);
-			console.log(jobs.length);
 		} else {
 			// search jobs based on the keyword
 			jobs = await Job.find(
@@ -258,17 +256,10 @@ const searchJobPosting = asyncHandler(async (req, res) => {
 // function to search job posting if the keyword is an array
 const searchThroughArray = asyncHandler(async (keyword) => {
 	try {
-		console.log(keyword);
-
 		const result = await Job.find({
 			$or: [
 				{
 					jobType: {
-						$in: keyword.map((keyword) => new RegExp(keyword, "i")),
-					},
-				},
-				{
-					skills: {
 						$in: keyword.map((keyword) => new RegExp(keyword, "i")),
 					},
 				},
