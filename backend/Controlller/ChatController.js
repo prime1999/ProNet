@@ -65,8 +65,6 @@ const accessChat = asyncHandler(async (req, res) => {
 
 // ---------------------------------- function to get all the chats a user in involved in -------------- //
 const getChats = asyncHandler(async (req, res) => {
-	// get the id of the user to chat with from the request body
-	const { userId } = req.body;
 	// check if the current user is authorised
 	const userExist = await User.findById(req.user._id);
 	// if the user is not authorised then:

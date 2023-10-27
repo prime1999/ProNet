@@ -58,11 +58,10 @@ const JobSection = () => {
 											<h6 className="font-semibold font-poppins text-lg capitalize">
 												{job?.title}
 											</h6>
-											{/* to replace with employment type from db */}
-
 											{job?.jobType.map((type) => (
 												<>
 													<h6
+														key={type}
 														className={`ml-4 px-3 py-1 ${
 															type === "hybrid"
 																? "text-blue-800 bg-blue-100"

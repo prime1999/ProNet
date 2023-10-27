@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { AiOutlineMessage } from "react-icons/ai";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import { BiMessageRounded, BiMenuAltLeft } from "react-icons/bi";
 import { IoMdNotificationsOutline } from "react-icons/io";
@@ -127,8 +128,8 @@ const MenuBar = () => {
 						<Link className="text-2xl">
 							<RxDashboard />
 						</Link>
-						<Link className="mx-4 text-2xl">
-							<BiMessageRounded />
+						<Link to="/chats" className="mx-4 text-2xl">
+							<AiOutlineMessage />
 						</Link>
 						<Link className="text-2xl">
 							<IoMdNotificationsOutline />

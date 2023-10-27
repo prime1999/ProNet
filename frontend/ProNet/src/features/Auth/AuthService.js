@@ -38,6 +38,23 @@ const getPeopleWithSameInterest = async (token) => {
 	// send the request to the backend
 	const { data } = await axios.get(`${baseUrl()}user/getPeople`, config);
 
+	return data;
+};
+
+// ----------------------------------- function for searching users ------------------------ //
+const searchUsers = async (text, token) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	};
+	// send the request to the backend
+	const { data } = await axios.post(
+		`${baseUrl()}user/searchUsers`,
+		{ text },
+		config
+	);
+
 	console.log(data);
 
 	return data;
@@ -65,6 +82,7 @@ const logUserOut = async () => {
 const authService = {
 	registerUser,
 	getPeopleWithSameInterest,
+	searchUsers,
 	sendCode,
 	verifyCode,
 	logUserIn,

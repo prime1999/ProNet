@@ -80,6 +80,28 @@ export const getPeopleWithSameInterest = createAsyncThunk(
 	}
 );
 
+// ----------------------------------- function to search users ----------------------------- //
+export const searchUsers = createAsyncThunk(
+	"auth/searchUsers",
+	async (text, thunkAPI) => {
+		try {
+			// await on the search users  function in the auth service component
+			const token = thunkAPI.getState().auth.user.token;
+			return await authService.searchUsers(text, token);
+		} catch (error) {
+			// assign an error value if there is one in any of the listed error value holders below
+			const message =
+				(error.response &&
+					error.response.data &&
+					error.response.data.message) ||
+				error.message ||
+				error.toString();
+			// return the errror message using the thunkapi rejectwithvalue
+			return thunkAPI.rejectWithValue(message);
+		}
+	}
+);
+
 // ------------------------------ function to send verification code -------------------- //
 export const sendCode = createAsyncThunk(
 	"auth/sendCode",
@@ -175,6 +197,21 @@ export const AuthSlice = createSlice({
 				state.isSuccess = true;
 			})
 			.addCase(getPeopleWithSameInterest.rejected, (state, action) => {
+				state.isLoading = false;
+				state.isSuccess = false;
+				state.isError = true;
+				state.message = action.payload;
+			})
+			// for searching users
+			.addCase(searchUsers.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(searchUsers.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.users = action.payload;
+				state.isSuccess = true;
+			})
+			.addCase(searchUsers.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isSuccess = false;
 				state.isError = true;

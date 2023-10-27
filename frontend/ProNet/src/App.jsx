@@ -15,6 +15,7 @@ import Profile from "./pages/profile/Profile";
 import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./pages/NewFeed/Dashboard";
 import JobDashboard from "./pages/jobs/JobDashboard";
+import ChatRoom from "./pages/Chats/ChatRoom";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -28,6 +29,9 @@ const router = createBrowserRouter(
 					</Route>
 					<Route path="/jobs" element={<PrivateRoute />}>
 						<Route path="/jobs" element={<JobDashboard />} />
+					</Route>
+					<Route path="/chats" element={<PrivateRoute />}>
+						<Route path="/chats" element={<ChatRoom />} />
 					</Route>
 				</Route>
 			</Route>

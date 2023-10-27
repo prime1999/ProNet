@@ -199,6 +199,40 @@ const updateUser = asyncHandler(async (req, res) => {
 	}
 });
 
+// --------------------------------------------- function to search for a user -------------------------------- //
+const searchUsers = asyncHandler(async (req, res) => {
+	const { text } = req.body;
+	// get the user from the database
+	const userExist = await User.findById(req.user._id);
+	// check if the user was found in the DB
+	if (!userExist) {
+		// if the user was not found
+		throw new Error("User not Authorised");
+	}
+	// make a try-catch block
+	try {
+		let users = await User.find({
+			$and: [
+				// check if the text matches the name or email
+				{
+					$or: [
+						// use a regex to make the text case insensitive
+						{ firstName: { $regex: text, $options: "i" } },
+						{ lastName: { $regex: text, $options: "i" } },
+						{ email: { $regex: text, $options: "i" } },
+					],
+				},
+				// check if the id of ther user is not equal to that of the current user
+				{ _id: { $ne: req.user._id } },
+			],
+		});
+		res.status(200).json(users);
+	} catch (error) {
+		res.status(400);
+		throw new Error(error.message);
+	}
+});
+
 // generate the jwt token
 const generateToken = (_id) => {
 	// generate the token using the user's id, the jwt secret and the number of days before it expires
@@ -210,4 +244,5 @@ module.exports = {
 	logUserIn,
 	updateUser,
 	getPeopleWithSameInterest,
+	searchUsers,
 };
