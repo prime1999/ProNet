@@ -10,6 +10,7 @@ const postRoute = require("./Routes/PostRoute");
 const ProfileRoute = require("./Routes/profileRoutes/ProfileRoute");
 const commentRoute = require("./Routes/CommentsRoute");
 const jobRoute = require("./Routes/JobRoute");
+const chatRoute = require("./Routes/ChatRoute");
 
 // create an express app
 const app = express();
@@ -35,6 +36,8 @@ app.use("/api/profile", ProfileRoute);
 //app.use("/api/profile", ProfileRoute);
 // for the job
 app.use("/api/jobs", jobRoute);
+// for chatting
+app.use("/api/chat", chatRoute);
 
 // connect to db
 connectDb();
