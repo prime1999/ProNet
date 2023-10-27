@@ -226,7 +226,12 @@ const searchUsers = asyncHandler(async (req, res) => {
 				{ _id: { $ne: req.user._id } },
 			],
 		});
-		res.status(200).json(users);
+
+		if (users.length > 0) {
+			res.status(200).json(users);
+		} else {
+			throw new Error("User not found");
+		}
 	} catch (error) {
 		res.status(400);
 		throw new Error(error.message);

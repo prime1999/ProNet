@@ -6,7 +6,7 @@ const chatRoute = express.Router();
 //GET: ACCESSCHAT, private (one on one chat);
 //GET: GETCHATS, private (to get all chats of a user)
 
-chatRoute.get("/accessChat", protect, accessChat);
+chatRoute.post("/accessChat", protect, accessChat);
 chatRoute.get("/getChats", protect, getChats);
 
 module.exports = chatRoute;

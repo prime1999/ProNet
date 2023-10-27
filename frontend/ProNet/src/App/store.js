@@ -6,6 +6,7 @@ import contactInfoReducer from "../features/Profile/ContactInfo/ContactInfoSlice
 import PostReducer from "../features/Post/PostSlice";
 import CommentReducer from "../features/Comments/CommentSlice";
 import JobReducer from "../features/jobs/JobSlice";
+import ChatReducer from "../features/Chat/ChatSlice";
 
 export const store = configureStore({
 	reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
 		post: PostReducer,
 		comments: CommentReducer,
 		jobs: JobReducer,
+		chat: ChatReducer,
 	},
 });
