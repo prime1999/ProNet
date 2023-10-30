@@ -7,6 +7,7 @@ import PostReducer from "../features/Post/PostSlice";
 import CommentReducer from "../features/Comments/CommentSlice";
 import JobReducer from "../features/jobs/JobSlice";
 import ChatReducer from "../features/Chat/ChatSlice";
+import MessageReducer from "../features/Messages/MessageSlice";
 
 export const store = configureStore({
 	reducer: {
@@ -18,5 +19,6 @@ export const store = configureStore({
 		comments: CommentReducer,
 		jobs: JobReducer,
 		chat: ChatReducer,
+		messages: MessageReducer,
 	},
 });

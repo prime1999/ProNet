@@ -49,6 +49,25 @@ connectDb();
 app.use(errorHandler);
 
 // listen to request on the port
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
 	console.log(`listening on port ${process.env.PORT}`);
+});
+
+const io = require("socket.io")(server, {
+	// set the time for the socket to wait before disconnecting
+	pingTimeout: 60000,
+	// set cors for the specified web address
+	cors: {
+		origin: "http://localhost:5173",
+	},
+});
+// set the socket io connection to start using the socket io calls
+io.on("connection", (socket) => {
+	console.log("connected to socket io");
+	// listen to the setup socket send from the frontend
+	socket.on("setup", (userData) => {
+		// get the user's details sent with the sockect instance and add the user to a specific room with his/her id
+		socket.join(userData._id);
+		console.log(userData._id);
+	});
 });
