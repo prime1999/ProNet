@@ -56,6 +56,11 @@ export const sendMessage = createAsyncThunk(
 	}
 );
 
+// ----------------------------------- function to get all the messages of a chat ----------------------------- //
+export const setMessage = createAsyncThunk("messages/setMessage", (message) => {
+	return message;
+});
+
 export const MessageSlice = createSlice({
 	name: "messages",
 	initialState,
@@ -89,6 +94,21 @@ export const MessageSlice = createSlice({
 				state.isSuccess = true;
 			})
 			.addCase(sendMessage.rejected, (state, action) => {
+				state.isError = true;
+				state.isLoading = false;
+				state.isSuccess = false;
+				state.message = action.payload;
+			})
+			// function for real time messaging
+			.addCase(setMessage.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(setMessage.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.messages = [...state.messages, action.payload];
+				state.isSuccess = true;
+			})
+			.addCase(setMessage.rejected, (state, action) => {
 				state.isError = true;
 				state.isLoading = false;
 				state.isSuccess = false;

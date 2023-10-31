@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ScrollableFeed from "react-scrollable-feed";
+import ReactScrollableFeed from "react-scrollable-feed";
 import { Avatar } from "@mui/material";
 import { getMessages } from "../../features/Messages/MessageSlice";
 import {
@@ -14,19 +14,15 @@ import {
 const ScrollableChat = () => {
 	const dispatch = useDispatch();
 	const { messages } = useSelector((state) => state.messages);
-	const { selectedChat } = useSelector((state) => state.chat);
+	//const { selectedChat } = useSelector((state) => state.chat);
 	const { user } = useSelector((state) => state.auth);
 
-	useEffect(() => {
-		console.log(selectedChat);
-		dispatch(getMessages(selectedChat._id));
-	}, [selectedChat]);
 	return (
-		<div className="">
-			<ScrollableFeed>
+		<>
+			<ReactScrollableFeed>
 				{messages &&
 					messages.map((message, index) => (
-						<div key={message._id} className={`w-full flex items-start p-2`}>
+						<div key={message._id} className="w-full flex items-start p-2">
 							<div
 								className={`w-full flex ${
 									message.sender._id === user._id
@@ -55,8 +51,8 @@ const ScrollableChat = () => {
 							</div>
 						</div>
 					))}
-			</ScrollableFeed>
-		</div>
+			</ReactScrollableFeed>
+		</>
 	);
 };
 

@@ -69,5 +69,32 @@ io.on("connection", (socket) => {
 		// get the user's details sent with the sockect instance and add the user to a specific room with his/her id
 		socket.join(userData._id);
 		console.log(userData._id);
+		// emit a socket instance for the frontend to know that te user is connected
+		socket.emit("connected");
+	});
+	// listen to request from the frontend to join a specific chat
+	socket.on("join chat", (room) => {
+		// add the user to the chat with the id of the chat the user requested to join
+		socket.join(room);
+		console.log(`user joined room ${room}`);
+	});
+	socket.on("new message", (newMessageReceived) => {
+		let chat = newMessageReceived.chat;
+
+		if (!chat.users) {
+			return;
+		}
+
+		chat.users.forEach((user) => {
+			if (user._id === newMessageReceived.sender._id) {
+				return console.log("user ");
+			}
+
+			socket.in(user._id).emit("message received", newMessageReceived);
+		});
+	});
+	socket.off("setup", (userData) => {
+		console.log("USER DISCONNECTED");
+		socket.leave(userData._id);
 	});
 });

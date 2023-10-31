@@ -7,7 +7,12 @@ import { BsFillSendFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import ScrollableChat from "./ScrollableChat";
-import { sendMessage } from "../../features/Messages/MessageSlice";
+import {
+	getMessages,
+	reset,
+	sendMessage,
+	setMessage,
+} from "../../features/Messages/MessageSlice";
 
 const ENDPOINT = "http://localhost:8000";
 
@@ -15,32 +20,62 @@ let socket;
 
 const MessageBox = () => {
 	const dispatch = useDispatch();
+	const [connected, setConnected] = useState(false);
 	const { selectedChat } = useSelector((state) => state.chat);
+	const { chatMessage, messages } = useSelector((state) => state.messages);
 	const { user } = useSelector((state) => state.auth);
 
-	const [chatMessage, setChatMessage] = useState("");
+	const [newMessage, setNewMessage] = useState("");
 
 	useEffect(() => {
 		// instatntiate the socket to the backend api url
 		socket = io(ENDPOINT);
 		// send the user details in order to setup the user's room
 		socket.emit("setup", user);
-	});
+		socket.on("connected", () => {
+			setConnected(true);
+		});
+	}, []);
+
+	useEffect(() => {
+		if (selectedChat) {
+			dispatch(getMessages(selectedChat._id));
+			socket.emit("join chat", selectedChat._id);
+		}
+	}, [selectedChat, messages]);
+
+	useEffect(() => {
+		if (chatMessage) {
+			socket.emit("new message", chatMessage);
+		}
+	}, [chatMessage]);
 
 	const handleMessage = (e) => {
 		e.preventDefault();
 
-		if (chatMessage !== "") {
-			dispatch(sendMessage({ content: chatMessage, chatId: selectedChat._id }));
+		if (newMessage !== "") {
+			dispatch(sendMessage({ content: newMessage, chatId: selectedChat._id }));
 		}
+		setNewMessage("");
 	};
 
+	useEffect(() => {
+		socket.on("message received", (messageReceived) => {
+			dispatch(getMessages(messageReceived.chat._id));
+		});
+		console.log(messages);
+		// Clean up the event listener when the component unmounts
+		return () => {
+			socket.off("message received");
+		};
+	}, [chatMessage]);
+
 	return (
-		<div className="h-screen relative p-2 py-4">
+		<div className="h-screen relative p-2 py-4 overflow-auto">
 			{selectedChat ? (
 				<>
-					<div>
-						<div className="px-4">
+					<div className="w-full h-full">
+						<div className="px-4 h-[95%]">
 							{selectedChat.users.map(
 								(u) =>
 									u._id !== user._id && (
@@ -59,19 +94,18 @@ const MessageBox = () => {
 										</div>
 									)
 							)}
-						</div>
-						<div>
+
 							<ScrollableChat />
 						</div>
 						<form
 							onSubmit={handleMessage}
-							className="absolute bottom-3 bg-white h-14 w-full flex items-center"
+							className="bg-white h-14 mt-8 w-full flex items-center"
 						>
 							<div className="relative flex items-center justify-center text-gray-500 w-10/12 mx-auto h-full">
 								<input
 									type="text"
-									value={chatMessage}
-									onChange={(e) => setChatMessage(e.target.value)}
+									value={newMessage}
+									onChange={(e) => setNewMessage(e.target.value)}
 									className="bg-gray-200 w-full h-[70%] px-10 rounded-3xl focus:outline-none"
 								/>
 								<GrAttachment className="absolute left-5" />
