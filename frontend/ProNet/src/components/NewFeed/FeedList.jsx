@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense, useEffect } from "react";
+import { useState, lazy, Suspense, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { BiMessage } from "react-icons/bi";
 import {
@@ -27,6 +27,9 @@ const FeedList = ({ post, intro, fetchFeedsAgain, setFetchFeedsAgain }) => {
 	const { user } = useSelector((state) => state.auth);
 
 	useEffect(() => {
+		if (post.details.likes.length > 0) {
+			setLikes(post.details.likes.length);
+		}
 		let liked = post.details.likes.includes(user._id);
 		if (liked) {
 			setLiked(true);
@@ -50,18 +53,28 @@ const FeedList = ({ post, intro, fetchFeedsAgain, setFetchFeedsAgain }) => {
 	const reactToPost = (postId) => {
 		dispatch(reactToAPost(postId));
 		setLiked(!liked);
-		setFetchFeedsAgain(!fetchFeedsAgain);
+		//setFetchFeedsAgain(!fetchFeedsAgain);
 	};
 
+	// useEffect(() => {
+	// 	if (liked && post.details.likes > 0) {
+	// 		setLikes();
+	// 	}
+	// });
 	const showLiked = () => {
 		if (liked) {
+			console.log(post.details.likes.length);
 			if (post.details.likes.length === 1) {
 				return "you";
-			} else {
+			} else if (post.details.likes.length > 1) {
 				return `you and ${post.details.likes.length - 1} others`;
 			}
-		} else if (post.details.likes.length !== 0) {
-			return `${post.details.likes.length} Likes`;
+		} else {
+			if (post.details.likes.length > 1) {
+				return `${post.details.likes.length - 1} Likes`;
+			} else if (post.details.likes.length === 1) {
+				return ``;
+			}
 		}
 	};
 

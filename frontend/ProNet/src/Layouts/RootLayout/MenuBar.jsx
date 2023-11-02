@@ -18,6 +18,7 @@ import {
 const MenuBar = () => {
 	const dispatch = useDispatch();
 	const [currentUser, setCurrentUser] = useState(null);
+	const [notificationCount, setNnotificationCount] = useState(1);
 	const navigate = useNavigate();
 	// for the drawer
 	const [open, setOpen] = useState(false);
@@ -131,8 +132,11 @@ const MenuBar = () => {
 						<Link to="/chats" className="mx-4 text-2xl">
 							<AiOutlineMessage />
 						</Link>
-						<Link className="text-2xl">
+						<Link className="relative flex items-start text-2xl">
 							<IoMdNotificationsOutline />
+							{notificationCount > 0 && (
+								<span className="absolute left-3.5 top-2 bg-red-500 w-2 h-2 rounded-full"></span>
+							)}
 						</Link>
 						<div className="ml-4">
 							<Avatar

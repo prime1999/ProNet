@@ -1,30 +1,28 @@
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { GrAttachment } from "react-icons/gr";
 import { FaSmile } from "react-icons/fa";
 import { BsFillSendFill } from "react-icons/bs";
-import { useSelector } from "react-redux";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import ScrollableChat from "./ScrollableChat";
-import {
-	getMessages,
-	reset,
-	sendMessage,
-	setMessage,
-} from "../../features/Messages/MessageSlice";
+import { getMessages, sendMessage } from "../../features/Messages/MessageSlice";
 
+// the backend url
 const ENDPOINT = "http://localhost:8000";
-
-let socket;
+let socket, selectedChatCompare;
 
 const MessageBox = () => {
+	// init the useDispatch hook
 	const dispatch = useDispatch();
 	const [connected, setConnected] = useState(false);
+	// get the selectedChat from the chat in the redux store
 	const { selectedChat } = useSelector((state) => state.chat);
+	// get the chatMessage and the messages of a chat from the messages store in the redux store
 	const { chatMessage, messages } = useSelector((state) => state.messages);
+	// get the user info from the redux store
 	const { user } = useSelector((state) => state.auth);
-
+	// state for the value of the messge to be sent to a chat
 	const [newMessage, setNewMessage] = useState("");
 
 	useEffect(() => {
@@ -32,38 +30,52 @@ const MessageBox = () => {
 		socket = io(ENDPOINT);
 		// send the user details in order to setup the user's room
 		socket.emit("setup", user);
+		// listen to the socket  instance to connect the user from the backend
 		socket.on("connected", () => {
 			setConnected(true);
 		});
 	}, []);
 
 	useEffect(() => {
+		// check if a chat has been selected
 		if (selectedChat) {
+			// if yes then dispatch the getMessages function
 			dispatch(getMessages(selectedChat._id));
+			selectedChatCompare = selectedChat;
+			// emit a socket instance to join chat
 			socket.emit("join chat", selectedChat._id);
 		}
 	}, [selectedChat, messages]);
 
 	useEffect(() => {
+		// check if a new message has been sent
 		if (chatMessage) {
+			// if yes, then emit the socket instance to handle the new message in real time
 			socket.emit("new message", chatMessage);
 		}
 	}, [chatMessage]);
-
+	// function to send a message
 	const handleMessage = (e) => {
+		// prevent the default form sunmission process
 		e.preventDefault();
-
+		// if the input has been filled
 		if (newMessage !== "") {
+			// dispatch the  function to send a new message to the chat room
 			dispatch(sendMessage({ content: newMessage, chatId: selectedChat._id }));
 		}
+		// clear out the message field
 		setNewMessage("");
 	};
 
 	useEffect(() => {
+		// listen to the socket from another user that is sending a message
 		socket.on("message received", (messageReceived) => {
+			if (selectedChatCompare._id !== messageReceived.chat._id) {
+				console.log(123);
+			}
+			// dispatch get messages function again to get the message in real time
 			dispatch(getMessages(messageReceived.chat._id));
 		});
-		console.log(messages);
 		// Clean up the event listener when the component unmounts
 		return () => {
 			socket.off("message received");

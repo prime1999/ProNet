@@ -12,9 +12,7 @@ import {
 } from "../../config/MessageLogics";
 
 const ScrollableChat = () => {
-	const dispatch = useDispatch();
 	const { messages } = useSelector((state) => state.messages);
-	//const { selectedChat } = useSelector((state) => state.chat);
 	const { user } = useSelector((state) => state.auth);
 
 	return (

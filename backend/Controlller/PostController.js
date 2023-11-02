@@ -128,62 +128,49 @@ const getPosts = asyncHandler(async (req, res) => {
 
 // --------------------------------- function to get posts for a user's feed ------------------------- //
 const getPostFeed = asyncHandler(async (req, res) => {
-	// get the user exist
 	const userExist = await User.findById(req.user._id);
-	// check if the user exist
+
 	if (!userExist) {
-		// if the user doesn't exist
 		throw new Error("User Not Authorised");
 	}
-	// if the user exist, then
-	// make a try-catch block
+
 	try {
-		// find the profile of the current user
 		let userProfile = await IntroSchema.find({ user: req.user._id });
-		// check if the user's profile exist
+
 		if (!userProfile) {
-			// if it doesn't then, throw an error
 			throw new Error("User not Authorised");
 		}
-		// find the posts to send to the user's feed based on the user's:
+
 		let feeds = await Post.find(
 			{
 				$text: {
-					// headLine and skills by search for the keywords in the headlIne and skills write ups
-					$search: `${userProfile.headLine} ${userProfile[0].skills.join(" ")}`, // Concatenate and search user's "headLine" and skills
+					$search: `${userProfile.headLine} ${userProfile[0].skills.join(" ")}`,
 				},
 			},
-			// show the posts in order of there score(how musch they match the user's profile)
 			{ score: { $meta: "textScore" } }
 		);
 
-		// init an empty array and store it in a variable
+		// Sort the feeds based on a unique identifier, e.g., a timestamp or an incrementing ID
+		feeds = feeds.sort((a, b) => a.timestamp - b.timestamp);
+
 		const postFeeds = [];
-		// loop through the gotten feeds using the for of loop
+
 		for (const feed of feeds) {
-			// make a try-catch block
 			try {
-				// get the profile of each feed author(post creator)
 				const feedProfile = await IntroSchema.find({
-					// by checking the user field is equal to the author's id in a string format
 					user: feed.author.toString(),
 				});
-				// init a feedPosts variable
+
 				let feedPosts = null;
-				// check if a profile for the author of the current feed author was found
+
 				if (feedProfile.length > 0) {
-					// if it was then add the headLine from the profile to the feeds and store it in a variable
-					//const postFeed = { ...feed, headLine: feedProfile[0].headLine };
-					// then store the _doc and the headLine in the feedPosts variable initialized earlier
 					feedPosts = {
 						details: feed,
 						name: `${feedProfile[0].firstName} ${feedProfile[0].lastName}`,
 						pic: feedProfile[0].pic,
 						headLine: feedProfile[0].headLine,
 					};
-					// if the user's profie was not found then,
 				} else {
-					// store the current feed and a headLine of an empty string in the feedPosts variable
 					feedPosts = {
 						details: feed,
 						name: "App Tester",
@@ -191,21 +178,16 @@ const getPostFeed = asyncHandler(async (req, res) => {
 						headLine: "Software Developer",
 					};
 				}
-				// add each feedPosts to the postFeeds array
+
 				postFeeds.push(feedPosts);
 			} catch (error) {
-				// if an error occursed
 				throw new Error(error.message);
 			}
 		}
 
-		// return the feeds with the status code of 200
 		res.status(200);
-		// if the feeds exist i.e there is a post that matches the user's profie, then
-		if (postFeeds != []) {
-			// send the feeds to the frontend
+		if (postFeeds.length > 0) {
 			res.json(postFeeds);
-			// but there is not a post that matches the user's profile then
 		}
 	} catch (error) {
 		res.status(400);

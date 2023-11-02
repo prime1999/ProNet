@@ -12,6 +12,7 @@ const commentRoute = require("./Routes/CommentsRoute");
 const jobRoute = require("./Routes/JobRoute");
 const chatRoute = require("./Routes/ChatRoute");
 const messageRoute = require("./Routes/MessageRoute");
+const notificationRoute = require("./Routes/NotificationRoute");
 
 // create an express app
 const app = express();
@@ -41,6 +42,8 @@ app.use("/api/jobs", jobRoute);
 app.use("/api/chat", chatRoute);
 // for messaging
 app.use("/api/message", messageRoute);
+// for notifications
+app.use("/api/notification", notificationRoute);
 
 // connect to db
 connectDb();
@@ -78,18 +81,21 @@ io.on("connection", (socket) => {
 		socket.join(room);
 		console.log(`user joined room ${room}`);
 	});
+	// listen to the socket instance sent when a new message has been sent
 	socket.on("new message", (newMessageReceived) => {
+		// get the chat the message is comming from
 		let chat = newMessageReceived.chat;
-
+		// check if there are user in the chat
 		if (!chat.users) {
 			return;
 		}
-
+		// if there are then: loop throught the users array
 		chat.users.forEach((user) => {
+			// get the other user apart from the message sender
 			if (user._id === newMessageReceived.sender._id) {
 				return console.log("user ");
 			}
-
+			// get the room of the user and emit the message the message sent
 			socket.in(user._id).emit("message received", newMessageReceived);
 		});
 	});

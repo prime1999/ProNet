@@ -14,7 +14,6 @@ const initialState = {
 export const getMessages = createAsyncThunk(
 	"messages/getMessage",
 	async (chatId, thunkAPI) => {
-		console.log(chatId);
 		try {
 			// await on the getMessages function in the message service component
 			const token = thunkAPI.getState().auth.user.token;
