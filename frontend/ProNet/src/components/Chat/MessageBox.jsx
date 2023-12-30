@@ -7,6 +7,7 @@ import { BsFillSendFill } from "react-icons/bs";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import ScrollableChat from "./ScrollableChat";
 import { getMessages, sendMessage } from "../../features/Messages/MessageSlice";
+import { sendNotification } from "../../features/Notifications/NotificationSlice";
 
 // the backend url
 const ENDPOINT = "http://localhost:8000";
@@ -70,8 +71,16 @@ const MessageBox = () => {
 	useEffect(() => {
 		// listen to the socket from another user that is sending a message
 		socket.on("message received", (messageReceived) => {
-			if (selectedChatCompare._id !== messageReceived.chat._id) {
-				console.log(123);
+			if (
+				!selectedChatCompare ||
+				selectedChatCompare._id !== messageReceived.chat._id
+			) {
+				dispatch(
+					sendNotification({
+						message: messageReceived.content,
+						chatId: messageReceived.chat._id,
+					})
+				);
 			}
 			// dispatch get messages function again to get the message in real time
 			dispatch(getMessages(messageReceived.chat._id));

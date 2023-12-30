@@ -28,7 +28,7 @@ app.use(cors());
 // for the user registration and log in
 app.use("/api/user", UserRoute);
 // for the number verification
-app.use("/api", route);
+//app.use("/api", route);
 // for the post
 app.use("/api", postRoute);
 // for the comment
@@ -61,7 +61,7 @@ const io = require("socket.io")(server, {
 	pingTimeout: 60000,
 	// set cors for the specified web address
 	cors: {
-		origin: "http://localhost:5173",
+		origin: "http://localhost:5174",
 	},
 });
 // set the socket io connection to start using the socket io calls

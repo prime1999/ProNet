@@ -31,6 +31,9 @@ const UsersList = ({ userChats }) => {
 											/>
 											<div className="ml-4 font-poppins font-semibold text-lg">
 												<h6>{`${u.firstName} ${u.lastName}`}</h6>
+												<p className="text-gray-300 text-sm font-normal">
+													{one?.latestMessage?.content}
+												</p>
 											</div>
 										</div>
 									)

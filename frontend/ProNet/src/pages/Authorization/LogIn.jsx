@@ -25,12 +25,12 @@ const LogIn = () => {
 	// destructure the formData object
 	let { email, password } = formData;
 
-	useEffect(() => {
-		if (isSuccess) {
-			navigate("/");
-		}
-		dispatch(reset());
-	}, [dispatch, isSuccess]);
+	// useEffect(() => {
+	// 	if (isSuccess) {
+	// 		navigate("/");
+	// 	}
+	// 	dispatch(reset());
+	// }, [dispatch, isSuccess]);
 
 	// function to set the value of the formData
 	const handleChange = (e) => {
@@ -45,6 +45,7 @@ const LogIn = () => {
 		e.preventDefault();
 		// check if all the input fields were filled
 		if (!email || !password) {
+			console.log(112);
 			handleShowSnackbar("error", "Please fill in all fields");
 		}
 		const userData = {
@@ -103,7 +104,10 @@ const LogIn = () => {
 								Forgot password?
 							</button>
 						</div>
-						<button className="py-2 px-4 mt-2 font-bold w-full text-md bg-gradient-to-r from-orange to-pink rounded-md duration-1000 ease-in-out hover:bg-gradient-to-r hover:from-pink hover:to-orange">
+						<button
+							onClick={handleSubmit}
+							className="py-2 px-4 mt-2 font-bold w-full text-md bg-gradient-to-r from-orange to-pink rounded-md duration-1000 ease-in-out hover:bg-gradient-to-r hover:from-pink hover:to-orange"
+						>
 							LOG-IN
 						</button>
 						<Link

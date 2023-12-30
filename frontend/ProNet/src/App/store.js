@@ -8,6 +8,7 @@ import CommentReducer from "../features/Comments/CommentSlice";
 import JobReducer from "../features/jobs/JobSlice";
 import ChatReducer from "../features/Chat/ChatSlice";
 import MessageReducer from "../features/Messages/MessageSlice";
+import NotificationReducer from "../features/Notifications/NotificationSlice";
 
 export const store = configureStore({
 	reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
 		jobs: JobReducer,
 		chat: ChatReducer,
 		messages: MessageReducer,
+		notifications: NotificationReducer,
 	},
 });

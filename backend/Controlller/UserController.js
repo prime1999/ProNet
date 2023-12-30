@@ -114,26 +114,23 @@ const registerUser = asyncHandler(async (req, res) => {
 // -------------------------------------- log user in ----------------------------------- //
 const logUserIn = asyncHandler(async (req, res) => {
 	// get the user credentials sent from the frontend from request body
-	const { email, phoneNumber, password } = req.body;
-	// check if the phoneNUmber or email and the password is sent
-	if ((!email && !phoneNumber) || !password) {
-		// if not then throw error
-		throw new Error("Please fill all field");
-	}
+	const { email, password } = req.body;
+	// make a try-catch block
 	try {
+		// check if the email and the password is sent
+		if (!email || !password) {
+			// if not then throw error
+			throw new Error("Please fill all field");
+		}
 		// if it was send then
 		// initialize a user variable
 		let user;
-
-		// if the email was sent then
-		if (email) {
-			// find the user based on his/her email
-			user = await User.findOne({ email });
-		}
-		// if the phoneNumber was sent instead
-		if (!user && phoneNumber) {
-			// find the user based on his/her phoneNumber
-			user = await User.findOne({ phoneNumber });
+		// find the user based on his/her email
+		user = await User.findOne({ email });
+		// if a user with the email was not found, then:
+		if (!user) {
+			// show error if user is not found
+			throw new Error("User not authorized");
 		}
 		// check if the user exist and the password the user sent matched the one in the Db
 		if (user && (await bcrypt.compare(password, user.password))) {

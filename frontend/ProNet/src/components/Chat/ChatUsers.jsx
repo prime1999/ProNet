@@ -86,13 +86,13 @@ const ChatUsers = () => {
 					onChange={(e) => setValue(e.target.value)}
 					onKeyDown={handleSearch}
 					placeholder="Search chats or start a chat"
-					className="w-full rounded-3xl p-2 px-5 pl-7 bg-transparent shadow-md focus:outline-none"
+					className="w-full rounded-3xl p-2 px-7 bg-transparent shadow-md focus:outline-none"
 				/>
 				<HiMagnifyingGlass className="absolute top-3 left-2" />
 				{searchedUsers && (
 					<MdCancel
 						onClick={clearSearch}
-						className="absolute top-3 right-0 hover:cursor-pointer"
+						className="absolute top-3 right-2 hover:cursor-pointer"
 					/>
 				)}
 				<NotificationAlert

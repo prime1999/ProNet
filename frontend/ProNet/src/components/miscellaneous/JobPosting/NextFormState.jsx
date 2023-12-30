@@ -62,7 +62,7 @@ const NextFormState = ({ jobPostingData, setJobPostingData, setStep }) => {
 	const [alertMessage, setAlertMessage] = useState("");
 	const [alertSeverity, setAlertSeverity] = useState("success");
 
-	const { skills, jobType, employmentType, salary } = jobPostingData;
+	let { skills, jobType, employmentType, salary } = jobPostingData;
 
 	const handleSkills = (value) => {
 		setSelectedSkillOption(value);

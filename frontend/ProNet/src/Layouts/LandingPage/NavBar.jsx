@@ -42,8 +42,13 @@ const NavBar = () => {
 			)}
 			{!isSmallerThanMd && (
 				<div className="flex justify-between items-center font-roboto font-semibold w-48">
-					<Link className="duration-500 hover:text-gray-400">LogIn</Link>
-					<Link className="py-2 px-4 duration-500 bg-gradient-to-r from-orange to-pink rounded-md hover:bg-gradient-to-r hover:from-pink hover:to-orange">
+					<Link to="/login" className="duration-500 hover:text-gray-400">
+						LogIn
+					</Link>
+					<Link
+						to="/register"
+						className="py-2 px-4 duration-500 bg-gradient-to-r from-orange to-pink rounded-md hover:bg-gradient-to-r hover:from-pink hover:to-orange"
+					>
 						Get Started
 					</Link>
 				</div>

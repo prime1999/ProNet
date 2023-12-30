@@ -17,6 +17,7 @@ const registerUser = async (userData) => {
 
 // ----------------------------------- function to register a user ------------------------ //
 const logUserIn = async (userData) => {
+	console.log(userData);
 	// send the request to the backend
 	const { data } = await axios.post(`${baseUrl()}user/login`, userData);
 
@@ -54,8 +55,6 @@ const searchUsers = async (text, token) => {
 		{ text },
 		config
 	);
-
-	console.log(data);
 
 	return data;
 };

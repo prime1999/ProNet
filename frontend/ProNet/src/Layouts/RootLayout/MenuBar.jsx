@@ -29,6 +29,7 @@ const MenuBar = () => {
 
 	// check the sentCode and verify variable in the redux store
 	const { user } = useSelector((state) => state.auth);
+	const { notifications } = useSelector((state) => state.notifications);
 
 	// get the user's profile intro from the redux store
 	const { profileIntro, isLoading, isSuccess, isError, message } = useSelector(
@@ -129,12 +130,18 @@ const MenuBar = () => {
 						<Link className="text-2xl">
 							<RxDashboard />
 						</Link>
-						<Link to="/chats" className="mx-4 text-2xl">
+						<Link
+							to="/chats"
+							className="relative flex items-start mx-4 text-2xl"
+						>
 							<AiOutlineMessage />
+							{notifications && (
+								<span className="absolute left-4 top-2 bg-red-500 w-2 h-2 rounded-full"></span>
+							)}
 						</Link>
 						<Link className="relative flex items-start text-2xl">
 							<IoMdNotificationsOutline />
-							{notificationCount > 0 && (
+							{notifications && (
 								<span className="absolute left-3.5 top-2 bg-red-500 w-2 h-2 rounded-full"></span>
 							)}
 						</Link>
