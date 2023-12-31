@@ -43,7 +43,8 @@ const ContactInfoModal = ({ children }) => {
 			}
 		}
 		dispatch(reset());
-	}, [isSuccess]);
+	}, [isSuccess, contactInfo]);
+
 	return (
 		<div>
 			{children && <span onClick={handleOpen}>{children}</span>}

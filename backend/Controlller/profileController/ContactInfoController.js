@@ -129,8 +129,24 @@ const updateUserContactProfile = asyncHandler(async (req, res) => {
 
 		// check if the user's profile was found
 		if (!userContactProfile) {
-			// if it was not found
-			throw new Error("User profile not found");
+			// create the profile data
+			const contactInfo = {
+				user: req.user._id,
+				email: req.user.email,
+				phoneNumber: req.user.phoneNumber,
+				Address: contactUpdates.address ? contactUpdates.address : "",
+				BirthDay: contactUpdates.birthday ? contactUpdates.birthday : "",
+				Website: contactUpdates.website ? contactUpdates.website : "",
+			};
+
+			// create the profile based on te data provided
+			const createdContactProfile = await ContactSchema.create(contactInfo);
+			// check if the profie was created
+			if (createdContactProfile) {
+				// send it to the frontend
+				res.status(201);
+				res.json(createdContactProfile);
+			}
 		}
 
 		// if it was found, then proceed
