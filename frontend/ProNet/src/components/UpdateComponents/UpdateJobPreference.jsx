@@ -6,6 +6,7 @@ import { Chip } from "@mui/material";
 import Jobs from "../miscellaneous/Jobs";
 import CitiesAndCountries from "../miscellaneous/CitiesAndCountries";
 import {
+	addJobProfile,
 	reset,
 	updateJobProfile,
 } from "../../features/Profile/JobProfile/JobProfileSlice";
@@ -26,10 +27,10 @@ const UpdateJobPreference = ({
 	const dispatch = useDispatch();
 	// state for the user's job profile details
 	const [details, setDetails] = useState({
-		employmentTypes: jobDetails.employmentTypes,
-		jobLocations: jobDetails.jobLocations,
-		jobTitles: jobDetails.jobTitles,
-		jobTypes: jobDetails.jobTypes,
+		employmentTypes: jobDetails ? jobDetails?.employmentTypes : [],
+		jobLocations: jobDetails ? jobDetails?.jobLocations : [],
+		jobTitles: jobDetails ? jobDetails?.jobTitles : [],
+		jobTypes: jobDetails ? jobDetails?.jobTypes : [],
 	});
 	// for the job selection
 	const [jobs, setJobs] = useState(Jobs());
@@ -207,7 +208,7 @@ const UpdateJobPreference = ({
 				}));
 				setEmploymentType("");
 			} else {
-				// show a success alert message
+				// show a error alert message
 				handleShowSnackbar(
 					"error",
 					"select from (full-time, part-time, internship and contract) jobs"
@@ -215,28 +216,41 @@ const UpdateJobPreference = ({
 			}
 		}
 	};
+
 	// function to show snack-bar alert
 	const handleShowSnackbar = (severity, message) => {
 		setOpenAlert(true);
 		setAlertSeverity(severity);
 		setAlertMessage(message);
 	};
+
 	// function to update the user function in the database
 	const updateProfile = () => {
-		// store the stringified form of the job details in the variable jobUpdates
-		const jobUpdates = {
-			employmentTypes: JSON.stringify(details.employmentTypes),
-			jobTitles: JSON.stringify(details.jobTitles),
-			jobLocations: JSON.stringify(jobLocations),
-			jobTypes: JSON.stringify(jobTypes),
-		};
-		// dispatch the updateJobProfile function in the job profile slice passing the jobUpdates as an argument
-		dispatch(updateJobProfile({ jobUpdates }));
+		try {
+			// store the stringified form of the job details in the variable jobUpdates
+			const jobUpdates = {
+				employmentTypes: JSON.stringify(details.employmentTypes),
+				jobTitles: JSON.stringify(details.jobTitles),
+				jobLocations: JSON.stringify(jobLocations),
+				jobTypes: JSON.stringify(jobTypes),
+			};
+			console.log(jobDetails);
+			// dispatch the updateJobProfile function in the job profile slice passing the jobUpdates as an argument
+			if (jobDetails === undefined) {
+				console.log({ create: jobUpdates });
+				dispatch(addJobProfile({ ...jobUpdates }));
+			} else {
+				console.log({ update: jobUpdates });
+				dispatch(updateJobProfile({ ...jobUpdates }));
+			}
 
-		dispatch(reset());
-		setFetchJobProfileAgain(!fetchJobProfileAgain);
+			dispatch(reset());
+			setFetchJobProfileAgain(!fetchJobProfileAgain);
 
-		setEditMode(!editMode);
+			setEditMode(!editMode);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -402,7 +416,7 @@ const UpdateJobPreference = ({
 					</div>
 					<div>
 						<input
-							className="w-full px-2 py-1 rounded-md mt-4 text-xs border border-gray-300 focus:outline-none focus:border-2 focus:border-gray-500"
+							className="w-full h-8 px-2 py-1 rounded-md mt-4 text-sm border border-gray-300 focus:outline-none focus:border-2 focus:border-gray-500"
 							placeholder="Full-Time, Part-Time, Internship, Contract"
 							type="text"
 							value={employmentType}

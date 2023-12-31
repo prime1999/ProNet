@@ -39,7 +39,7 @@ const JobProfileModal = ({
 						}}
 					>
 						<Fade in={open}>
-							<div className="absolute top-[10%] left-[5%] rounded-md shadow-md h-[430px] w-[290px] bg-white overflow-y-auto">
+							<div className="absolute top-[10%] left-[5%] rounded-md shadow-md h-[430px] w-[290px] bg-white overflow-y-auto md:w-[40%]">
 								{!editMode ? (
 									<>
 										<div className="flex items-center justify-between p-4 font-semibold text-lg text-gray-400">

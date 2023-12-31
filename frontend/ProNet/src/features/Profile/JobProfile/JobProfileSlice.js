@@ -35,6 +35,7 @@ export const getJobProfile = createAsyncThunk(
 export const addJobProfile = createAsyncThunk(
 	"JobProfile/addJobProfile",
 	async (jobData, thunkAPI) => {
+		console.log({ jobData });
 		try {
 			// await on the add user job profile  function in the jobProfile service component
 			const token = thunkAPI.getState().auth.user.token;
@@ -60,7 +61,7 @@ export const updateJobProfile = createAsyncThunk(
 		try {
 			// await on the update user job profile  function in the job Profile service component
 			const token = thunkAPI.getState().auth.user.token;
-			return await JobProfileService.updateJobProfile(jobUpdates, token);
+			return await JobProfileService.updateJobProfile(token, jobUpdates);
 		} catch (error) {
 			// assign an error value if there is one in any of the listed error value holders below
 			const message =

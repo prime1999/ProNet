@@ -21,7 +21,7 @@ const LeftProfileDetails = ({ intro }) => {
 	const [alertSeverity, setAlertSeverity] = useState("success");
 
 	const [fetchJobProfileAgain, setFetchJobProfileAgain] = useState(false);
-	const [jobDetails, setJobDetails] = useState(null);
+	const [jobDetails, setJobDetails] = useState([]);
 	// init the dispatch function
 	const dispatch = useDispatch();
 
@@ -39,6 +39,7 @@ const LeftProfileDetails = ({ intro }) => {
 		if (isSuccess) {
 			// check if the jobProfile is an array
 			// if it is then
+
 			if (Array.isArray(jobProfile)) {
 				setJobDetails(jobProfile[0]);
 			} else {
@@ -47,7 +48,7 @@ const LeftProfileDetails = ({ intro }) => {
 			}
 		}
 		dispatch(reset());
-	}, [isSuccess]);
+	}, [isSuccess, jobProfile]);
 
 	// function to show snack-bar alert
 	const handleShowSnackbar = (severity, message) => {

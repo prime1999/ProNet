@@ -18,24 +18,28 @@ const addJobProfile = async (jobData, token) => {
 			Authorization: `Bearer ${token}`,
 		},
 	};
+
 	const { data } = await axios.post(
 		"/api/profile/createProfile/job",
 		jobData,
 		config
 	);
+
 	return data;
 };
 
 // ----------------------------- function to update the current user's jop profile ------------------------ //
-const updateJobProfile = async (jobUpdates, token) => {
+const updateJobProfile = async (token, jobUpdates) => {
+	console.log(token);
 	const config = {
 		headers: {
 			Authorization: `Bearer ${token}`,
 		},
 	};
-	const { data } = await axios.patch(
+
+	const { data } = await axios.put(
 		"/api/profile/updateProfile/job",
-		jobUpdates,
+		{ jobUpdates },
 		config
 	);
 

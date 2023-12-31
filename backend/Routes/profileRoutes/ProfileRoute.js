@@ -11,7 +11,7 @@ const {
 	getMyContactProfile,
 	getUserContactProfile,
 	updateUserContactProfile,
-} = require("../../Controlller/profileController/COntactInfoController");
+} = require("../../Controlller/profileController/ContactInfoController");
 const {
 	createJobProfile,
 	getUserJobProfile,
@@ -58,7 +58,7 @@ ProfileRoute.patch("/updateProfile/contact", protect, updateUserContactProfile);
 ProfileRoute.get("/getProfile/job", protect, getMyJobProfile);
 ProfileRoute.get("/getUserProfile/job", protect, getUserJobProfile);
 ProfileRoute.post("/createProfile/job", protect, createJobProfile);
-ProfileRoute.patch("/updateProfile/job", protect, updateJobProfile);
+ProfileRoute.put("/updateProfile/job", protect, updateJobProfile);
 
 // routes for the user's skill profile
 // POST: to create a user skill profile;
