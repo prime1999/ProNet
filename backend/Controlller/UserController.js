@@ -42,6 +42,7 @@ const getPeopleWithSameInterest = asyncHandler(async (req, res) => {
 		suggestions.map((suggestion) => {
 			// get the user's name, headLine and pic, and stote them in a variable
 			const user = {
+				_id: suggestion._id,
 				name: `${suggestion.firstName} ${suggestion.lastName}`,
 				headLine: suggestion.headLine,
 				pic: suggestion.pic,
@@ -63,20 +64,21 @@ const getPeopleWithSameInterest = asyncHandler(async (req, res) => {
 const registerUser = asyncHandler(async (req, res) => {
 	// get the user details sent from the frontend from the request body
 	const { firstName, lastName, email, phoneNumber, password } = req.body;
-	// check if all the details was sent
-	if (!lastName || !firstName || !email || !phoneNumber || !password) {
-		// if any of the details was not sent then
-		throw new Error("Please fill in all fields");
-	}
-
-	// if they were all sent,
-	const userExist = await User.findOne({ email });
-	// then check if the user already exist
-	if (userExist) {
-		// then throw an error
-		throw new Error("User already exist");
-	}
 	try {
+		// check if all the details was sent
+		if (!lastName || !firstName || !email || !phoneNumber || !password) {
+			// if any of the details was not sent then
+			throw new Error("Please fill in all fields");
+		}
+
+		// if they were all sent,
+		const userExist = await User.findOne({ email });
+		console.log(userExist);
+		// then check if the user already exist
+		if (userExist) {
+			// then throw an error
+			throw new Error("User already exist");
+		}
 		// if the user doesn't exist
 		// generate a salt
 		const salt = await bcrypt.genSalt(10);
@@ -115,6 +117,7 @@ const registerUser = asyncHandler(async (req, res) => {
 const logUserIn = asyncHandler(async (req, res) => {
 	// get the user credentials sent from the frontend from request body
 	const { email, password } = req.body;
+	console.log(req.body);
 	// make a try-catch block
 	try {
 		// check if the email and the password is sent
@@ -123,10 +126,9 @@ const logUserIn = asyncHandler(async (req, res) => {
 			throw new Error("Please fill all field");
 		}
 		// if it was send then
-		// initialize a user variable
-		let user;
+
 		// find the user based on his/her email
-		user = await User.findOne({ email });
+		const user = await User.findOne({ email });
 		// if a user with the email was not found, then:
 		if (!user) {
 			// show error if user is not found

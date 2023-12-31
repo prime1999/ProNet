@@ -1,7 +1,7 @@
 import axios from "axios";
 import { baseUrl } from "../../config/BaseURL";
 
-const API_URL = `${baseUrl()}jobs/`;
+const API_URL = "/api/jobs/";
 
 // ----------------------------- function to get the recommended jobs -------------------------- //
 const getRecommendedJobs = async (token) => {

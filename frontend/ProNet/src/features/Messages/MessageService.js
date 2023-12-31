@@ -1,7 +1,7 @@
 import axios from "axios";
 import { baseUrl } from "../../config/BaseURL";
 
-const API_URL = `${baseUrl()}message`;
+const API_URL = "/api/message";
 
 // ----------------------- function to get all the message sof a chats form the backend ----------------------- //
 const getMessages = async (chatId, token) => {

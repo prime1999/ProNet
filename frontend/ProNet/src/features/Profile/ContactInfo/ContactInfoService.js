@@ -1,7 +1,7 @@
 import axios from "axios";
 import { baseUrl } from "../../../config/BaseURL";
 
-const API_URL = `${baseUrl()}profile`;
+const API_URL = "/api/profile";
 
 // -------------------------------- function to get the current user's contact info ------------------------- //
 const getContactInfo = async (token) => {

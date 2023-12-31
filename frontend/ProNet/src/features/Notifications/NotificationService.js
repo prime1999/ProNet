@@ -1,7 +1,6 @@
 import axios from "axios";
-import { baseUrl } from "../../config/BaseURL";
 
-const API_URL = `${baseUrl()}notification/`;
+const API_URL = "/api/notification/";
 
 // -------------------------------- function to send notifications ------------------------------------- //
 const sendNotification = async (notificationData, token) => {
@@ -15,7 +14,7 @@ const sendNotification = async (notificationData, token) => {
 		notificationData,
 		config
 	);
-	console.log(data);
+
 	return data;
 };
 

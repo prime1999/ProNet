@@ -6,6 +6,7 @@ const User = require("../Models/UserModel");
 const createProfile = asyncHandler(async (req, res) => {
 	// check if the user exists in the database
 	const userExist = await User.findById(req.user._id);
+	console.log(req.user._id);
 
 	// if the user does not exist, then
 	if (!userExist) {

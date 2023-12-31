@@ -9,11 +9,7 @@ const createPost = async (postData, token) => {
 		},
 	};
 
-	const { data } = await axios.post(
-		`${baseUrl()}/createPost`,
-		postData,
-		config
-	);
+	const { data } = await axios.post("/api/createPost", postData, config);
 	return data;
 };
 
@@ -25,7 +21,7 @@ const getFeed = async (token) => {
 		},
 	};
 
-	const { data } = await axios.get(`${baseUrl()}/getFeed`, config);
+	const { data } = await axios.get("/api/getFeed", config);
 	return data;
 };
 
@@ -37,11 +33,7 @@ const reactToAPost = async (postId, token) => {
 		},
 	};
 
-	const { data } = await axios.patch(
-		`${baseUrl()}/reactToAPost`,
-		{ postId },
-		config
-	);
+	const { data } = await axios.patch("/api/reactToAPost", { postId }, config);
 	return data;
 };
 

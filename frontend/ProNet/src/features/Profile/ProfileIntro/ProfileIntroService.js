@@ -9,10 +9,7 @@ const getProfileIntro = async (token) => {
 		},
 	};
 
-	const { data } = await axios.get(
-		`${baseUrl()}profile/getProfile/intro`,
-		config
-	);
+	const { data } = await axios.get("/api/profile/getProfile/intro", config);
 
 	return data;
 };
@@ -25,7 +22,7 @@ const createUserProfile = async (profileData, token) => {
 	};
 
 	const { data } = await axios.post(
-		`${baseUrl()}profile/createProfile/intro`,
+		"/api/profile/createProfile/intro",
 		profileData,
 		config
 	);
@@ -42,7 +39,7 @@ const updateProfileIntro = async (introUpdates, token) => {
 	};
 
 	const { data } = await axios.patch(
-		`${baseUrl()}profile/updateProfile/intro`,
+		"/api/profile/updateProfile/intro",
 		{ introUpdates },
 		config
 	);

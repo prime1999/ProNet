@@ -8,10 +8,7 @@ const getJobProfile = async (token) => {
 			Authorization: `Bearer ${token}`,
 		},
 	};
-	const { data } = await axios.get(
-		`${baseUrl()}profile/getProfile/job`,
-		config
-	);
+	const { data } = await axios.get("/api/profile/getProfile/job", config);
 	return data;
 };
 // ----------------------------- function to add the current user's jop profile ------------------------ //
@@ -22,7 +19,7 @@ const addJobProfile = async (jobData, token) => {
 		},
 	};
 	const { data } = await axios.post(
-		`${baseUrl()}profile/createProfile/job`,
+		"/api/profile/createProfile/job",
 		jobData,
 		config
 	);
@@ -37,7 +34,7 @@ const updateJobProfile = async (jobUpdates, token) => {
 		},
 	};
 	const { data } = await axios.patch(
-		`${baseUrl()}profile/updateProfile/job`,
+		"/api/profile/updateProfile/job",
 		jobUpdates,
 		config
 	);

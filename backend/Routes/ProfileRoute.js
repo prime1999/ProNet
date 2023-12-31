@@ -16,7 +16,7 @@ const ProfileRoute = express.Router();
 
 ProfileRoute.get("/getProfile", protect, getMyProfile);
 ProfileRoute.get("/getUserProfile", protect, getUserProfile);
-ProfileRoute.post("/createProfile", protect, createProfile);
+ProfileRoute.post("/createProfile/intro", protect, createProfile);
 ProfileRoute.patch("/updateProfile", protect, updateUserProfile);
 
 module.exports = ProfileRoute;

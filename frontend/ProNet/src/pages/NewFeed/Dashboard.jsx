@@ -26,6 +26,7 @@ const Dashboard = () => {
 	const { profileIntro, isLoading, isSuccess, isError, message } = useSelector(
 		(state) => state.profileIntro
 	);
+	console.log(isLoading);
 
 	// for design below small screen size
 	const isSmallerThanMd = useMediaQuery((theme) =>
@@ -56,6 +57,7 @@ const Dashboard = () => {
 				<Grid container spacing={2}>
 					<Grid item xs={12} md={3}>
 						<div className="hidden lg:flex">
+							{!intro && <LeftFeedComponentLoader />}
 							{!isLoading && intro && (
 								<div className="w-full">
 									<Suspense fallback={<LeftFeedComponentLoader />}>

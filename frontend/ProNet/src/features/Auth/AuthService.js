@@ -4,7 +4,7 @@ import { baseUrl } from "../../config/BaseURL";
 // ----------------------------------- function to register a user ------------------------ //
 const registerUser = async (userData) => {
 	// send the request to the backend
-	const { data } = await axios.post(`${baseUrl()}user`, userData);
+	const { data } = await axios.post("/api/user", userData);
 
 	// check if a data was sent back
 	if (data) {
@@ -19,7 +19,7 @@ const registerUser = async (userData) => {
 const logUserIn = async (userData) => {
 	console.log(userData);
 	// send the request to the backend
-	const { data } = await axios.post(`${baseUrl()}user/login`, userData);
+	const { data } = await axios.post("/api/user/login", userData);
 
 	// check if a data was sent back
 	if (data) {
@@ -37,7 +37,7 @@ const getPeopleWithSameInterest = async (token) => {
 		},
 	};
 	// send the request to the backend
-	const { data } = await axios.get(`${baseUrl()}user/getPeople`, config);
+	const { data } = await axios.get("/api/user/getPeople", config);
 
 	return data;
 };
@@ -50,11 +50,7 @@ const searchUsers = async (text, token) => {
 		},
 	};
 	// send the request to the backend
-	const { data } = await axios.post(
-		`${baseUrl()}user/searchUsers`,
-		{ text },
-		config
-	);
+	const { data } = await axios.post("/api/user/searchUsers", { text }, config);
 
 	return data;
 };

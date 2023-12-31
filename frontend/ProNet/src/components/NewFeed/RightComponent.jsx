@@ -29,6 +29,7 @@ const RightComponent = () => {
 		if (isSuccess) {
 			setUsers(people);
 		}
+		console.log(people);
 		// clear the redux store
 		dispatch(reset());
 	}, [isSuccess]);

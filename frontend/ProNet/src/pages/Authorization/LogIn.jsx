@@ -25,12 +25,12 @@ const LogIn = () => {
 	// destructure the formData object
 	let { email, password } = formData;
 
-	// useEffect(() => {
-	// 	if (isSuccess) {
-	// 		navigate("/");
-	// 	}
-	// 	dispatch(reset());
-	// }, [dispatch, isSuccess]);
+	useEffect(() => {
+		if (isSuccess) {
+			navigate("/");
+		}
+		dispatch(reset());
+	}, [dispatch, isSuccess]);
 
 	// function to set the value of the formData
 	const handleChange = (e) => {
@@ -43,18 +43,23 @@ const LogIn = () => {
 	// function to handle submittion
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		// check if all the input fields were filled
-		if (!email || !password) {
-			console.log(112);
-			handleShowSnackbar("error", "Please fill in all fields");
+		// make a try catch block
+		try {
+			// check if all the input fields were filled
+			if (!email || !password) {
+				console.log(112);
+				handleShowSnackbar("error", "Please fill in all fields");
+			}
+			const userData = {
+				email,
+				password,
+			};
+			dispatch(logUserIn(userData));
+			email = "";
+			password = "";
+		} catch (error) {
+			handleShowSnackbar("error", error.message);
 		}
-		const userData = {
-			email,
-			password,
-		};
-		dispatch(logUserIn(userData));
-		email = "";
-		password = "";
 	};
 
 	// function to show snack-bar alert
