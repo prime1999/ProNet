@@ -8,6 +8,7 @@ import {
 import Spinner from "../../components/Spinner/Spinner";
 import ProfilePics from "../../components/profile/ProfilePics";
 import ProfilePageFooter from "../../components/profile/ProfilePageFooter";
+import PicSkeleton from "../../components/miscellaneous/skeletons/profileSkeleton/PicSkeleton";
 
 const Profile = () => {
 	const [intro, setIntro] = useState(null);
@@ -46,7 +47,7 @@ const Profile = () => {
 
 	return (
 		<>
-			{intro && (
+			{intro ? (
 				<div
 					key={intro._id}
 					className="w-full h-[350px]"
@@ -63,6 +64,8 @@ const Profile = () => {
 						intro={intro}
 					/>
 				</div>
+			) : (
+				<PicSkeleton />
 			)}
 			<div className="container mx-auto mt-4 xl:w-10/12 ">
 				<ProfileBody intro={intro} />

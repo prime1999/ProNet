@@ -4,6 +4,7 @@ import { AiOutlinePlus, AiOutlineArrowRight } from "react-icons/ai";
 import { BiBriefcase } from "react-icons/bi";
 import UpdateExperience from "../../UpdateComponents/UpdateExperience";
 import AddExperienceModal from "./AddExperienceModal";
+import RightBarsSkeleton from "../../miscellaneous/skeletons/profileSkeleton/RightBarsSkeleton";
 
 const ExperienceDetail = ({ intro }) => {
 	return (
@@ -17,7 +18,7 @@ const ExperienceDetail = ({ intro }) => {
 						</AddExperienceModal>
 					</div>
 				</div>
-
+				{!intro && <RightBarsSkeleton />}
 				<div>
 					{intro?.experience ? (
 						<div>

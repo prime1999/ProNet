@@ -11,10 +11,11 @@ import {
 } from "../../features/Profile/JobProfile/JobProfileSlice";
 import Spinner from "../Spinner/Spinner";
 import NotificationAlert from "../miscellaneous/NotificationAlert";
+import LeftSkeleton from "../miscellaneous/skeletons/profileSkeleton/LeftSkeleton";
 
 const LeftProfileDetails = ({ intro }) => {
 	// get the user variable in the redux store
-	const { user } = useSelector((state) => state.auth);
+	const { user, isLoading: userLoading } = useSelector((state) => state.auth);
 	// for the snackbar alert
 	const [openAlert, setOpenAlert] = useState(false);
 	const [alertMessage, setAlertMessage] = useState("");
@@ -60,65 +61,69 @@ const LeftProfileDetails = ({ intro }) => {
 	return (
 		<>
 			<div className="w-full flex flex-col items-start lg:items-center">
-				<div className="w-full bg-white border shadow-md px-4 py-8 rounded-md">
-					<div className="mt-2">
-						<div className="flex flex-col items-start lg:items-center justify-center">
-							<h4 className="font-poppins font-bold text-2xl text-right lg:text-center">
-								{user?.firstName}
-								{` ${user?.lastName}`}
-							</h4>
-							<p className="font-cour text-center text-lg font-semibold text-gray-500">
-								{intro?.headLine}
-							</p>
-						</div>
-						<div className="mt-16">
-							<div className="flex items-end justify-between">
-								<div>
-									<p className="text-gray-400 font-semibold text-lg">
-										Location
-									</p>
-									<p className="font-semibold">{intro?.location}</p>
-								</div>
-								<div>
-									<ContactInfoModal>
-										<Link className="text-darkBlue text-sm font-bold hover:border-b hover:border-darkBlue">
-											Contact info
-										</Link>
-									</ContactInfoModal>
-								</div>
+				{userLoading || isLoading || !intro ? (
+					<LeftSkeleton />
+				) : (
+					<div className="w-full bg-white border shadow-md px-4 py-8 rounded-md">
+						<div className="mt-2">
+							<div className="flex flex-col items-start lg:items-center justify-center">
+								<h4 className="font-poppins font-bold text-2xl text-right lg:text-center">
+									{user?.firstName}
+									{` ${user?.lastName}`}
+								</h4>
+								<p className="font-cour text-center text-lg font-semibold text-gray-500">
+									{intro?.headLine}
+								</p>
 							</div>
-							{isLoading ? (
-								<div className="ml-8 mt-4">
-									<MiniSpinner />
-								</div>
-							) : (
-								<div className="flex items-end justify-between mt-8">
+							<div className="mt-16">
+								<div className="flex items-end justify-between">
 									<div>
 										<p className="text-gray-400 font-semibold text-lg">
-											Job Info
+											Location
 										</p>
-										{jobDetails?.jobTitles?.map((profile, index) => (
-											<div key={index}>
-												<p className="font-semibold text-sm">{profile}</p>
-											</div>
-										))}
+										<p className="font-semibold">{intro?.location}</p>
 									</div>
 									<div>
-										<JobProfileModal
-											fetchJobProfileAgain={fetchJobProfileAgain}
-											setFetchJobProfileAgain={setFetchJobProfileAgain}
-											jobDetails={jobDetails}
-										>
+										<ContactInfoModal>
 											<Link className="text-darkBlue text-sm font-bold hover:border-b hover:border-darkBlue">
-												See Details
+												Contact info
 											</Link>
-										</JobProfileModal>
+										</ContactInfoModal>
 									</div>
 								</div>
-							)}
+								{isLoading ? (
+									<div className="ml-8 mt-4">
+										<MiniSpinner />
+									</div>
+								) : (
+									<div className="flex items-end justify-between mt-8">
+										<div>
+											<p className="text-gray-400 font-semibold text-lg">
+												Job Info
+											</p>
+											{jobDetails?.jobTitles?.map((profile, index) => (
+												<div key={index}>
+													<p className="font-semibold text-sm">{profile}</p>
+												</div>
+											))}
+										</div>
+										<div>
+											<JobProfileModal
+												fetchJobProfileAgain={fetchJobProfileAgain}
+												setFetchJobProfileAgain={setFetchJobProfileAgain}
+												jobDetails={jobDetails}
+											>
+												<Link className="text-darkBlue text-sm font-bold hover:border-b hover:border-darkBlue">
+													See Details
+												</Link>
+											</JobProfileModal>
+										</div>
+									</div>
+								)}
+							</div>
 						</div>
 					</div>
-				</div>
+				)}
 			</div>
 			<NotificationAlert
 				open={openAlert}

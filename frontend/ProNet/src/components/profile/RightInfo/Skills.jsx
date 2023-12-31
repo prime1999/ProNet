@@ -3,6 +3,7 @@ import { AiOutlinePlus, AiOutlineArrowRight } from "react-icons/ai";
 import { GiSkills } from "react-icons/gi";
 import { FiEdit2 } from "react-icons/fi";
 import UpdateSkills from "../../UpdateComponents/UpdateSkills";
+import RightBarsSkeleton from "../../miscellaneous/skeletons/profileSkeleton/RightBarsSkeleton";
 
 const Skills = ({ intro }) => {
 	return (
@@ -15,6 +16,7 @@ const Skills = ({ intro }) => {
 					</UpdateSkills>
 				</div>
 			</div>
+			{!intro && <RightBarsSkeleton />}
 			<div>
 				{intro?.skills ? (
 					<>

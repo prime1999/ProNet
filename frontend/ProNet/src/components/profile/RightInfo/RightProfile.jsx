@@ -7,6 +7,7 @@ import UpdateSummary from "../../UpdateComponents/UpdateSummary";
 import UpdateEducation from "../../UpdateComponents/UpdateEducation";
 import Skills from "./skills";
 import AddEducationModal from "./AddEducationModal";
+import RightBarsSkeleton from "../../miscellaneous/skeletons/profileSkeleton/RightBarsSkeleton";
 
 const RightProfile = ({ intro }) => {
 	return (
@@ -18,6 +19,7 @@ const RightProfile = ({ intro }) => {
 						<FiEdit2 className="hover:text-orange hover:cursor-pointer" />
 					</UpdateSummary>
 				</div>
+				{!intro && <RightBarsSkeleton />}
 				<p className="mt-2 text-md font-normal text-gray-500">
 					{intro?.summary}
 				</p>
@@ -74,7 +76,9 @@ const RightProfile = ({ intro }) => {
 							</div>
 						</div>
 					) : (
-						<></>
+						<>
+							<RightBarsSkeleton />
+						</>
 					)}
 				</div>
 			</div>

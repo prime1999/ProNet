@@ -6,6 +6,7 @@ import { Avatar } from "@mui/material";
 import NotificationAlert from "../miscellaneous/NotificationAlert";
 import { updateProfileIntro } from "../../features/Profile/ProfileIntro/ProfileIntroSlice";
 import Spinner from "../Spinner/Spinner";
+import UserPicSkeleton from "../miscellaneous/skeletons/profileSkeleton/UserPicSkeleton";
 
 const ProfilePics = ({
 	intro,
@@ -137,11 +138,16 @@ const ProfilePics = ({
 			<div className="">
 				{loading ? (
 					<>
-						<Spinner />
+						<UserPicSkeleton />
 					</>
 				) : (
 					<Avatar
-						sx={{ width: "170px", height: "170px", marginLeft: "20px" }}
+						sx={{
+							width: "170px",
+							height: "170px",
+							marginLeft: "20px",
+							boxShadow: "4px 4px 4px rgba(0, 0, 0, 0.5)",
+						}}
 						alt="user avatar"
 						src={pic}
 					></Avatar>
