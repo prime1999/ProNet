@@ -63,7 +63,6 @@ const FeedList = ({ post, intro, fetchFeedsAgain, setFetchFeedsAgain }) => {
 	// });
 	const showLiked = () => {
 		if (liked) {
-			console.log(post.details.likes.length);
 			if (post.details.likes.length === 1) {
 				return "you";
 			} else if (post.details.likes.length > 1) {
@@ -79,7 +78,7 @@ const FeedList = ({ post, intro, fetchFeedsAgain, setFetchFeedsAgain }) => {
 	};
 
 	return (
-		<div>
+		<div className="w-full h-full">
 			<div className="w-full mt-4 bg-white shadow-sm p-4">
 				<div className="w-full">
 					<div className="flex items-center">

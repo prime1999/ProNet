@@ -47,10 +47,6 @@ const JobSearch = () => {
 	const [queries, setQueries] = useState([]);
 	const [filter, setFilter] = useState(null);
 
-	useEffect(() => {
-		console.log(123);
-	}, []);
-
 	const handleSearch = (event) => {
 		if (event.key === "Enter") {
 			event.preventDefault();
@@ -64,7 +60,6 @@ const JobSearch = () => {
 
 		if (queries != [] && !checkOccurrence) {
 			setQueries([...queries, value]);
-			console.log(queries);
 		}
 		commenceSearch(value);
 	};

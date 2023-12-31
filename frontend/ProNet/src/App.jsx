@@ -16,6 +16,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./pages/NewFeed/Dashboard";
 import JobDashboard from "./pages/jobs/JobDashboard";
 import ChatRoom from "./pages/Chats/ChatRoom";
+import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -37,6 +38,7 @@ const router = createBrowserRouter(
 			</Route>
 			{/* // route for the landing page */}
 			<Route path="/home" element={<Home />} />
+			<Route path="*" element={<NotFound />} />
 			{/* // -------------------------- for authrorization --------------------- // */}
 			{/* // route for register users page */}
 			<Route path="/register" element={<RegisterUser />} />

@@ -233,22 +233,20 @@ const searchJobPosting = asyncHandler(async (req, res) => {
 		if (Array.isArray(keyword)) {
 			jobs = await searchThroughArray(keyword);
 		} else {
+			console.log({ keyword });
 			// search jobs based on the keyword
-			jobs = await Job.find(
-				{
-					$text: {
-						// headLine and skills by search for the keyword
-						$search: keyword, // Concatenate and search user's "headLine" and skills
-						$caseSensitive: false, // Perform a case-insensitive search
-					},
-				},
-				// show the jobs in order of there score(how much they match the user's profile)
-				{ score: { $meta: "textScore" } }
-			);
+			jobs = await Job.find({
+				$or: [
+					{ title: { $regex: keyword, $options: "i" } },
+					{ company: { $regex: keyword, $options: "i" } },
+					{ skills: { $elemMatch: { $regex: keyword, $options: "i" } } },
+				],
+			});
 		}
 		res.status(200).json(jobs);
 	} catch (error) {
 		res.status(400);
+		console.log(error.message);
 		throw new Error(error.message);
 	}
 });

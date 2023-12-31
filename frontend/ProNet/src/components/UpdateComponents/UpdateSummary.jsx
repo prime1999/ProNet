@@ -6,7 +6,8 @@ import { updateProfileIntro } from "../../features/Profile/ProfileIntro/ProfileI
 
 const UpdateSummary = ({ intro, children }) => {
 	const dispatch = useDispatch();
-	const [summary, setSummary] = useState(intro?.summary || "");
+	console.log(intro);
+	const [summary, setSummary] = useState(intro?.summary);
 	// state to handle the modal visibilty
 	const [open, setOpen] = useState(false);
 	// function to open the modal

@@ -26,7 +26,6 @@ const Dashboard = () => {
 	const { profileIntro, isLoading, isSuccess, isError, message } = useSelector(
 		(state) => state.profileIntro
 	);
-	console.log(isLoading);
 
 	// for design below small screen size
 	const isSmallerThanMd = useMediaQuery((theme) =>

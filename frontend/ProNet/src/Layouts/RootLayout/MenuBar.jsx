@@ -109,10 +109,16 @@ const MenuBar = () => {
 						>
 							Jobs
 						</Link>
-						<Link className="h-6 duration-200 hover:border-b-2 hover:border-darkBlue">
+						<Link
+							to="/people"
+							className="h-6 duration-200 hover:border-b-2 hover:border-darkBlue"
+						>
 							People
 						</Link>
-						<Link className="mx-4 h-6 duration-200 hover:border-b-2 hover:border-darkBlue">
+						<Link
+							to="/more"
+							className="mx-4 h-6 duration-200 hover:border-b-2 hover:border-darkBlue"
+						>
 							More
 						</Link>
 					</div>

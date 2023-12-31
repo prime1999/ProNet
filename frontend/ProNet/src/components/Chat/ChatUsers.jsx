@@ -42,21 +42,31 @@ const ChatUsers = () => {
 		}
 	}, [users]);
 
+	// funcrtion to search for users
 	const handleSearch = (event) => {
+		// check if the key clicked on is the enter key
 		if (event.key === "Enter") {
+			// if, yes
+			// prevent the default form submission
 			event.preventDefault();
+			// check if a text was typed
 			if (value !== "") {
+				// store the vallue in a text variable
 				const text = value;
+				// if yes, then dispatch the function to search for the user
 				dispatch(searchUsers(text));
 			} else {
+				// if there was no text typed in
 				handleShowSnackbar("error", "Invalid search data");
 			}
 		}
+		// if there was an error then show the error
 		if (isError) {
 			handleShowSnackbar("error", message);
 		}
 	};
 
+	// function to clear the search field
 	const clearSearch = () => {
 		setValue("");
 		setSearchedUsers(null);
