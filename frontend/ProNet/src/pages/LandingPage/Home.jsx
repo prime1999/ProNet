@@ -7,7 +7,6 @@ import FirstSection from "../../Layouts/LandingPage/FirstSection";
 import SecondSection from "../../Layouts/LandingPage/SecondSection";
 import ThirdSection from "../../Layouts/LandingPage/ThirdSection";
 import FourthSection from "../../Layouts/LandingPage/FourthSection";
-import FifthSection from "../../Layouts/LandingPage/FIfthSection";
 import Footer from "../../Layouts/Footer";
 
 const Home = () => {
@@ -31,7 +30,6 @@ const Home = () => {
 				<ThirdSection />
 				<div className="container w-10/12 mx-auto">
 					<FourthSection />
-					<FifthSection />
 				</div>
 				<Footer />
 			</div>
