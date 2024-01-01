@@ -1,4 +1,5 @@
 require("dotenv").config();
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const colors = require("colors");
@@ -50,6 +51,25 @@ connectDb();
 
 //middleware for handling errors
 app.use(errorHandler);
+
+// get the current directory name of the app
+const __dirName = path.resolve();
+// check if the app is in production,
+if (process.env.NODE_ENV === "production") {
+	// if yes, then:
+	// serve the statis files in the '/frontend/build' path to the page
+	app.use(express.static(path.join(__dirName, "/frontend/ProNet/dist")));
+	// get the files under the route "*" and send it to the route below
+	app.get("*", (req, res) => {
+		res.sendFile(
+			path.resolve(__dirName, "frontend/ProNet", "dist", "index.html")
+		);
+	});
+} else {
+	app.get("/", (req, res) => {
+		res.send("API is running....");
+	});
+}
 
 // listen to request on the port
 const server = app.listen(process.env.PORT, () => {
