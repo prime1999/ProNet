@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import jobHunt from "../../assets/images/png/job hunt.png";
+import jobHunt from "../../assets/images/png/job-hunt.png";
 import { motion } from "framer-motion";
 
 // for the bouncy effect on the hero image
