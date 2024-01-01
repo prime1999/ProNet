@@ -17,11 +17,7 @@ const customStyles = {
 			boxShadow: "0 0 5px rgba(0, 123, 255, 0.5)", // Change border color on hover
 		},
 	}),
-	option: (provided, state) => ({
-		...provided,
-		backgroundColor: state.isSelected ? "#007bff" : "white",
-		color: state.isSelected ? "white" : "#252243",
-	}),
+
 	option: (provided, state) => ({
 		...provided,
 		backgroundColor: state.isSelected ? "#3E3B6F" : "white",

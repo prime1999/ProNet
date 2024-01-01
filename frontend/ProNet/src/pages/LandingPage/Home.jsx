@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import NavBar from "../../Layouts/LandingPage/NavBar";
 
 const Home = () => {
 	const navigate = useNavigate();
@@ -13,7 +14,20 @@ const Home = () => {
 	}, []);
 	return (
 		<>
-			<h1>test</h1>
+			<div>
+				<div className="container w-10/12 mx-auto">
+					<NavBar />
+					<HeroSection />
+					<FirstSection />
+					<SecondSection />
+				</div>
+				<ThirdSection />
+				<div className="container w-10/12 mx-auto">
+					<FourthSection />
+					<FifthSection />
+				</div>
+				<Footer />
+			</div>
 		</>
 	);
 };
