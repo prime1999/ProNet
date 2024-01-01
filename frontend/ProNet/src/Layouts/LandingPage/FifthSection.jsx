@@ -1,7 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
-const FifthSection = () => {
+const FIfthSection = () => {
 	return (
 		<div className="flex flex-col justify-center items-center mt-16">
 			<div className="font-poppin w-[400px] leading-normal md:w-[500px]">
@@ -40,4 +39,4 @@ const FifthSection = () => {
 	);
 };
 
-export default FifthSection;
+export default FIfthSection;
