@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ProfileBody from "../../components/profile/ProfileBody";
 import {
 	getProfileIntro,
-	reset,
+	resetProfile,
 } from "../../features/Profile/ProfileIntro/ProfileIntroSlice";
 import Spinner from "../../components/Spinner/Spinner";
 import ProfilePics from "../../components/profile/ProfilePics";
@@ -37,7 +37,7 @@ const Profile = () => {
 			}
 		}
 		// clear the redux store
-		dispatch(reset());
+		dispatch(resetProfile());
 	}, [isSuccess, fetchProfileIntroAgain]);
 
 	// if the dispatched function is still pending (loading), then show a spinner

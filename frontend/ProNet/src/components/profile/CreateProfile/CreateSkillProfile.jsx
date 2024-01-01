@@ -6,7 +6,7 @@ import { Chip } from "@mui/material";
 import SkillsList from "../../miscellaneous/SkillsList";
 import { addJobProfile } from "../../../features/Profile/JobProfile/JobProfileSlice";
 import {
-	reset,
+	resetProfile,
 	updateProfileIntro,
 } from "../../../features/Profile/ProfileIntro/ProfileIntroSlice";
 
@@ -84,7 +84,7 @@ const CreateSkillProfile = ({ values }) => {
 			skills: skillProfileState.skills,
 		};
 		dispatch(updateProfileIntro(introUpdates));
-		dispatch(reset());
+		dispatch(resetProfile());
 		nextStep();
 	};
 

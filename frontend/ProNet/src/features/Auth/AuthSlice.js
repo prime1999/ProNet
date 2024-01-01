@@ -4,7 +4,9 @@ import authService from "./AuthService";
 // check if the user's data is stored in locl storage
 let user = JSON.parse(localStorage.getItem("user"));
 const initialState = {
-	user: user ? user : null,
+	user: JSON.parse(localStorage.getItem("user"))
+		? JSON.parse(localStorage.getItem("user"))
+		: null,
 	users: null,
 	people: null,
 	verify: null,
@@ -40,7 +42,6 @@ export const registerUser = createAsyncThunk(
 export const logUserIn = createAsyncThunk(
 	"auth/logUserIn",
 	async (userData, thunkAPI) => {
-		console.log(userData);
 		try {
 			// await on the log in user  function in the auth service component
 			return await authService.logUserIn(userData);
@@ -153,7 +154,12 @@ export const AuthSlice = createSlice({
 	name: "Auth",
 	initialState,
 	reducers: {
-		reset: (state) => initialState,
+		reset: (state) => {
+			state.isLoading = false;
+			state.isError = false;
+			state.isSuccess = false;
+			state.message = "";
+		},
 	},
 	extraReducers: (builders) => {
 		builders
@@ -178,6 +184,7 @@ export const AuthSlice = createSlice({
 			})
 			.addCase(logUserIn.fulfilled, (state, action) => {
 				state.isLoading = false;
+				console.log({ payload: action.payload, test: "abc" });
 				state.user = action.payload;
 				state.isSuccess = true;
 			})
@@ -242,7 +249,6 @@ export const AuthSlice = createSlice({
 				state.isLoading = false;
 				state.isError = true;
 				state.verify = false;
-				console.log(action.payload);
 			})
 			// for logging a user out
 			.addCase(logUserOut.fulfilled, (state) => {

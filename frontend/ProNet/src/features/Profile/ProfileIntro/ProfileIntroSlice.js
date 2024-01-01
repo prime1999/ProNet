@@ -79,7 +79,7 @@ export const profileIntroSlice = createSlice({
 	name: "profileIntro",
 	initialState,
 	reducers: {
-		reset: (state) => initialState,
+		resetProfile: (state) => initialState,
 	},
 
 	extraReducers: (builders) => {
@@ -131,6 +131,6 @@ export const profileIntroSlice = createSlice({
 	},
 });
 
-export const { reset } = profileIntroSlice.actions;
+export const { resetProfile } = profileIntroSlice.actions;
 
 export default profileIntroSlice.reducer;

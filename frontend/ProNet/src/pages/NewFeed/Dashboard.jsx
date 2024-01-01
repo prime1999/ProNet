@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Grid } from "@mui/material";
 import {
-	reset,
+	resetProfile,
 	getProfileIntro,
 } from "../../features/Profile/ProfileIntro/ProfileIntroSlice";
 import PostFeed from "../../components/NewFeed/PostFeed";
@@ -48,7 +48,7 @@ const Dashboard = () => {
 			}
 		}
 		// clear the redux store
-		dispatch(reset());
+		dispatch(resetProfile());
 	}, [isSuccess]);
 	return (
 		<div className="bg-gray-50 pb-8">

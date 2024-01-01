@@ -9,16 +9,16 @@ import { RxDashboard } from "react-icons/rx";
 import { Avatar, Menu, Drawer } from "@mui/material";
 import logo from "../../assets/images/png/logo.png";
 import ProfileDrawerDetails from "../../components/miscellaneous/ProfileDrawerDetails";
-import { logUserOut } from "../../features/Auth/AuthSlice";
+import { logUserOut, reset } from "../../features/Auth/AuthSlice";
 import {
 	getProfileIntro,
-	reset,
+	resetProfile,
 } from "../../features/Profile/ProfileIntro/ProfileIntroSlice";
 
 const MenuBar = () => {
 	const dispatch = useDispatch();
 	const [currentUser, setCurrentUser] = useState(null);
-	const [notificationCount, setNnotificationCount] = useState(1);
+	const [notificationCount, setNotificationCount] = useState(1);
 	const navigate = useNavigate();
 	// for the drawer
 	const [open, setOpen] = useState(false);
@@ -45,7 +45,7 @@ const MenuBar = () => {
 		if (isSuccess) {
 			setCurrentUser(profileIntro[0]);
 		}
-		dispatch(reset());
+		dispatch(resetProfile());
 	}, [isSuccess]);
 
 	// function to open the side drawer

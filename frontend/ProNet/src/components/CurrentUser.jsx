@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import {
 	getProfileIntro,
-	reset,
+	resetProfile,
 } from "../features/Profile/ProfileIntro/ProfileIntroSlice";
 import ComponentLoader from "./Spinner/ComponentLoader";
 
@@ -33,10 +33,9 @@ const CurrentUser = () => {
 			}
 		}
 		// clear the redux store
-		dispatch(reset());
+		dispatch(resetProfile());
 	}, [isSuccess]);
 
-	console.log(intro);
 	if (isLoading) {
 		return <ComponentLoader />;
 	}

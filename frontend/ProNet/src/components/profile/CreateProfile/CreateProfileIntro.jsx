@@ -4,7 +4,7 @@ import CitiesAndCountries from "../../miscellaneous/CitiesAndCountries";
 import { MdNavigateNext } from "react-icons/md";
 import NotificationAlert from "../../miscellaneous/NotificationAlert";
 import {
-	reset,
+	resetProfile,
 	createUserProfile,
 } from "../../../features/Profile/ProfileIntro/ProfileIntroSlice";
 
@@ -73,7 +73,7 @@ const CreateProfileIntro = ({ values }) => {
 				experience: [],
 			};
 			dispatch(createUserProfile(profileData));
-			dispatch(reset());
+			dispatch(resetProfile());
 			nextStep();
 		}
 	};

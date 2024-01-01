@@ -47,16 +47,16 @@ const LogIn = () => {
 		try {
 			// check if all the input fields were filled
 			if (!email || !password) {
-				console.log(112);
 				handleShowSnackbar("error", "Please fill in all fields");
+			} else if (email && password) {
+				const userData = {
+					email,
+					password,
+				};
+				dispatch(logUserIn(userData));
+				email = "";
+				password = "";
 			}
-			const userData = {
-				email,
-				password,
-			};
-			dispatch(logUserIn(userData));
-			email = "";
-			password = "";
 		} catch (error) {
 			handleShowSnackbar("error", error.message);
 		}

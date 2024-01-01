@@ -11,13 +11,11 @@ const registerUser = async (userData) => {
 		// save the data gotten to local storage
 		localStorage.setItem("user", JSON.stringify(data));
 	}
-
 	return data;
 };
 
 // ----------------------------------- function to register a user ------------------------ //
 const logUserIn = async (userData) => {
-	console.log(userData);
 	// send the request to the backend
 	const { data } = await axios.post("/api/user/login", userData);
 
