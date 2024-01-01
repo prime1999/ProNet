@@ -17,8 +17,6 @@ const CreateProfile = () => {
 		degree: "",
 		fieldOfStudy: "",
 		grade: "",
-		startDate: "",
-		endDate: "",
 		company: "",
 		position: "",
 		details: "",
