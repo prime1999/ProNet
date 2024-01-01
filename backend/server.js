@@ -62,7 +62,7 @@ if (process.env.NODE_ENV === "production") {
 	// get the files under the route "*" and send it to the route below
 	app.get("*", (req, res) => {
 		res.sendFile(
-			path.resolve(__dirName, "frontend/ProNet", "dist", "index.html")
+			path.resolve(__dirName, "frontend", "ProNet", "dist", "index.html")
 		);
 	});
 } else {
