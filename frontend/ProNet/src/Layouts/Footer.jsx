@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/images/svg/online world-bro.svg";
+import logo from "../assets/images/svg/Online-world-bro.svg";
 
 const Footer = () => {
 	return (
