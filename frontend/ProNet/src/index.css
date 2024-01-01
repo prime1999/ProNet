@@ -252,3 +252,8 @@ input[type="number"]::-webkit-outer-spin-button {
 ::-webkit-scrollbar-thumb:hover {
   background: #0691d1;
 }
+
+
+#bg {
+  background-image: url('./assets/images/jpg/community.jpg');
+}

@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import community from "../../assets/images/jpg/community.jpg";
+import community from "/Online world-bro.svg";
 
 const ThirdSection = () => {
 	return (
 		<div className="w-full h-[400px]">
 			<div
+				id="bg"
 				style={{
-					backgroundImage: `url(${community})`,
 					backgroundSize: "cover",
 					backgroundPosition: "center",
 					backgroundRepeat: "no-repeat",
