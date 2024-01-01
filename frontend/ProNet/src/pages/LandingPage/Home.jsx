@@ -21,20 +21,7 @@ const Home = () => {
 	}, []);
 	return (
 		<>
-			<div>
-				<div className="container w-10/12 mx-auto">
-					<NavBar />
-					<HeroSection />
-					<FirstSection />
-					<SecondSection />
-				</div>
-				<ThirdSection />
-				<div className="container w-10/12 mx-auto">
-					<FourthSection />
-					<FifthSection />
-				</div>
-				<Footer />
-			</div>
+			<h1>test</h1>
 		</>
 	);
 };
