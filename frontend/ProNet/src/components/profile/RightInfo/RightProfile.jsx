@@ -5,7 +5,7 @@ import { IoIosSchool } from "react-icons/io";
 import ExperienceDetail from "./ExperienceDetail";
 import UpdateSummary from "../../UpdateComponents/UpdateSummary";
 import UpdateEducation from "../../UpdateComponents/UpdateEducation";
-import Skills from "./skills";
+import Skills from "./Skills";
 import AddEducationModal from "./AddEducationModal";
 import RightBarsSkeleton from "../../miscellaneous/skeletons/profileSkeleton/RightBarsSkeleton";
 
