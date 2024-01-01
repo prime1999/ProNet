@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import community from "/Online world-bro.svg";
 
 const ThirdSection = () => {
 	return (
