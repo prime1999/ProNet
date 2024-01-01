@@ -42,7 +42,7 @@ const CreateJobPosting = ({ children }) => {
 					}}
 				>
 					<Fade in={open}>
-						<div className="absolute top-[5%] p-4 rounded-md shadow-md h-[550px] w-full overflow-auto bg-white md:w-[500px] md:left-[18%] lg:left-[35%]">
+						<div className="absolute top-[5%] left-[8%] w-[500px] p-4 rounded-md shadow-md h-[550px] overflow-auto bg-white md:w-[500px] md:left-[18%] lg:left-[35%]">
 							<JobPostingForm />
 						</div>
 					</Fade>

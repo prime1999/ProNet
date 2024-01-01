@@ -31,11 +31,17 @@ const ProfileDrawerDetails = () => {
 					<BsPersonWorkspace />
 					<p className="ml-2">Jobs</p>
 				</Link>
-				<Link className="flex items-center h-8 duration-400 px-4 py-1 rounded-md w-full hover:bg-light">
+				<Link
+					to="/people"
+					className="flex items-center h-8 duration-400 px-4 py-1 rounded-md w-full hover:bg-light"
+				>
 					<BsFillPeopleFill />
 					<p className="ml-2">People</p>
 				</Link>
-				<Link className="flex items-center my-4 h-8 duration-400 px-4 py-1 rounded-md w-full hover:bg-light">
+				<Link
+					to="/more"
+					className="flex items-center my-4 h-8 duration-400 px-4 py-1 rounded-md w-full hover:bg-light"
+				>
 					<FiMoreVertical />
 					<p className="ml-2">More</p>
 				</Link>
@@ -45,7 +51,10 @@ const ProfileDrawerDetails = () => {
 					<RxDashboard className="text-2xl" />
 					<p className="text-sm ml-2">Works</p>
 				</Link>
-				<Link className="flex items-center justify-start my-4 px-4 py-1 rounded-md w-full hover:bg-light">
+				<Link
+					to="/chats"
+					className="flex items-center justify-start my-4 px-4 py-1 rounded-md w-full hover:bg-light"
+				>
 					<BiMessageRounded className="text-2xl" />
 					<p className="text-sm ml-2">Messages</p>
 				</Link>
