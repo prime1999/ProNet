@@ -15,7 +15,7 @@ const bounceVariants = {
 const SecondSection = () => {
 	return (
 		<div className="flex flex-col justify-between items-center mt-16 md:flex-row">
-			<div className="font-poppin w-[400px] leading-normal md:w-[500px]">
+			<div className="font-poppin w-[300px] leading-normal md:w-[500px]">
 				<h1 className="text-4xl  text-darkBlue font-semibold">
 					Let the right people know you are open to work
 				</h1>

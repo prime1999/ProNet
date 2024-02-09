@@ -14,7 +14,7 @@ const bounceVariants = {
 
 const HeroSection = () => {
 	return (
-		<div className="flex flex-col-reverse items-center justify-between mt-8 md:flex-row">
+		<div className="w-10/12 mx-auto flex flex-col-reverse items-center justify-between mt-8 md:flex-row md:w-full">
 			<div className="w-96">
 				<h1 className="font-poppins font-bold text-4xl leading-relaxed mb-8">
 					Forge Connections, Fuel Careers: <br />
@@ -24,14 +24,14 @@ const HeroSection = () => {
 					Get Started
 				</Link>
 			</div>
-			<div className="">
+			<div>
 				<motion.div
 					variants={bounceVariants}
 					initial="initial"
 					animate="animate"
-					className="w-[500px]"
+					className="w-[400px] md:w-[500px]"
 				>
-					<img src={hero} alt="" />
+					<img src={hero} alt="hero image" />
 				</motion.div>
 			</div>
 		</div>

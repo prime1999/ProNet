@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const FirstSection = () => {
 	return (
 		<div className="flex flex-col items-center justify-center mt-16">
-			<div className="w-1/2 text-3xl text-center font-poppins font-bold text-darkBlue leading-relaxed">
+			<div className="w-full text-3xl text-center font-poppins font-bold text-darkBlue leading-relaxed">
 				<h1>Elevate your Career Trajectory with every Connection</h1>
 			</div>
 			<div className="w-2/3 text-center font-poppins text-gray-400 text-sm mt-2">

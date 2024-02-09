@@ -23,7 +23,7 @@ const FourthSection = () => {
 			>
 				<img src={recruit} alt="" />
 			</motion.div>
-			<div className="font-poppin w-[400px] leading-normal md:w-[500px]">
+			<div className="font-poppin w-[300px] leading-normal md:w-[500px]">
 				<h1 className="text-4xl  text-darkBlue font-semibold">
 					Post your job for millions of professionals to see
 				</h1>

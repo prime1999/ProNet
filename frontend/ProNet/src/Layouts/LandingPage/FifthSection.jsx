@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const FIfthSection = () => {
 	return (
 		<div className="flex flex-col justify-center items-center mt-16">
-			<div className="font-poppin w-[400px] leading-normal md:w-[500px]">
+			<div className="font-poppin w-[350px] leading-normal md:w-[500px]">
 				<h1 className="text-4xl text-center text-darkBlue font-semibold">
 					Who is ProNet for? <br />
 					<span className="text-3xl">ProNet is for those that want</span>
